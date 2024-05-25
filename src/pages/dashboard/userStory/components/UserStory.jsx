@@ -1,13 +1,16 @@
 import React from "react";
 import AddStory from "./AddStory";
 import ListUserStories from "./ListUserStories";
-import { Box } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 export default function UserStory() {
   return (
-    <Box>
+    <Container>
+      <Typography variant="h4" mb={5}>
+        User Stories
+      </Typography>
       <AddStory />
       <ListUserStories />
-    </Box>
+    </Container>
   );
 }
