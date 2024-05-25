@@ -12,18 +12,19 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteToken, deleteUser } from "../../../../redux/Authslice";
 import { setFirstPage } from "../../../../redux/PageSlice";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { motion } from "framer-motion";
-
+import KeyboardReturnRoundedIcon from "@mui/icons-material/KeyboardReturnRounded";
 export default function ProjectLayout({
   children,
   setProgress,
@@ -119,7 +120,6 @@ export default function ProjectLayout({
             width: open ? `calc(100% - ${drawerWidth}px)` : "100%",
             pl: open ? 0 : 3,
             bgcolor: "#80cbc410",
-            
           }}
         >
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -130,9 +130,13 @@ export default function ProjectLayout({
               <IconButton onClick={() => setOpen(!open)}>
                 <MenuRoundedIcon color="primary" />
               </IconButton>
-              <Button href="/" variant="outlined" size="large">
-                <Box color={teal[500]}>Home</Box>
-              </Button>
+              <Tooltip title="Go back Home">
+                <Link to="/" onClick={() => dispatch(setFirstPage())}>
+                  <IconButton variant="outlined" size="large">
+                    <KeyboardReturnRoundedIcon sx={{ color: teal[500] }} />
+                  </IconButton>
+                </Link>
+              </Tooltip>
             </Box>
             <Button
               variant="text"
@@ -149,88 +153,85 @@ export default function ProjectLayout({
         </AppBar>
 
         {/* {open ? ( */}
-          <Box
+        <Box
           component={motion.div}
           animate={{
             opacity: open ? 1 : 0,
             x: open ? 0 : -80,
           }}
           transition={{ ease: "easeInOut", duration: 0.2 }}
-          sx={{ display: open? "block" : "none"}}
-          >
-            <Drawer
-              sx={{ width: drawerWidth }}
-              variant="permanent"
-              anchor="left"
+          sx={{ display: open ? "block" : "none" }}
+        >
+          <Drawer sx={{ width: drawerWidth }} variant="permanent" anchor="left">
+            <Typography
+              variant="h5"
+              margin=""
+              sx={{ display: "flex", alignItems: "center" }}
             >
-              <Typography
-                variant="h5"
-                margin=""
-                sx={{ display: "flex", alignItems: "center" }}
+              <Box
+                margin="0px auto"
+                py={2}
+                sx={{ display: "flex", alignItems: "center", gap: 2 }}
               >
-                <Box
-                  margin="0px auto"
-                  padding={2}
-                  sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                <Avatar
+                  sx={{
+                    padding: 4,
+                    fontWeight: 500,
+                    fontSize: 30,
+                    bgcolor: teal[500],
+                  }}
                 >
-                  <Avatar
-                    sx={{
-                      padding: 4,
-                      fontWeight: 500,
-                      fontSize: 30,
-                      bgcolor: teal[500],
-                    }}
-                  >
-                    {project.name.charAt(0)}
-                  </Avatar>
-                  <Typography variant="h5">
-                    {project.name.split(" ").length == 1
-                      ? project.name
-                      : project.name.split(" ").map((str, index) => (
-                          <Box key={index} sx={{ textAlign: "center" }}>
-                            {str.charAt(0).toUpperCase() + str.slice(1)}
-                            <br />
-                          </Box>
-                        ))}
-                  </Typography>
-                </Box>
-              </Typography>
-              <Divider sx={{ mt: 3, mb: 4, mx: 2 }} />
-              <List sx={{ width: drawerWidth }}>
-                {menuItems.map((item, index) => (
-                  <ListItem
-                    style={{
-                      width: "235px",
-                      margin: "0px auto",
-                      marginBottom: "7px",
-                      borderRadius: 10,
-                    }}
-                    key={index}
-                    button
-                    onClick={() => {
-                      item.HandleClick();
-                      navigate(item.path);
-                    }}
-                    sx={
-                      location.pathname === item.path
-                        ? { bgcolor: "#b2dfdb" }
-                        : null
-                    }
-                  >
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItem>
-                ))}
-              </List>
-            </Drawer>
-          </Box>
-         {/* ) : null} */}
+                  {project.name.charAt(0)}
+                </Avatar>
+                <Typography variant="h5" py={2} fontSize={20} fontWeight={700}>
+                  {project.name.split(" ").length == 1
+                    ? project.name
+                    : project.name.split(" ").map((str, index) => (
+                        <Box key={index} sx={{ textAlign: "center" }}>
+                          {str.charAt(0).toUpperCase() + str.slice(1)}
+                          <br />
+                        </Box>
+                      ))}
+                </Typography>
+              </Box>
+            </Typography>
+            <Divider sx={{ mt: 3, mb: 4, mx: 2 }} />
+            <List sx={{ width: drawerWidth }}>
+              {menuItems.map((item, index) => (
+                <ListItem
+                  style={{
+                    width: "235px",
+                    margin: "0px auto",
+                    marginBottom: "7px",
+                    borderRadius: 10,
+                  }}
+                  key={index}
+                  button
+                  onClick={() => {
+                    item.HandleClick();
+                    navigate(item.path);
+                  }}
+                  sx={
+                    location.pathname === item.path
+                      ? { bgcolor: "#b2dfdb" }
+                      : null
+                  }
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItem>
+              ))}
+            </List>
+          </Drawer>
+        </Box>
+        {/* ) : null} */}
         <Box
           sx={{
             padding: 3,
             width: "100vw",
             marginTop: "64px",
             bgcolor: "#80cbc410",
+            Height: "100vh",
           }}
         >
           {children}

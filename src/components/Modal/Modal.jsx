@@ -38,8 +38,8 @@ export default function Modal(props) {
   };
   const handleAction = () => {
     const state = modalActionEvent && (!modalActionEvent() || false);
-    !state && modalFinalEvent && modalFinalEvent();
     setOpen(state);
+    !state && modalFinalEvent && modalFinalEvent();
   };
 
   return (
@@ -50,9 +50,9 @@ export default function Modal(props) {
           startIcon={btnIcon}
           color={btnColor || "secondary"}
           onClick={handleOpen}
-          // disabled={disabled}
+          // disabled
           {...other}
-          sx={{"&:hover": {bgcolor: "#secondary"}, ml: 2}}
+          sx={{ "&:hover": { bgcolor: "#secondary" }, ml: 2 }}
         >
           {btnName}
         </Button>
@@ -84,7 +84,11 @@ export default function Modal(props) {
               color={btnActionColor || "secondary"}
               onClick={handleAction}
               type={actionType}
-              sx={{"&:hover": {bgcolor: btnColor == "error" ? red[900] : "#00695c"}}}
+              sx={{
+                "&:hover": {
+                  bgcolor: btnColor == "error" ? red[900] : "#00695c",
+                },
+              }}
             >
               {modalActionName || btnName || "Action"}
             </Button>

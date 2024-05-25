@@ -21,7 +21,6 @@ export default function ListUser() {
         <Box></Box>
         <Box sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}>
           <CreateUser />
-          {/* <ExportMenu allDataExport={[]} /> */}
         </Box>
       </Box>
       <Box

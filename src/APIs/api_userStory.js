@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const getAllUserStory = async () => {
-  const url = "/user_story";
+export const getAllUserStory = async (id) => {
+  const url = `/user_story/${id}`;
   const { data } = await axios.get(url);
   return data || [];
 }

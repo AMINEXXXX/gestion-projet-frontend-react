@@ -6,19 +6,18 @@ import {
 
 import { createUserStory, deleteUserStory, getAllUserStory } from "../../APIs/api_userStory";
 
-export const useGetAllUserStory = ({ onSuccess, onError } = {}) =>{
+export const useGetAllUserStoryById = (id) =>{
     return  useQuery({
-        queryKey: ["allUserStory"],
-        queryFn: getAllUserStory,
-        onSuccess: () => {
-            onSuccess && onSuccess();
-          },
-          onError: () => {
-            onError && onError();
-          },
+        queryKey: ["allUserStory", id],
+        queryFn: () => getAllUserStory(id),
+        select: (data) => {
+          console.log("Stories: ", data);
+          return data;
+        }
       });
 }
  
+
 
 export const useCreateUserStory = ({ onSuccess, onError } = {}) => {
   const queryClient = useQueryClient();

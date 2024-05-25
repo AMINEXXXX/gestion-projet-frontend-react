@@ -7,6 +7,17 @@ import { useSelector } from "react-redux";
 
 function CircularProgressWithLabel(props) {
   console.log(props.project);
+
+  let total = 0;
+  let completed = 0;
+  props.project?.productBacklogs?.map((product) =>
+    product?.userStories?.map((story) => {
+      total += story?.tasks?.length;
+      story?.tasks?.map((task) => {
+        if (task?.state == "Done") completed += 1;
+      });
+    })
+  );
   return (
     <Box sx={{ position: "relative", display: "inline-flex" }}>
       <CircularProgress
@@ -33,7 +44,7 @@ function CircularProgressWithLabel(props) {
           color="text.secondary"
           sx={{ fontSize: 90 }}
         >
-          {`${Math.round(props.project?.productBacklogs?.length)}%`}
+          {`${Math.round((completed/total)*100)}%`}
         </Typography>
       </Box>
     </Box>
@@ -55,6 +66,5 @@ export default function CircularWithValueLabel() {
 
   if (project?.productBacklogs?.user_story?.task)
     return <CircularProgressWithLabel project={project} value={progress} />;
-  else
-    return <CircularProgressWithLabel project={project} value={0} />;
+  else return <CircularProgressWithLabel project={project} value={0} />;
 }

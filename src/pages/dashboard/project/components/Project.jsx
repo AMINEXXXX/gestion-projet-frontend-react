@@ -1,9 +1,6 @@
-import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
 import ProjectLayout from "./ProjectLayout";
 import { useGetProjectById } from "../../../../hooks/api/useProjectApi";
-import { useFetch } from "../../../../hooks/useFetch/useFetch";
 import ProductBacklog from "../../productBacklog/components/ProductBacklog";
 import Progress from "./Progress/Progress";
 import UserStory from "../../userStory/components/UserStory";
@@ -19,6 +16,7 @@ export default function Project() {
   const [story, setStory] = useState(false);
   const [task, setTask] = useState(false);
   const [sprint, setSprint] = useState(false);
+  const [open, setOpen] = useState(true);
 
   console.log(Project);
 
@@ -30,10 +28,11 @@ export default function Project() {
       setStory={setStory}
       setTask={setTask}
       setSprint={setSprint}
+      open={open}
     >
       <div
         style={{
-          height: "80vh",
+          height: "100vh",
         }}
       >
         {progress && <Progress project={project} />}

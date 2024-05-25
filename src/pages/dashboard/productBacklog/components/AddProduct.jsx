@@ -3,11 +3,11 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Box, Button, IconButton, TextField } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useCreateProductBacklog } from "../../../../hooks/api/useProductBacklogApi"
+import { useCreateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
 
 export default function AddProduct() {
   const { project } = useSelector((state) => state.project);
-  const create = useCreateProductBacklog();
+  const mutation = useCreateProductBacklog();
   const [isAdding, setIsAdding] = useState(false);
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
@@ -17,8 +17,6 @@ export default function AddProduct() {
     e.preventDefault();
     if (!productName.trim() || !description.trim()) return;
 
-    setIsAdding(false);
-
     const product = {
       name: productName,
       description: description,
@@ -27,9 +25,11 @@ export default function AddProduct() {
       },
     };
 
+    mutation.mutate(product);
+    setIsAdding(false);
+    setProductName("");
+    setDescription("");
 
-    console.log(product);
-    create.mutate(product);
     console.log("Done !!!");
   };
 
@@ -65,7 +65,8 @@ export default function AddProduct() {
               border: "2px solid #b2dfdb77",
               borderRadius: 4,
               padding: 2,
-              width: "20%",
+              width: "250px",
+              bgcolor: "white",
             }}
           >
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

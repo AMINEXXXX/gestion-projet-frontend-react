@@ -1,7 +1,13 @@
-import React from 'react'
+import React from "react";
+import AddStory from "./AddStory";
+import ListUserStories from "./ListUserStories";
+import { Box } from "@mui/material";
 
 export default function UserStory() {
   return (
-    <div>UserStory</div>
-  )
+    <Box>
+      <AddStory />
+      <ListUserStories />
+    </Box>
+  );
 }

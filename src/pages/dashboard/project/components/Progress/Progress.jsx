@@ -1,11 +1,11 @@
 import React from "react";
 import ListCardsSection from "./ListCardsSection";
 import CircularWithValueLabel from "./CircularProgress";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 export default function Progress() {
   return (
-    <>
+    <Container>
       <ListCardsSection />
       <Box
         sx={{
@@ -17,6 +17,6 @@ export default function Progress() {
       >
         <CircularWithValueLabel />
       </Box>
-    </>
+    </Container>
   );
 }
