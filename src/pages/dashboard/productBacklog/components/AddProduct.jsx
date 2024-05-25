@@ -18,7 +18,7 @@ export default function AddProduct() {
     if (!productName.trim() || !description.trim()) return;
 
     const product = {
-      name: productName,
+      name: productName.charAt(0).toUpperCase() + productName.slice(1),
       description: description,
       project: {
         id: project.id,

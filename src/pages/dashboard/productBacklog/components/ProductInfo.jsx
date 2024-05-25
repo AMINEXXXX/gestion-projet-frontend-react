@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Drawer, Box, Typography, IconButton } from "@mui/material";
+import { Drawer, Box, Typography, IconButton, TextField } from "@mui/material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { red } from "@mui/material/colors";
@@ -19,9 +19,10 @@ export default function ProductInfo({ product }) {
 
     const newProduct = {
       id: product.id,
-      name: newName,
+      name: newName.charAt(0).toUpperCase() + newName.slice(1),
     };
 
+    console.log(newName.charAt(0).toUpperCase() + newName.slice(1));
     mutation.mutate(newProduct);
   }
 
@@ -35,19 +36,38 @@ export default function ProductInfo({ product }) {
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       >
-        <Box p={2} width="300px" textAlign="center">
+        <Box
+          sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+        >
           <IconButton
             onClick={() => (setIsDrawerOpen(false), setIsEditingName(false))}
           >
             <CloseOutlinedIcon />
           </IconButton>
+        </Box>
+        <Box p={2} width="300px" display="flex" alignItems="center">
           {!isEditingName ? (
-            <Typography variant="h4" onClick={() => setIsEditingName(true)}>
+            <Typography
+              variant="h4"
+              padding={0.5}
+              pl={.6}
+              onClick={() => setIsEditingName(true)}
+            >
               {product.name}
             </Typography>
           ) : (
             <form onSubmit={handleAction}>
               <input
+                style={{
+                  width: "100%",
+                  fontSize: "34.6px",
+                  fontWeight: 500,
+                  padding: 2,
+                  outline: "none",
+                  border: "3px solid #009688",
+                  // border: "3px solid",
+                  borderRadius: "5px",
+                }}
                 autoFocus
                 onBlur={handleAction}
                 value={newName}
