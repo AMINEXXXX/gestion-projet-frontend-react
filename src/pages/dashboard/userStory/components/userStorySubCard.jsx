@@ -1,14 +1,8 @@
-import {
-  Avatar,
-  Card,
-  CardHeader,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Avatar, Card, CardHeader, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DeleteStory from "./MoreOption/DeleteStory";
-import StoryInfo from "./StoryInfo"
+import StoryInfo from "./StoryInfo";
 import { useUpdateUserStory } from "../../../../hooks/api/useUserStoryApi";
 
 export default function userStorySubCard({ story }) {
@@ -17,7 +11,7 @@ export default function userStorySubCard({ story }) {
   const mutation = useUpdateUserStory();
 
   function HandleSubmitOrBlur(e) {
-    if(!newName.trim()) return;
+    if (!newName.trim()) return;
 
     setIsEditingName(false);
 
@@ -30,12 +24,19 @@ export default function userStorySubCard({ story }) {
   }
 
   return (
-    <Card draggable sx={{ width: "100%", marginTop: -3 }}>
+    <Card
+      draggable
+      onDragStart={(e) => e.dataTransfer.setData("id", story.id)}
+      sx={{ width: "100%", marginTop: -3 }}
+    >
       <CardHeader
         avatar={
-            <Avatar variant="rounded" sx={{ fontWeight: "700", cursor: "pointer" }}>
-              <StoryInfo story={story} />
-            </Avatar>
+          <Avatar
+            variant="rounded"
+            sx={{ fontWeight: "700", cursor: "pointer" }}
+          >
+            <StoryInfo story={story} />
+          </Avatar>
         }
         action={
           <Tooltip title="Delete">
@@ -61,6 +62,8 @@ export default function userStorySubCard({ story }) {
                 style={{
                   fontSize: 19.5,
                   width: "100%",
+                  border: "3px solid #009688",
+                  outline: "none",
                   borderRadius: 5,
                   cursor: "pointer",
                   padding: "6px 3.4px",

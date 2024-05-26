@@ -5,8 +5,12 @@ import Masonry from "react-masonry-css";
 import useAllStories from "./useAllStories";
 import { useUpdateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
 import AddIcon from "@mui/icons-material/Add";
-import { useCreateUserStory } from "../../../../hooks/api/useUserStoryApi";
+import {
+  useCreateUserStory,
+  useUpdateUserStory,
+} from "../../../../hooks/api/useUserStoryApi";
 import { CloseRounded } from "@mui/icons-material";
+import { id } from "date-fns/locale";
 
 export default function UserStoryCard({ product }) {
   const { storiesData } = useAllStories(product.id);
@@ -16,6 +20,7 @@ export default function UserStoryCard({ product }) {
   const [newName, setNewName] = useState("");
   const mutationProduct = useUpdateProductBacklog();
   const mutationStory = useCreateUserStory();
+  const mutationUpdateStory = useUpdateUserStory();
 
   function handleCreate(e) {
     e.preventDefault();
@@ -25,7 +30,7 @@ export default function UserStoryCard({ product }) {
       return;
     }
 
-    setIsAdding(false);
+    // setIsAdding(false);
     const newStory = {
       name: newName,
       productBacklog: {
@@ -50,13 +55,28 @@ export default function UserStoryCard({ product }) {
     mutationProduct.mutate(newProduct);
   }
 
-  return storiesData?.length != 0 ? (
+  function handleDrop(e) {
+    const updateStory = {
+      id: e.dataTransfer.getData("id"),
+      productBacklog: {
+        id: product.id,
+      },
+    };
+
+    mutationUpdateStory.mutate(updateStory);
+
+    console.log(updateStory);
+  }
+
+  return storiesData?.length >= 0 ? (
     <Box
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()}
       sx={{
         border: "1px solid #ddd",
         borderRadius: "15px",
         px: 4,
-        bgcolor: "#FFF",
+        bgcolor: "#eeeeee44",
         width: "300px",
       }}
     >
@@ -74,7 +94,7 @@ export default function UserStoryCard({ product }) {
           {!isEditing ? (
             <Typography
               variant="h5"
-              sx={{ fontWeight: 500, padding: "10px 25px", color: "#555" }}
+              sx={{ fontWeight: 500, padding: "10px 25px", color: "#333" }}
             >
               {product.name}
             </Typography>
@@ -87,6 +107,9 @@ export default function UserStoryCard({ product }) {
                 onChange={(e) => setNewName(e.target.value)}
                 style={{
                   width: "250px",
+                  outline: "none",
+                  color: "#333",
+                  border: "3px solid #009688",
                   fontSize: "24px",
                   padding: "5px 23px",
                   margin: "6px 0px",
@@ -101,7 +124,6 @@ export default function UserStoryCard({ product }) {
           breakpointCols={1}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
-          style={{}}
         >
           {storiesData?.map((story, index) => (
             <UserStorySubCard key={index} story={story} />
@@ -137,6 +159,7 @@ export default function UserStoryCard({ product }) {
                 label="Nom"
                 error={isError}
                 autoFocus
+                value={newName}
                 onBlur={() => (setIsError(false), setIsAdding(false))}
                 onChange={(e) => setNewName(e.target.value)}
               />

@@ -45,7 +45,7 @@ export default function ProductInfo({ product }) {
             <CloseOutlinedIcon />
           </IconButton>
         </Box>
-        <Box p={2} width="500px" display="flex" alignItems="center">
+        <Box p={2} width="500px" /*display="flex" alignItems="center"*/>
           {!isEditingName ? (
             <Typography
               variant="h4"
@@ -66,8 +66,8 @@ export default function ProductInfo({ product }) {
                   fontWeight: 500,
                   padding: 2,
                   outline: "none",
-                  // border: "3px solid #009688",
-                  border: "3px solid",
+                  border: "3px solid #009688",
+                  // border: "3px solid",
                   borderRadius: "5px",
                 }}
                 autoFocus
