@@ -1,27 +1,46 @@
-import { Avatar, Box, Card, CardHeader, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardHeader,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
-import FadeMenu from "./MoreOption/FadeMenu";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import DeleteStory from "./MoreOption/DeleteStory";
+import StoryInfo from "./StoryInfo"
+import { useUpdateUserStory } from "../../../../hooks/api/useUserStoryApi";
 
 export default function userStorySubCard({ story }) {
   const [isEditingName, setIsEditingName] = useState(false);
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(story.name);
+  const mutation = useUpdateUserStory();
+
+  function HandleSubmitOrBlur(e) {
+    if(!newName.trim()) return;
+
+    setIsEditingName(false);
+
+    const newStory = {
+      id: story.id,
+      name: newName,
+    };
+
+    mutation.mutate(newStory);
+  }
 
   return (
-    <Card sx={{width: "250px", marginTop: -3}}>
+    <Card draggable sx={{ width: "100%", marginTop: -3 }}>
       <CardHeader
-        // avatar={
-        //   <Avatar variant="rounded" sx={{ fontWeight: "700" }}>
-        //     {story.name?.charAt(0).toUpperCase()}
-        //   </Avatar>
-        // }
+        avatar={
+            <Avatar variant="rounded" sx={{ fontWeight: "700", cursor: "pointer" }}>
+              <StoryInfo story={story} />
+            </Avatar>
+        }
         action={
-          <Box
-            sx={{
-              margin: -1.1,
-            }}
-          >
-            <FadeMenu story={story} />
-          </Box>
+          <Tooltip title="Delete">
+            <DeleteStory story={story} />
+          </Tooltip>
         }
         title={
           !isEditingName ? (
@@ -44,7 +63,7 @@ export default function userStorySubCard({ story }) {
                   width: "100%",
                   borderRadius: 5,
                   cursor: "pointer",
-                  padding: "8px 5px",
+                  padding: "6px 3.4px",
                   margin: ".5px -5px",
                 }}
               />

@@ -4,12 +4,13 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { red } from "@mui/material/colors";
 import { useUpdateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
+import { useUpdateUserStory } from "../../../../hooks/api/useUserStoryApi";
 
-export default function ProductInfo({ product }) {
+export default function StoryInfo({ story }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [newName, setNewName] = useState(product.name);
-  const mutation = useUpdateProductBacklog();
+  const [newName, setNewName] = useState(story.name);
+  const mutation = useUpdateUserStory();
 
   function handleAction(e) {
     e.preventDefault();
@@ -17,20 +18,27 @@ export default function ProductInfo({ product }) {
 
     setIsEditingName(false);
 
-    const newProduct = {
-      id: product.id,
+    const newStory = {
+      id: story.id,
       name: newName.charAt(0).toUpperCase() + newName.slice(1),
     };
 
     console.log(newName.charAt(0).toUpperCase() + newName.slice(1));
-    mutation.mutate(newProduct);
+    mutation.mutate(newStory);
   }
 
   return (
     <>
-      <IconButton onClick={() => setIsDrawerOpen(true)}>
+      {/* <Box onClick={() => setIsDrawerOpen(true)}>
         <RemoveRedEyeOutlinedIcon color="primary" />
-      </IconButton>
+      </Box> */}
+      <Typography
+        variant="h5"
+        fontWeight={700}
+        onClick={() => setIsDrawerOpen(true)}
+      >
+        {story.name?.charAt(0).toUpperCase()}
+      </Typography>
       <Drawer
         anchor="right"
         open={isDrawerOpen}
@@ -50,12 +58,12 @@ export default function ProductInfo({ product }) {
             <Typography
               variant="h4"
               padding={0.5}
-              pl={.6}
+              pl={0.6}
               width="100%"
               sx={{cursor: "pointer"}}
               onClick={() => setIsEditingName(true)}
             >
-              {product.name}
+              {story.name}
             </Typography>
           ) : (
             <form onSubmit={handleAction}>

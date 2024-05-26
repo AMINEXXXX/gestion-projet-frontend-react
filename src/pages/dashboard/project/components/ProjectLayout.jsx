@@ -15,7 +15,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { teal } from "@mui/material/colors";
+import { green, teal } from "@mui/material/colors";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -117,22 +117,30 @@ export default function ProjectLayout({
           elevation={0}
           color=""
           sx={{
-            width: open ? `calc(100% - ${drawerWidth}px)` : "100%",
+            width: open ? `calc(100% - ${drawerWidth}px)` : "99.65%",
             pl: open ? 0 : 3,
-            bgcolor: "#80cbc410",
+            // bgcolor: "#80cbc410",
           }}
         >
-          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Box sx={{ display: "flex", gap: 3 }}>
               {/* <Typography variant="h6" noWrap>
                 Today is the {format(new Date(), "do MMMM y")}
               </Typography> */}
-              <IconButton onClick={() => setOpen(!open)}>
-                <MenuRoundedIcon color="primary" />
-              </IconButton>
+              <Tooltip title={open ? "Hide" : "Show"}>
+                <IconButton onClick={() => setOpen(!open)}>
+                  <MenuRoundedIcon color="primary" />
+                </IconButton>
+              </Tooltip>
               <Tooltip title="Go back Home">
                 <Link to="/" onClick={() => dispatch(setFirstPage())}>
-                  <IconButton variant="outlined" size="large">
+                  <IconButton>
                     <KeyboardReturnRoundedIcon sx={{ color: teal[500] }} />
                   </IconButton>
                 </Link>
@@ -153,6 +161,15 @@ export default function ProjectLayout({
         </AppBar>
 
         {/* {open ? ( */}
+        <Box
+          sx={{
+            height: "100vh",
+            position: "fixed",
+            px: 0.37,
+            bgcolor: teal[600],
+            zIndex: 20,
+          }}
+        ></Box>
         <Box
           component={motion.div}
           animate={{
@@ -228,10 +245,10 @@ export default function ProjectLayout({
         <Box
           sx={{
             padding: 3,
-            width: "100vw",
+            width: "100%",
             marginTop: "64px",
-            bgcolor: "#80cbc410",
-            Height: "100vh",
+            // bgcolor: "#80cbc410",
+            height: "100%",
           }}
         >
           {children}

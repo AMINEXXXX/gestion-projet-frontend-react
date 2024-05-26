@@ -24,8 +24,8 @@ export default function AddProduct() {
 
   const HandleCreate = (e) => {
     e.preventDefault();
-    if (!storyName.trim() || productId == null){
-      alert("Please 3mr kulchi !");  
+    if (!storyName.trim() || productId == null) {
+      alert("Please 3mr kulchi !");
       return;
     }
 
@@ -39,7 +39,6 @@ export default function AddProduct() {
     mutation.mutate(story);
     setStoryName("");
     setProductId(null);
-
   };
 
   return (
@@ -62,7 +61,7 @@ export default function AddProduct() {
             fontWeight: "600",
             display: "flex",
             "&:hover": { bgcolor: "#b2dfdb44" },
-            transition: ".15s ease-in",
+            // transition: ".15s ease-in",
           }}
         >
           <Box sx={{ display: "flex" }}>
@@ -71,12 +70,17 @@ export default function AddProduct() {
           </Box>
         </Box>
       ) : (
-        <form onSubmit={(e) => HandleCreate(e)}>
+        <form
+          onKeyDown={(e) => {
+            if (e.keyCode === 27) setIsAdding(false);
+          }}
+          onSubmit={(e) => HandleCreate(e)}
+        >
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              border: "2px solid #b2dfdb77",
+              border: "2px solid #ddd", //#b2dfdb77
               borderRadius: 4,
               padding: 2,
               mb: 1.3,

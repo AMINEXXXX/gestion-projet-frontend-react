@@ -30,6 +30,7 @@ export default function Modal(props) {
   const handleClose = () => {
     modalFinalEvent && modalFinalEvent();
     setOpen(false);
+    console.log("Sf tched .");
   };
   const handleCancel = () => {
     btnEvent && btnEvent();
@@ -69,7 +70,7 @@ export default function Modal(props) {
       )}
 
       <ModalContainer state={open} handleClose={handleClose}>
-        <Box>
+        <Box >
           <Typography variant="h5" component="h3">
             {modalTitle || btnName || "Titre"}
           </Typography>

@@ -7,13 +7,13 @@ import { useGetProductBacklogById } from "../../../../hooks/api/useProductBacklo
 export default function ListUserStories() {
   const { project } = useSelector((state) => state.project);
   const { data } = useGetProductBacklogById(project.id);
-  
-  
 
   return (
     <Container sx={{ display: "flex", gap: 5 }}>
       {data?.map((product, index) => (
-        <UserStoryCard key={index} product={product} />
+        <Box>
+          <UserStoryCard key={index} product={product} />
+        </Box>
       ))}
     </Container>
   );

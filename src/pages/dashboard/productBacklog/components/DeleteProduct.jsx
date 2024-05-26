@@ -1,6 +1,5 @@
 import { Typography } from "@mui/material";
 import Modal from "../../../../components/Modal/Modal";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import PropTypes from "prop-types";
 import { useDeleteProductBacklog } from "../../../../hooks/api/useProductBacklogApi";

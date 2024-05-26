@@ -17,7 +17,7 @@ export default function ModalContainer({ children , handleClose , state }) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            minWidth: "300px",
+            width: "450px",
             bgcolor: "background.paper",
             border: "1px solid #24242455",
             borderRadius: 8,
