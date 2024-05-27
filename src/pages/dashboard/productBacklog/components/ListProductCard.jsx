@@ -15,11 +15,11 @@ export default function ListProductCard() {
         Product Backlogs
       </Typography> */}
       <Container>
-        <Typography variant="h4" marginBottom={5}>
-          Product Backlogs
-        </Typography>
-        <Box marginBottom={5}>
-          <AddProduct />
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h4">Product Backlogs</Typography>
+          <Box my={5}>
+            <AddProduct />
+          </Box>
         </Box>
         <TableData rows={productsData} columns={columns} />
       </Container>

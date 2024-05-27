@@ -74,8 +74,8 @@ export default function StoryInfo({ story }) {
                   fontWeight: 500,
                   padding: 2,
                   outline: "none",
-                  // border: "3px solid #009688",
-                  border: "3px solid",
+                  border: "3px solid #009688",
+                  // border: "3px solid",
                   borderRadius: "5px",
                 }}
                 autoFocus

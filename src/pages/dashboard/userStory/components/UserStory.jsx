@@ -6,10 +6,14 @@ import { Box, Container, Typography } from "@mui/material";
 export default function UserStory() {
   return (
     <Container>
-      <Typography variant="h4" mb={5}>
-        User Stories
-      </Typography>
-      <AddStory />
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h4" mb={5}>
+          User Stories
+        </Typography>
+        <Box mt={5}>
+          <AddStory />
+        </Box>
+      </Box>
       <ListUserStories />
     </Container>
   );

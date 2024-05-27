@@ -27,7 +27,7 @@ export default function userStorySubCard({ story }) {
     <Card
       draggable
       onDragStart={(e) => e.dataTransfer.setData("id", story.id)}
-      sx={{ width: "100%", marginTop: -3 }}
+      sx={{ width: "100%", marginTop: -3, "&:hover": {border: "3px solid #009688"}, cursor: "grab" }}
     >
       <CardHeader
         avatar={

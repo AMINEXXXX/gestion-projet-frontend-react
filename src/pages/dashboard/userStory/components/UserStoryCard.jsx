@@ -10,7 +10,6 @@ import {
   useUpdateUserStory,
 } from "../../../../hooks/api/useUserStoryApi";
 import { CloseRounded } from "@mui/icons-material";
-import { id } from "date-fns/locale";
 
 export default function UserStoryCard({ product }) {
   const { storiesData } = useAllStories(product.id);
@@ -41,7 +40,6 @@ export default function UserStoryCard({ product }) {
     setNewName("");
     mutationStory.mutate(newStory);
   }
-
   function handleUpdate(e) {
     e.preventDefault();
     if (!newName.trim()) return;
@@ -54,7 +52,6 @@ export default function UserStoryCard({ product }) {
     setNewName("");
     mutationProduct.mutate(newProduct);
   }
-
   function handleDrop(e) {
     const updateStory = {
       id: e.dataTransfer.getData("id"),
@@ -64,8 +61,6 @@ export default function UserStoryCard({ product }) {
     };
 
     mutationUpdateStory.mutate(updateStory);
-
-    console.log(updateStory);
   }
 
   return storiesData?.length >= 0 ? (
@@ -75,9 +70,9 @@ export default function UserStoryCard({ product }) {
       sx={{
         border: "1px solid #ddd",
         borderRadius: "15px",
-        px: 4,
+        px: 2,
+        width: "280px",
         bgcolor: "#eeeeee44",
-        width: "300px",
       }}
     >
       <Box
@@ -132,8 +127,7 @@ export default function UserStoryCard({ product }) {
         <Box display="flex" mx="auto">
           {!isAdding ? (
             <Button
-              variant="contained"
-              sx={{ mb: 1.5, mt: -2 }}
+              sx={{ borderRadius: 2, mb: 1.5, mt: -2, "&:hover": { bgcolor: "#b2dfdb77" } }}
               onClick={() => setIsAdding(true)}
             >
               <Box display="flex" gap={1}>
