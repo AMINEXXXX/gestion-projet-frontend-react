@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
-import UserStorySubCard from "./userStorySubCard";
+import UserStorySubCard from "./UserStorySubCard";
 import Masonry from "react-masonry-css";
 import useAllStories from "./useAllStories";
 import { useUpdateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
@@ -31,7 +31,7 @@ export default function UserStoryCard({ product }) {
 
     // setIsAdding(false);
     const newStory = {
-      name: newName,
+      name: newName?.charAt(0).toUpperCase() + newName?.slice(1),
       productBacklog: {
         id: product.id,
       },
@@ -47,7 +47,7 @@ export default function UserStoryCard({ product }) {
     setIsEditing(false);
     const newProduct = {
       id: product.id,
-      name: newName,
+      name: newName?.charAt(0).toUpperCase() + newName?.slice(1),
     };
     setNewName("");
     mutationProduct.mutate(newProduct);

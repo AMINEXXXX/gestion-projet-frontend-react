@@ -11,7 +11,7 @@ export default function DeleteStory({ story }) {
   return (
     <>
       {/* <Modal
-        btnIcon={<DeleteOutlinedIcon />}
+        // btnIcon={<DeleteOutlinedIcon />}
         btnColor={"error"}
         modalTitle={"Supprimer le user story "}
         modalActionName={"Supprimer"}
