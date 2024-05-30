@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Container } from "@mui/material";
 import UserStoryCard from "./UserStoryCard";
 import { useSelector } from "react-redux";
-import { useGetProductBacklogById } from "../../../../hooks/api/useProductBacklogApi";
+import { useGetProductBacklogById } from "../../../../../hooks/api/useProductBacklogApi";
 import Masonry from "react-masonry-css";
 
 export default function ListUserStories() {
@@ -12,7 +12,7 @@ export default function ListUserStories() {
   return (
     // <Container sx={{ display: "flex", gap: 3 }}>
     <Masonry
-      breakpointCols={4}
+      breakpointCols={3}
       className="my-masonry-grid"
       columnClassName="my-masonry-grid_column"
     >

@@ -25,10 +25,13 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 import { useUpdateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
 import useAllStories from "../../userStory/components/useAllStories";
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import DeleteStory from "../../userStory/components/MoreOption/DeleteStory";
 import StoryCard from "./StoryCard";
-import { teal } from "@mui/material/colors";
-import { useCreateUserStory } from "../../../../hooks/api/useUserStoryApi";
+import {
+  useCreateUserStory,
+  useDeleteAllUserStory,
+} from "../../../../hooks/api/useUserStoryApi";
 
 export default function ProductInfo({ product }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -41,6 +44,10 @@ export default function ProductInfo({ product }) {
   const mutationProduct = useUpdateProductBacklog();
   const mutationStory = useCreateUserStory();
   const { storiesData } = useAllStories(product.id);
+  const mutationAllstories = useDeleteAllUserStory();
+  const [haveStories, setHaveStories] = useState(
+    storiesData?.length == 0 ? false : true
+  );
 
   function handleUpdateName(e) {
     e.preventDefault();
@@ -94,10 +101,9 @@ export default function ProductInfo({ product }) {
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       >
-        {/* <Box sx={{ p: 2, width: "600px" }}>
+        <Box width={"700px"} sx={{ p: 1, pl: 2 }}>
           <Box
             sx={{
-              // width: "600px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -105,147 +111,61 @@ export default function ProductInfo({ product }) {
               marginBottom: 5,
             }}
           >
-            <Box width={"100%"} height={"50px"}>
-              {!isEditingProductName ? (
-                <Typography
-                  variant="h4"
-                  padding={0.5}
-                  pl={0.6}
-                  width="100%"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => setIsEditingProductName(true)}
-                >
-                  {product.name}
-                </Typography>
-              ) : (
-                <form onSubmit={handleUpdateName}>
-                  <input
-                    style={{
-                      width: "100%",
-                      fontSize: "34.6px",
-                      fontWeight: 500,
-                      padding: 2,
-                      outline: "none",
-                      border: "3px solid #009688",
-                      // border: "3px solid",
-                      borderRadius: "5px",
-                    }}
-                    autoFocus
-                    onBlur={handleUpdateName}
-                    value={newProductName}
-                    onChange={(e) => setNewProductName(e.target.value)}
-                  />
-                </form>
-              )}
-            </Box>
-            <IconButton
-              size="large"
-              onClick={() => (setIsDrawerOpen(false), setIsEditingProductName(false))}
+            <Box
+              width={"100%"}
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              height={"50px"}
             >
-              <CloseOutlinedIcon />
-            </IconButton>
-          </Box>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            marginBottom={2}
-            height={"40px"}
-          >
-            <Box display={"flex"} alignItems={"center"} gap={1}>
-              <SubjectRoundedIcon sx={{ fontSize: "2rem" }} color="primary" />
-              <Typography variant="h6">Description</Typography>
-            </Box>
-            {!isEditingDescription ? (
-              <Button
-                variant="contained"
-                onClick={() => setIsEditingDescription(true)}
-              >
-                Modifier
-              </Button>
-            ) : null}
-          </Box>
-          <Box px={5}>
-            {!isEditingDescription ? (
-              <Typography onClick={() => setIsEditingDescription(true)}>
-                {product.description}
-              </Typography>
-            ) : (
-              <Box>
-                <TextField
-                  multiline
-                  autoFocus
-                  value={newDescription}
-                  style={{ width: "100%", fontSize: "1rem" }}
-                  onChange={(e) => setNewDescription(e.target.value)}
-                />
-                <Box mt={1.5} display={"flex"} gap={1}>
-                  <Button variant="contained" onClick={handleUpdateDescription}>
-                    Sauvgarder
-                  </Button>
-                  <Button sx={{"&:hover": { bgcolor: "#b2dfdb55"}}} onClick={() => setIsEditingDescription(false)}>
-                    Annuler
-                  </Button>
-                </Box>
+              <Box display={"flex"} alignItems={"center"} gap={1} width={"100%"}>
+              <Inventory2OutlinedIcon color="primary" />
+                {!isEditingProductName ? (
+                  <Typography
+                    variant="h4"
+                    padding={0.5}
+                    pl={0.6}
+                    width="100%"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => setIsEditingProductName(true)}
+                  >
+                    {product.name}
+                  </Typography>
+                ) : (
+                  <form onSubmit={handleUpdateName}>
+                    <input
+                      style={{
+                        width: "100%",
+                        fontSize: "34.6px",
+                        fontWeight: 500,
+                        padding: 2,
+                        outline: "none",
+                        border: "3px solid #009688",
+                        // border: "3px solid",
+                        borderRadius: "5px",
+                      }}
+                      autoFocus
+                      onBlur={handleUpdateName}
+                      value={newProductName}
+                      onChange={(e) => setNewProductName(e.target.value)}
+                    />
+                  </form>
+                )}
               </Box>
-            )}
-          </Box>
-        </Box> */}
-        <Box width={"750px"} sx={{ p: 1, pl: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 5,
-              marginBottom: 5,
-            }}
-          >
-            <Box width={"100%"} height={"50px"}>
-              {!isEditingProductName ? (
-                <Typography
-                  variant="h4"
-                  padding={0.5}
-                  pl={0.6}
-                  width="100%"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => setIsEditingProductName(true)}
+              <Box>
+                <IconButton
+                  sx={{ float: "right" }}
+                  onClick={() => (
+                    setIsDrawerOpen(false), setIsEditingName(false)
+                  )}
                 >
-                  {product.name}
-                </Typography>
-              ) : (
-                <form onSubmit={handleUpdateName}>
-                  <input
-                    style={{
-                      width: "100%",
-                      fontSize: "34.6px",
-                      fontWeight: 500,
-                      padding: 2,
-                      outline: "none",
-                      border: "3px solid #009688",
-                      // border: "3px solid",
-                      borderRadius: "5px",
-                    }}
-                    autoFocus
-                    onBlur={handleUpdateName}
-                    value={newProductName}
-                    onChange={(e) => setNewProductName(e.target.value)}
-                  />
-                </form>
-              )}
+                  <CloseOutlinedIcon />
+                </IconButton>
+              </Box>
             </Box>
-            <IconButton
-              onClick={() => (setIsDrawerOpen(false), setIsEditingName(false))}
-            >
-              <CloseOutlinedIcon />
-            </IconButton>
           </Box>
-          <Grid
-            container
-            gap={2}
-            pr={product?.userStories?.length != 0 ? 15 : 0}
-          >
-            <Grid item xs={product?.userStories?.length == 0 ? 8.7 : 12}>
+          <Grid container gap={2} pl={4} pr={haveStories ? 10 : 0}>
+            <Grid item xs={!haveStories ? 8.7 : 12}>
               <Box
                 display={"flex"}
                 justifyContent={"space-between"}
@@ -304,7 +224,7 @@ export default function ProductInfo({ product }) {
                   </Box>
                 )}
               </Box>
-              {product?.userStories?.length != 0 ? (
+              {haveStories ? (
                 <>
                   <Box
                     display={"flex"}
@@ -320,7 +240,15 @@ export default function ProductInfo({ product }) {
                       />
                       <Typography variant="h6">User Stories</Typography>
                     </Box>
-                    <Button variant="contained">Supprimer</Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => (
+                        mutationAllstories.mutate(storiesData),
+                        setHaveStories(false)
+                      )}
+                    >
+                      Supprimer
+                    </Button>
                   </Box>
                   <Box>
                     {storiesData?.map((story) => (
@@ -372,9 +300,13 @@ export default function ProductInfo({ product }) {
                 </Typography>
               )}
             </Grid>
-            {product?.userStories?.length == 0 && (
+            {!haveStories && (
               <Grid item xs={3} px={3}>
-                <Button variant="contained" fullWidth>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={() => setHaveStories(true)}
+                >
                   Add Stories
                 </Button>
               </Grid>

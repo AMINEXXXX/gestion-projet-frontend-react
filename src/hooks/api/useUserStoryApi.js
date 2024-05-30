@@ -1,7 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
+  createStoryEtiquette,
   createUserStory,
+  deleteAllUserStory,
+  deleteStoryEtiquette,
   deleteUserStory,
   getAllUserStory,
   updateUserStory,
@@ -53,6 +56,51 @@ export const useDeleteUserStory = ({ onSuccess, onError } = {}) => {
 
   return useMutation({
     mutationFn: deleteUserStory,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useDeleteAllUserStory = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteAllUserStory,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useCreateStoryEtiquette = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createStoryEtiquette,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useDeleteStoryEtiquette = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteStoryEtiquette,
     onSuccess: () => {
       onSuccess && onSuccess();
       queryClient.invalidateQueries({ queryKey: ["allUserStory"] });

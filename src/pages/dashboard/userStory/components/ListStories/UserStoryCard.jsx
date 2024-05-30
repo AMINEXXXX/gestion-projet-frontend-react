@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import UserStorySubCard from "./UserStorySubCard";
 import Masonry from "react-masonry-css";
-import useAllStories from "./useAllStories";
-import { useUpdateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
+import useAllStories from "../useAllStories";
+import { useUpdateProductBacklog } from "../../../../../hooks/api/useProductBacklogApi";
 import AddIcon from "@mui/icons-material/Add";
 import {
   useCreateUserStory,
   useUpdateUserStory,
-} from "../../../../hooks/api/useUserStoryApi";
+} from "../../../../../hooks/api/useUserStoryApi";
 import { CloseRounded } from "@mui/icons-material";
 
 export default function UserStoryCard({ product }) {
@@ -71,7 +71,7 @@ export default function UserStoryCard({ product }) {
         border: "1px solid #ddd",
         borderRadius: "15px",
         px: 2,
-        width: "280px",
+        width: "370px",
         bgcolor: "#eeeeee44",
       }}
     >
@@ -121,13 +121,18 @@ export default function UserStoryCard({ product }) {
           columnClassName="my-masonry-grid_column"
         >
           {storiesData?.map((story, index) => (
-            <UserStorySubCard key={index} story={story} />
+            <UserStorySubCard key={index} product={product} story={story} />
           ))}
         </Masonry>
         <Box display="flex" mx="auto">
           {!isAdding ? (
             <Button
-              sx={{ borderRadius: 2, mb: 1.5, mt: -2, "&:hover": { bgcolor: "#b2dfdb77" } }}
+              sx={{
+                borderRadius: 2,
+                mb: 1.5,
+                mt: -2,
+                "&:hover": { bgcolor: "#b2dfdb77" },
+              }}
               onClick={() => setIsAdding(true)}
             >
               <Box display="flex" gap={1}>
