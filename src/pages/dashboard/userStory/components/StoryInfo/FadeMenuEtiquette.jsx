@@ -3,9 +3,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import Fade from "@mui/material/Fade";
-import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import { blue, red, yellow } from "@mui/material/colors";
+import { Box, TextField } from "@mui/material";
 import { SwatchesPicker } from "react-color";
+import { red, teal, yellow } from "@mui/material/colors";
 
 export default function FadeMenuEtiquette() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -46,8 +46,46 @@ export default function FadeMenuEtiquette() {
         TransitionComponent={Fade}
       >
         <Box display={"flex"} flexDirection={"column"} gap={1} px={2}>
-          <Box bgcolor={color} p={2} />
-          <SwatchesPicker onChange={(color) => setColor(color.hex)} />
+          <Box bgcolor={color} p={2} borderRadius={2} >title</Box>
+          <TextField size="small" />
+          {/* <SwatchesPicker onChange={(color) => setColor(color.hex)} /> */}
+          {/* <Box
+            sx={{
+              height: "30px",
+              px: 10,
+              bgcolor: red[500],
+              "&:hover": { bgcolor: red[700] },
+              borderRadius: 1.5,
+            }}
+            onClick={() => setColor("#f44336")}
+          /> */}
+          <Button
+            onClick={() => setColor("#f44336")}
+            sx={{
+              height: "30px",
+              px: 10,
+              bgcolor: red[500],
+              "&:hover": { bgcolor: red[700] },
+            }}
+          />
+          <Button
+            onClick={() => setColor("#ffeb3b")}
+            sx={{
+              height: "30px",
+              px: 10,
+              bgcolor: yellow[500],
+              "&:hover": { bgcolor: yellow[700] },
+            }}
+          />
+          <Button
+            onClick={() => setColor("#009688")}
+            sx={{
+              height: "30px",
+              px: 10,
+              bgcolor: teal[500],
+              "&:hover": { bgcolor: teal[700] },
+            }}
+          />
           {/* <FormGroup>
             <FormControlLabel
               control={<Checkbox defaultChecked />}

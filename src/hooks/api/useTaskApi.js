@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { createTask, deleteTask, getAllTask } from "../../APIs/api_task";
+import { createTask, deleteTask, getAllTask, updateTask } from "../../APIs/api_task";
 
 export const useGetAllTask = ({ onSuccess, onError } = {}) =>{
     return  useQuery({
@@ -27,7 +27,22 @@ export const useCreateTask = ({ onSuccess, onError } = {}) => {
     mutationFn: createTask,
     onSuccess: () => {
       onSuccess && onSuccess();
-      queryClient.invalidateQueries({ queryKey: ["allTask"] });
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useUpdateTask = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTask,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
     },
     onError: () => {
       onError && onError();
@@ -42,7 +57,7 @@ export const useDeleteTask = ({ onSuccess, onError } = {}) => {
     mutationFn: deleteTask,
     onSuccess: () => {
       onSuccess && onSuccess();
-      queryClient.invalidateQueries({ queryKey: ["allTask"] });
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
     },
     onError: () => {
       onError && onError();

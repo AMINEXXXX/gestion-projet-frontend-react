@@ -1,7 +1,7 @@
 import React from "react";
 import AddStory from "./AddStory";
-import ListUserStories from "./ListStories/ListUserStories";
 import { Box, Container, Typography } from "@mui/material";
+import ListUserStories from "./ListStories/ListUserStories";
 
 export default function UserStory() {
   return (
