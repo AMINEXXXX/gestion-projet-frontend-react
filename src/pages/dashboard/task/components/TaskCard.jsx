@@ -86,7 +86,7 @@ export default function TaskCard({ story }) {
       >
         <Box
           onClick={() => (setNewName(story.name), setIsEditing(true))}
-          sx={{ cursor: "pointer", marginBottom: 1, height: "50px" }}
+          sx={{ cursor: "pointer", marginBottom: 1, height: "50px", width: "100%" }}
         >
           {!isEditing ? (
             <Typography
@@ -103,7 +103,7 @@ export default function TaskCard({ story }) {
                 onBlur={handleUpdateStoryName}
                 onChange={(e) => setNewName(e.target.value)}
                 style={{
-                  width: "250px",
+                  width: "100%",
                   outline: "none",
                   color: "#333",
                   border: "3px solid #009688",
@@ -150,12 +150,12 @@ export default function TaskCard({ story }) {
               style={{
                 display: "flex",
                 gap: 5,
-                // marginTop: -15,
-                // marginBottom: 13,
+                width: "100%",
                 margin: "13px 0",
               }}
             >
               <TextField
+              sx={{width: "100%"}}
                 size="small"
                 label="Nom"
                 error={isError}

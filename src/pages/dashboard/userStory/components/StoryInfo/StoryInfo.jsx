@@ -4,18 +4,15 @@ import {
   Box,
   Typography,
   IconButton,
-  TextField,
   Grid,
-  Button,
   Avatar,
 } from "@mui/material";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { red } from "@mui/material/colors";
-import { useUpdateProductBacklog } from "../../../../../hooks/api/useProductBacklogApi";
 import { useUpdateUserStory } from "../../../../../hooks/api/useUserStoryApi";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import FadeMenuEtiquette from "./FadeMenuEtiquette";
+import ListEtiquettes from "./ListEtiquttes";
+import ListEtiquttes from "./ListEtiquttes";
 
 export default function StoryInfo({ product, story }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -42,11 +39,12 @@ export default function StoryInfo({ product, story }) {
 
   return (
     <>
-      <Avatar variant="rounded" sx={{ fontWeight: "700", cursor: "pointer" }} onClick={() => setIsDrawerOpen(true)}>
-        <Typography
-          variant="h5"
-          fontWeight={700}
-        >
+      <Avatar
+        variant="rounded"
+        sx={{ fontWeight: "700", cursor: "pointer" }}
+        onClick={() => setIsDrawerOpen(true)}
+      >
+        <Typography variant="h5" fontWeight={700}>
           {story.name?.charAt(0).toUpperCase()}
         </Typography>
       </Avatar>
@@ -114,9 +112,20 @@ export default function StoryInfo({ product, story }) {
           </Typography>
         </Box>
         <Grid container>
-          <Grid item xs={9}></Grid>
+          <Grid item xs={9} pl={5}>
+            <Box>
+              {story?.etiquettes?.length > 0 && (
+                <>
+                  <Typography sx={{ fontSize: ".9rem", fontWeight: 700 }}>
+                    Etiquettes
+                  </Typography>
+                  <ListEtiquttes etiquettes={story?.etiquettes} isInfo={true} />
+                </>
+              )}
+            </Box>
+          </Grid>
           <Grid item xs={3}>
-            <FadeMenuEtiquette />
+            <FadeMenuEtiquette story={story} />
           </Grid>
         </Grid>
       </Drawer>

@@ -84,7 +84,7 @@ export default function UserStoryCard({ product }) {
       >
         <div
           onClick={() => (setNewName(product.name), setIsEditing(true))}
-          style={{ cursor: "pointer", marginBottom: 30 }}
+          style={{ cursor: "pointer", marginBottom: 30, height: "50px" }}
         >
           {!isEditing ? (
             <Typography
@@ -101,7 +101,7 @@ export default function UserStoryCard({ product }) {
                 onBlur={handleUpdate}
                 onChange={(e) => setNewName(e.target.value)}
                 style={{
-                  width: "250px",
+                  width: "100%",
                   outline: "none",
                   color: "#333",
                   border: "3px solid #009688",
@@ -124,7 +124,7 @@ export default function UserStoryCard({ product }) {
             <UserStorySubCard key={index} product={product} story={story} />
           ))}
         </Masonry>
-        <Box display="flex" mx="auto">
+        <Box display="flex" height={"35px"}>
           {!isAdding ? (
             <Button
               sx={{
@@ -135,7 +135,7 @@ export default function UserStoryCard({ product }) {
               }}
               onClick={() => setIsAdding(true)}
             >
-              <Box display="flex" gap={1}>
+              <Box display="flex" alignItems={"center"} gap={1}>
                 <AddIcon />
                 <Typography>Ajouter une user story</Typography>
               </Box>
@@ -151,9 +151,11 @@ export default function UserStoryCard({ product }) {
                 gap: 5,
                 marginTop: -15,
                 marginBottom: 13,
+                width: "100%"
               }}
             >
               <TextField
+              sx={{width: "100%"}}
                 size="small"
                 label="Nom"
                 error={isError}

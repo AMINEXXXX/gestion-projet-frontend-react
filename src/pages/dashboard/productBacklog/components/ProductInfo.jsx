@@ -26,6 +26,7 @@ import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 import { useUpdateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
 import useAllStories from "../../userStory/components/useAllStories";
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteStory from "../../userStory/components/MoreOption/DeleteStory";
 import StoryCard from "./StoryCard";
 import {
@@ -94,7 +95,7 @@ export default function ProductInfo({ product }) {
   return (
     <>
       <IconButton onClick={() => setIsDrawerOpen(true)}>
-        <RemoveRedEyeOutlinedIcon color="primary" />
+        <EditOutlinedIcon color="primary" />
       </IconButton>
       <Drawer
         anchor="right"
