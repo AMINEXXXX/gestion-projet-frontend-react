@@ -119,7 +119,7 @@ export default function StoryInfo({ product, story }) {
                   <Typography sx={{ fontSize: ".9rem", fontWeight: 700 }}>
                     Etiquettes
                   </Typography>
-                  <ListEtiquttes etiquettes={story?.etiquettes} isInfo={true} />
+                  <ListEtiquttes story={story} etiquettes={story?.etiquettes} isInfo={true} />
                 </>
               )}
             </Box>

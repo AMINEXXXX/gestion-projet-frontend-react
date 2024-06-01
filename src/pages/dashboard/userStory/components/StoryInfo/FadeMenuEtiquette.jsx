@@ -11,7 +11,7 @@ import {
   useUpdateUserStory,
 } from "../../../../../hooks/api/useUserStoryApi";
 
-export default function FadeMenuEtiquette({ story }) {
+export default function FadeMenuEtiquette({ story, isUpdate = false }) {
   const mutation = useCreateStoryEtiquette();
   const [anchorEl, setAnchorEl] = useState(null);
   const [color, setColor] = useState("#eee");
