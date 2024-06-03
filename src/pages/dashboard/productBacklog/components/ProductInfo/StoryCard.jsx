@@ -1,6 +1,6 @@
-import { Box, Card, IconButton, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { useUpdateUserStory } from "../../../../hooks/api/useUserStoryApi";
+import { useUpdateUserStory } from "../../../../../hooks/api/useUserStoryApi";
 import { MoreVertOutlined } from "@mui/icons-material";
 import FadeMenuStoryOption from "./FadeMenuStoryOption";
 

@@ -12,8 +12,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Masonry from "react-masonry-css";
-import { useUpdateUserStory } from "../../../../hooks/api/useUserStoryApi";
-import { useCreateTask, useUpdateTask } from "../../../../hooks/api/useTaskApi";
+import { useUpdateUserStory } from "../../../../../hooks/api/useUserStoryApi";
+import {
+  useCreateTask,
+  useUpdateTask,
+} from "../../../../../hooks/api/useTaskApi";
 import TaskSubCard from "./TaskSubCard";
 
 export default function TaskCard({ story }) {
@@ -86,7 +89,12 @@ export default function TaskCard({ story }) {
       >
         <Box
           onClick={() => (setNewName(story.name), setIsEditing(true))}
-          sx={{ cursor: "pointer", marginBottom: 1, height: "50px", width: "100%" }}
+          sx={{
+            cursor: "pointer",
+            marginBottom: 1,
+            height: "50px",
+            width: "100%",
+          }}
         >
           {!isEditing ? (
             <Typography
@@ -122,7 +130,7 @@ export default function TaskCard({ story }) {
           columnClassName="my-masonry-grid_column"
         > */}
         {story?.tasks?.map((task, index) => (
-          <TaskSubCard key={index} task={task} />
+          <TaskSubCard key={index} story={story} task={task} />
         ))}
         {/* </Masonry> */}
         <Box display="flex" height={"65px"}>
@@ -155,7 +163,7 @@ export default function TaskCard({ story }) {
               }}
             >
               <TextField
-              sx={{width: "100%"}}
+                sx={{ width: "100%" }}
                 size="small"
                 label="Nom"
                 error={isError}

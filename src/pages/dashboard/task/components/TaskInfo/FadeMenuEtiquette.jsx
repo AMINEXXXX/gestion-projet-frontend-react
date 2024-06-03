@@ -7,20 +7,19 @@ import { Box, Divider, IconButton, TextField, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import ColorPicker from "./ColorPicker";
 import {
-  useCreateStoryEtiquette,
-  useDeleteStoryEtiquette,
-  useUpdateStoryEtiquette,
-  useUpdateUserStory,
-} from "../../../../../hooks/api/useUserStoryApi";
+  useCreateTaskEtiquette,
+  useDeleteTaskEtiquette,
+  useUpdateTaskEtiquette,
+} from "../../../../../hooks/api/useTaskApi";
 
 export default function FadeMenuEtiquette({
-  story,
+  task,
   etiquette,
   isUpdate = false,
 }) {
-  const mutationCreateEtiquette = useCreateStoryEtiquette();
-  const mutationUpdateEtiquette = useUpdateStoryEtiquette();
-  const mutationDeleteEtiquette = useDeleteStoryEtiquette();
+  const mutationCreateEtiquette = useCreateTaskEtiquette();
+  const mutationUpdateEtiquette = useUpdateTaskEtiquette();
+  const mutationDeleteEtiquette = useDeleteTaskEtiquette();
   const [anchorEl, setAnchorEl] = useState(null);
   const [color, setColor] = useState(isUpdate ? etiquette.color : "#eee");
   const [description, setDescription] = useState(
@@ -48,16 +47,16 @@ export default function FadeMenuEtiquette({
     setColor("#eee");
     setDescription("");
 
-    const storyEtiquette = {
+    const taskEtiquette = {
       color: color,
       description: description,
-      userStory: {
-        id: story.id,
+      task: {
+        id: task.id,
       },
     };
 
-    console.log(storyEtiquette);
-    mutationCreateEtiquette.mutate(storyEtiquette);
+    console.log(taskEtiquette);
+    mutationCreateEtiquette.mutate(taskEtiquette);
   };
 
   const handleUpdateStoryEtiquette = (event) => {
@@ -67,18 +66,18 @@ export default function FadeMenuEtiquette({
       return;
     }
 
-    const storyEtiquette = {
+    const taskEtiquette = {
       id: etiquette.id,
       color: color,
       description: description,
-      userStory: {
-        id: story.id,
+      task: {
+        id: task.id,
       },
     };
 
     handleClose();
-    console.log(storyEtiquette);
-    mutationUpdateEtiquette.mutate(storyEtiquette);
+    console.log(taskEtiquette);
+    mutationUpdateEtiquette.mutate(taskEtiquette);
   };
 
   return (

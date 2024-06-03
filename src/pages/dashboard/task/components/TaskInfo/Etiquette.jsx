@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 export default function Etiquette({ etiquette }) {
   const [open, setOpen] = useState(false);
 
+  
+
   return (
     <Box
       component={motion.div}

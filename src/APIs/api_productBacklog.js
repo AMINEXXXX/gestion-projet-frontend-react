@@ -29,3 +29,18 @@ export const deleteProductBacklog = async (id) => {
   const url = `/product_backlog/${id}`;
   return await axios.delete(url);
 };
+
+export const createProductBacklogEtiquette = async (etiqutte) => {
+  const url = "/product_backlog_etiquette";
+  return await axios.post(url, etiqutte);
+}
+
+export const updateProductBacklogEtiquette = async (etiqutte) => {
+  const url = `/product_backlog_etiquette/${etiqutte.id}`;
+  return await axios.put(url, etiqutte);
+}
+
+export const deleteProductBacklogEtiquette = async (id) => {
+  const url = `/product_backlog_etiquette/${id}`;
+  return await axios.delete(url);
+}

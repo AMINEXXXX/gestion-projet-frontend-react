@@ -1,13 +1,11 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
 import { IconButton } from "@mui/material";
 import { MoreVertOutlined } from "@mui/icons-material";
-import { useDeleteUserStory } from "../../../../hooks/api/useUserStoryApi";
-import DeleteStory from "../../userStory/components/MoreOption/DeleteStory";
-import { useCreateProductBacklog } from "../../../../hooks/api/useProductBacklogApi";
+import { useDeleteUserStory } from "../../../../../hooks/api/useUserStoryApi";
+import { useCreateProductBacklog } from "../../../../../hooks/api/useProductBacklogApi";
 import { useSelector } from "react-redux";
 import { red } from "@mui/material/colors";
 

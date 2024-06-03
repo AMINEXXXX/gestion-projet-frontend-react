@@ -7,6 +7,7 @@ import {
   deleteStoryEtiquette,
   deleteUserStory,
   getAllUserStory,
+  updateStoryEtiquette,
   updateUserStory,
 } from "../../APIs/api_userStory";
 
@@ -15,7 +16,6 @@ export const useGetAllUserStoryById = (id) => {
     queryKey: ["allUserStory", id],
     queryFn: () => getAllUserStory(id),
     select: (data) => {
-      console.log("Stories: ", data);
       return data;
     },
   });
@@ -86,6 +86,21 @@ export const useCreateStoryEtiquette = ({ onSuccess, onError } = {}) => {
 
   return useMutation({
     mutationFn: createStoryEtiquette,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allUserStory"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useUpdateStoryEtiquette = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateStoryEtiquette,
     onSuccess: () => {
       onSuccess && onSuccess();
       queryClient.invalidateQueries({ queryKey: ["allUserStory"] });

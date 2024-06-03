@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { useGetProductBacklogById } from "../../../../hooks/api/useProductBacklogApi";
 import DeleteProduct from "./DeleteProduct";
 import { Box } from "@mui/material";
-import ProductInfo from "./ProductInfo";
+import ProductInfo from "./ProductInfo/ProductInfo";
 
-function createData(id, name, description, userStories) {
-  return { id, name, description, userStories };
+function createData(id, name, description, userStories, etiquettes) {
+  return { id, name, description, userStories, etiquettes };
 }
 
 export default function useAllProducts() {
@@ -14,7 +14,7 @@ export default function useAllProducts() {
   const { data } = useGetProductBacklogById(project.id);
 
   const productsData = data?.map((e) =>
-    createData(e.id, e.name, e.description, e.userStories)
+    createData(e.id, e.name, e.description, e.userStories, e.etiquettes)
   );
 
   const columns = [
@@ -31,7 +31,7 @@ export default function useAllProducts() {
     {
       field: "description",
       headerName: "Description",
-      flex: 2,
+      flex: 3.5,
     },
     {
       field: "action",
@@ -41,7 +41,6 @@ export default function useAllProducts() {
       renderCell: (params) => {
         return (
           <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", gap: 2}}>
-            {/* <UpdateUser data={params.row} /> */}
             <ProductInfo product={params.row} />
             <DeleteProduct product={params.row} />
           </Box>
@@ -50,7 +49,6 @@ export default function useAllProducts() {
     },
   ];
 
-  console.log(productsData);
 
   return { productsData, columns };
 }

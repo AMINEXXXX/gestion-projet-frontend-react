@@ -3,11 +3,11 @@ import React from "react";
 import Etiquette from "./Etiquette";
 import FadeMenuEtiquette from "./FadeMenuEtiquette";
 
-export default function ListEtiquttes({ story, etiquettes, isUpdate }) {
+export default function ListEtiquttes({ task, etiquettes, isUpdate }) {
   return (
     <Box display={"flex"} flexDirection={"row"} gap={0.5}>
       {!isUpdate ? (
-        <Box display={"flex"} gap={1} flexWrap={"wrap"}>
+        <Box display={"flex"} gap={0.5} flexWrap={"wrap"}>
           {etiquettes?.map((e, i) => (
             <Etiquette key={i} etiquette={e} />
           ))}
@@ -18,7 +18,7 @@ export default function ListEtiquttes({ story, etiquettes, isUpdate }) {
             <Box m={0.5}>
               <FadeMenuEtiquette
                 key={i}
-                story={story}
+                task={task}
                 etiquette={e}
                 isUpdate={true}
               />

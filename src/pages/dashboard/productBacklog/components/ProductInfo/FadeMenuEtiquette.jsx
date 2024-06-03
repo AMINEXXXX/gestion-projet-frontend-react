@@ -7,20 +7,19 @@ import { Box, Divider, IconButton, TextField, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import ColorPicker from "./ColorPicker";
 import {
-  useCreateStoryEtiquette,
-  useDeleteStoryEtiquette,
-  useUpdateStoryEtiquette,
-  useUpdateUserStory,
-} from "../../../../../hooks/api/useUserStoryApi";
+  useCreateProductBacklogEtiquette,
+  useDeleteProductBacklogEtiquette,
+  useUpdateProductBacklogEtiquette,
+} from "../../../../../hooks/api/useProductBacklogApi";
 
 export default function FadeMenuEtiquette({
-  story,
+  product,
   etiquette,
   isUpdate = false,
 }) {
-  const mutationCreateEtiquette = useCreateStoryEtiquette();
-  const mutationUpdateEtiquette = useUpdateStoryEtiquette();
-  const mutationDeleteEtiquette = useDeleteStoryEtiquette();
+  const mutationCreateEtiquette = useCreateProductBacklogEtiquette();
+  const mutationUpdateEtiquette = useUpdateProductBacklogEtiquette();
+  const mutationDeleteEtiquette = useDeleteProductBacklogEtiquette();
   const [anchorEl, setAnchorEl] = useState(null);
   const [color, setColor] = useState(isUpdate ? etiquette.color : "#eee");
   const [description, setDescription] = useState(
@@ -38,7 +37,7 @@ export default function FadeMenuEtiquette({
     }
     setAnchorEl(null);
   };
-  const handleCreateStoryEtiquette = (event) => {
+  const handleCreateProductBacklogEtiquette = (event) => {
     event.preventDefault();
     if (!description.trim()) {
       console.log("error");
@@ -48,37 +47,37 @@ export default function FadeMenuEtiquette({
     setColor("#eee");
     setDescription("");
 
-    const storyEtiquette = {
+    const productEtiquette = {
       color: color,
       description: description,
-      userStory: {
-        id: story.id,
+      productBacklog: {
+        id: product.id,
       },
     };
 
-    console.log(storyEtiquette);
-    mutationCreateEtiquette.mutate(storyEtiquette);
+    console.log(productEtiquette);
+    mutationCreateEtiquette.mutate(productEtiquette);
   };
 
-  const handleUpdateStoryEtiquette = (event) => {
+  const handleUpdateProductBacklogEtiquette = (event) => {
     event.preventDefault();
     if (!description.trim()) {
       console.log("error");
       return;
     }
 
-    const storyEtiquette = {
+    const productEtiquette = {
       id: etiquette.id,
       color: color,
       description: description,
-      userStory: {
-        id: story.id,
+      productBacklog: {
+        id: product.id,
       },
     };
 
     handleClose();
-    console.log(storyEtiquette);
-    mutationUpdateEtiquette.mutate(storyEtiquette);
+    console.log(productEtiquette);
+    mutationUpdateEtiquette.mutate(productEtiquette);
   };
 
   return (
@@ -188,8 +187,8 @@ export default function FadeMenuEtiquette({
           <form
             onSubmit={
               !isUpdate
-                ? handleCreateStoryEtiquette
-                : handleUpdateStoryEtiquette
+                ? handleCreateProductBacklogEtiquette
+                : handleUpdateProductBacklogEtiquette
             }
             style={{ width: "100%" }}
           >
@@ -219,12 +218,12 @@ export default function FadeMenuEtiquette({
               <Button
                 variant="contained"
                 sx={{ width: "70px" }}
-                onClick={handleCreateStoryEtiquette}
+                onClick={handleCreateProductBacklogEtiquette}
               >
                 Ajouter
               </Button>
             ) : (
-              <Button variant="contained" onClick={handleUpdateStoryEtiquette}>
+              <Button variant="contained" onClick={handleUpdateProductBacklogEtiquette}>
                 Enregistrer
               </Button>
             )}

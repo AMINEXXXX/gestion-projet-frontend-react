@@ -32,6 +32,11 @@ export const createStoryEtiquette = async (etiqutte) => {
   return await axios.post(url, etiqutte);
 }
 
+export const updateStoryEtiquette = async (etiqutte) => {
+  const url = `/story_etiquette/${etiqutte.id}`;
+  return await axios.put(url, etiqutte);
+}
+
 export const deleteStoryEtiquette = async (id) => {
   const url = `/story_etiquette/${id}`;
   return await axios.delete(url);

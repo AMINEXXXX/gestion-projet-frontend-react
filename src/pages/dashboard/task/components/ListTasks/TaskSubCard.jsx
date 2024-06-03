@@ -1,60 +1,46 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardHeader,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Avatar, Card, CardHeader, Typography } from "@mui/material";
 import React, { useState } from "react";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import DeleteStory from "../MoreOption/DeleteStory";
-import StoryInfo from "../StoryInfo/StoryInfo";
-import { useUpdateUserStory } from "../../../../../hooks/api/useUserStoryApi";
-import ListEtiquttes from "../StoryInfo/ListEtiquttes";
+import DeleteTask from "../DeleteTask";
+import { useUpdateTask } from "../../../../../hooks/api/useTaskApi";
+import TaskInfo from "../TaskInfo/TaskInfo";
+import ListEtiquttes from "../TaskInfo/ListEtiquttes";
 
-export default function userStorySubCard({ product, story }) {
+export default function TaskSubCard({ story, task }) {
   const [isEditingName, setIsEditingName] = useState(false);
-  const [newName, setNewName] = useState(story.name);
-  const mutation = useUpdateUserStory();
+  const [newName, setNewName] = useState(task.name);
+  const mutation = useUpdateTask();
 
   function HandleSubmitOrBlur(e) {
     if (!newName.trim()) return;
 
     setIsEditingName(false);
 
-    const newStory = {
-      id: story.id,
+    const newTask = {
+      id: task.id,
       name: newName,
     };
 
-    mutation.mutate(newStory);
+    mutation.mutate(newTask);
   }
 
   return (
     <Card
       draggable
-      onDragStart={(e) => e.dataTransfer.setData("id", story.id)}
-      sx={{ width: "100%", marginTop: -3 }}
+      onDragStart={(e) => e.dataTransfer.setData("id", task.id)}
+      sx={{ mb: 1 }}
     >
       <CardHeader
-        sx={{ "&:hover": { bgcolor: "#eee" }, borderRadius: 1 }}
-        avatar={<StoryInfo product={product} story={story} />}
-        action={
-          <Tooltip title="Delete">
-            <DeleteStory story={story} />
-          </Tooltip>
-        }
+        avatar={<TaskInfo story={story} task={task} />}
         title={
           !isEditingName ? (
             <>
-              <ListEtiquttes etiquettes={story?.etiquettes} />
+              <ListEtiquttes etiquettes={task?.etiquettes} />
               <Typography
                 noWrap
                 onClick={() => setIsEditingName(true)}
                 sx={{ fontSize: 19, width: "100%" }}
               >
-                {story?.name?.charAt(0).toUpperCase() + story?.name?.slice(1)}
+                {task.name}
               </Typography>
             </>
           ) : (
@@ -71,13 +57,14 @@ export default function userStorySubCard({ product, story }) {
                   outline: "none",
                   borderRadius: 5,
                   cursor: "pointer",
-                  padding: "6px 3.4px",
+                  padding: "6px 2.5px",
                   margin: ".5px -5px",
                 }}
               />
             </form>
           )
         }
+        action={<DeleteTask task={task} />}
       />
     </Card>
   );

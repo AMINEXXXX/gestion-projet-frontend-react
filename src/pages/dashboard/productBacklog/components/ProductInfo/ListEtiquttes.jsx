@@ -1,24 +1,22 @@
 import { Box } from "@mui/material";
 import React from "react";
 import Etiquette from "./Etiquette";
-import FadeMenuEtiquette from "./FadeMenuEtiquette";
+import FadeMenuEtiquette from "./FadeMenuEtiquette"
 
-export default function ListEtiquttes({ story, etiquettes, isUpdate }) {
+export default function ListEtiquttes({ product, etiquettes, isUpdate }) {
   return (
     <Box display={"flex"} flexDirection={"row"} gap={0.5}>
       {!isUpdate ? (
-        <Box display={"flex"} gap={1} flexWrap={"wrap"}>
-          {etiquettes?.map((e, i) => (
-            <Etiquette key={i} etiquette={e} />
-          ))}
-        </Box>
+        etiquettes?.map((e, i) => (
+          <Etiquette key={i} product={product} etiquette={e} isInfo={isUpdate} />
+        ))
       ) : (
         <Box display={"flex"} flexWrap={"wrap"}>
           {etiquettes?.map((e, i) => (
-            <Box m={0.5}>
+            <Box m={.5}>
               <FadeMenuEtiquette
                 key={i}
-                story={story}
+                product={product}
                 etiquette={e}
                 isUpdate={true}
               />

@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from '@mui/material';
 import React from 'react'
 import AddTask from './AddTask';
-import ListTasks from './ListTasks';
+import ListTasks from './ListTasks/ListTasks';
 
 export default function Task() {
   return (

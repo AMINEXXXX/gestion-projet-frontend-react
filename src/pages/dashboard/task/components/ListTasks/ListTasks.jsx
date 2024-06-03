@@ -1,7 +1,6 @@
 import React from "react";
 import useAllTasks from "./useAllTasks";
 import Masonry from "react-masonry-css";
-import { Box } from "@mui/material";
 import TaskCard from "./TaskCard";
 
 export default function ListTasks() {
