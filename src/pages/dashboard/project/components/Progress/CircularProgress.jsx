@@ -4,20 +4,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useSelector } from "react-redux";
+import useGetOneProject from "../useGetOneProject";
 
 function CircularProgressWithLabel(props) {
   console.log(props.project);
 
-  let total = 0;
-  let completed = 0;
-  props.project?.productBacklogs?.map((product) =>
-    product?.userStories?.map((story) => {
-      total += story?.tasks?.length;
-      story?.tasks?.map((task) => {
-        if (task?.state == "Done") completed += 1;
-      });
-    })
-  );
+  
   return (
     <Box sx={{ position: "relative", display: "inline-flex" }}>
       <CircularProgress
@@ -44,7 +36,7 @@ function CircularProgressWithLabel(props) {
           color="text.secondary"
           sx={{ fontSize: 90 }}
         >
-          {`${Math.round((completed/total)*100)}%`}
+          {`${props.value}%`}
         </Typography>
       </Box>
     </Box>
@@ -61,10 +53,25 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function CircularWithValueLabel() {
-  const { project } = useSelector((state) => state.project);
-  const progress = project?.productBacklogs?.length;
+  const { projectData } = useGetOneProject();
+  
+  let done = 0;
+  let total = 0;
 
-  if (project?.productBacklogs?.user_story?.task)
-    return <CircularProgressWithLabel project={project} value={progress} />;
-  else return <CircularProgressWithLabel project={project} value={0} />;
+  projectData?.productBacklogs?.forEach(product => {
+    product?.userStories?.forEach(story => {
+      total += story?.tasks?.length;
+      story?.tasks?.forEach(task => {
+        if(task?.state === "Done")
+          done++;
+      })
+    })
+  })
+
+  if (total !== 0) {
+    const progress = Math.round((done/total)*100);
+    return <CircularProgressWithLabel project={projectData} value={progress} />;
+  }
+  
+  return <CircularProgressWithLabel project={projectData} value={0} />;
 }

@@ -47,10 +47,10 @@ export default function Home() {
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
+              <AddProject />
               {projects?.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
-              <AddProject />
             </Masonry>
           </Container>
         </Box>

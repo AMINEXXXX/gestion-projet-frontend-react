@@ -2,48 +2,66 @@ import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Box, CardActionArea, Grid, Icon } from "@mui/material";
-import AttachEmailRoundedIcon from "@mui/icons-material/AttachEmailRounded";
+import { Box, Grid, Icon } from "@mui/material";
 import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
 import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
 import FormatListNumberedRoundedIcon from "@mui/icons-material/FormatListNumberedRounded";
-import { red } from "@mui/material/colors";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useGetProjectById } from "../../../../../hooks/api/useProjectApi";
-import { setProject } from "../../../../../redux/ProjectSlice";
+import useGetOneProject from "../useGetOneProject";
 
 export default function Cards() {
-  const { project } = useSelector((state) => state.project);
-  const { data } = useGetProjectById(project.id);
-  const [projectData, setProjectData] = useState();
+  // const { project } = useSelector((state) => state.project);
+  // const { data } = useGetProjectById(project.id);
+  // console.log(data);
+  // const [projectData, setProjectData] = useState();
 
-  useEffect(() => {
-    setProjectData(data);
-  }, [data])
+  // useEffect(() => {
+  //   setProjectData(data);
+  // }, [data])
+  const { projectData } = useGetOneProject();
+
+  let todo = 0;
+  let doing = 0;
+  let done = 0;
+  let total = 0;
+
+  projectData?.productBacklogs?.forEach(product => {
+    product?.userStories?.forEach(story => {
+      total += story?.tasks?.length;
+      story?.tasks?.forEach(task => {
+        if(task?.state === "Todo")
+          todo++;
+        if(task?.state === "Doing")
+          doing++;
+        if(task?.state === "Done")
+          done++;
+      })
+    })
+  })
+
 
   const cardInfo = [
     {
       title: "Todo Tasks",
       icon: <FormatListNumberedRoundedIcon />,
-      numbre: "5/16",
+      numbre: total === 0 ? 0 : `${todo}/${total}`,
     },
     {
       title: "In Progress Tasks",
       icon: <StoreRoundedIcon />,
-      numbre: "10/16",
+      numbre: total === 0 ? 0 : `${doing}/${total}`,
     },
     {
       title: "Completed Tasks",
       icon: <SupervisorAccountRoundedIcon />,
-      numbre: "1/16",
+      numbre: total === 0 ? 0 : `${done}/${total}`,
     },
     {
       title: "Total payment en Dhs",
       icon: <PaidRoundedIcon />,
-      // numbre: data?.price,
-      // numbre: project?.price,
-      numbre: projectData?.price
+      numbre: projectData?.price,
     },
   ];
   return (

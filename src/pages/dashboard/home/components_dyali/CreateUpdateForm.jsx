@@ -58,10 +58,10 @@ export function CreateUpdateForm({
             margin="normal"
             required
             sx={{ flex: 2 }}
-            label="Description"
-            name="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value.trim())}
+            name="price"
+            label="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </Box>
 
@@ -69,12 +69,13 @@ export function CreateUpdateForm({
           <>
             <TextField
               margin="normal"
+              multiline
               required
               fullWidth
-              name="price"
-              label="Price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              label="Description"
+              name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value.trim())}
             />
             <TextField
               margin="normal"
