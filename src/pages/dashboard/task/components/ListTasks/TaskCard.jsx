@@ -19,7 +19,8 @@ import {
 } from "../../../../../hooks/api/useTaskApi";
 import TaskSubCard from "./TaskSubCard";
 
-export default function TaskCard({ story }) {
+export default function TaskCard({ story, isSprint = false }) {
+  isSprint && console.log(story);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [isAdding, setIsAdding] = useState(false);
@@ -87,97 +88,102 @@ export default function TaskCard({ story }) {
           pt: 2.5,
         }}
       >
-        <Box
-          onClick={() => (setNewName(story.name), setIsEditing(true))}
-          sx={{
-            cursor: "pointer",
-            marginBottom: 1,
-            height: "50px",
-            width: "100%",
-          }}
-        >
-          {!isEditing ? (
-            <Typography
-              variant="h5"
-              sx={{ fontWeight: 500, padding: "10px 25px", color: "#333" }}
-            >
-              {story.name}
-            </Typography>
-          ) : (
-            <form onSubmit={handleUpdateStoryName}>
-              <input
-                autoFocus
-                value={newName}
-                onBlur={handleUpdateStoryName}
-                onChange={(e) => setNewName(e.target.value)}
-                style={{
-                  width: "100%",
-                  outline: "none",
-                  color: "#333",
-                  border: "3px solid #009688",
-                  fontSize: "24px",
-                  padding: "5px 23px",
-                  margin: "6px 0px",
-                  borderRadius: "5px",
-                }}
-              />
-            </form>
-          )}
-        </Box>
+        {!isSprint && (
+          <Box
+            onClick={() => (setNewName(story.name), setIsEditing(true))}
+            sx={{
+              cursor: "pointer",
+              marginBottom: 1,
+              height: "50px",
+              width: "100%",
+            }}
+          >
+            {!isEditing ? (
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: 500, padding: "10px 25px", color: "#333" }}
+              >
+                {story.name}
+              </Typography>
+            ) : (
+              <form onSubmit={handleUpdateStoryName}>
+                <input
+                  autoFocus
+                  value={newName}
+                  onBlur={handleUpdateStoryName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  style={{
+                    width: "100%",
+                    outline: "none",
+                    color: "#333",
+                    border: "3px solid #009688",
+                    fontSize: "24px",
+                    padding: "5px 23px",
+                    margin: "6px 0px",
+                    borderRadius: "5px",
+                  }}
+                />
+              </form>
+            )}
+          </Box>
+        )}
         {/* <Masonry
           breakpointCols={1}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         > */}
-        {story?.tasks?.map((task, index) => (
-          <TaskSubCard key={index} story={story} task={task} />
-        ))}
+        {story.tasks?.map((task, index) => {
+          console.log(task);
+          return <TaskSubCard key={index} story={story} task={task} />;
+        })}
         {/* </Masonry> */}
-        <Box display="flex" height={"65px"}>
-          {!isAdding ? (
-            <Button
-              sx={{
-                borderRadius: 2,
-                mb: 1.5,
-                mt: 1,
-                "&:hover": { bgcolor: "#b2dfdb77" },
-              }}
-              onClick={() => setIsAdding(true)}
-            >
-              <Box display="flex" gap={1}>
-                <AddIcon />
-                <Typography>Ajouter un task</Typography>
-              </Box>
-            </Button>
-          ) : (
-            <form
-              onKeyDown={(e) => {
-                if (e.keyCode === 27) setIsAdding(false);
-              }}
-              onSubmit={handleCreateTask}
-              style={{
-                display: "flex",
-                gap: 5,
-                width: "100%",
-                margin: "13px 0",
-              }}
-            >
-              <TextField
-                sx={{ width: "100%" }}
-                size="small"
-                label="Nom"
-                error={isError}
-                autoFocus
-                value={newName}
-                onBlur={() => (setIsError(false), setIsAdding(false))}
-                onChange={(e) => setNewName(e.target.value)}
-              />
-              <IconButton>
-                <CloseRounded />
-              </IconButton>
-            </form>
-          )}
-        </Box>
+        {!isSprint && (
+          <Box display="flex" height={"65px"}>
+            {!isAdding ? (
+              <Button
+                sx={{
+                  borderRadius: 2,
+                  mb: 1.5,
+                  mt: 1,
+                  "&:hover": { bgcolor: "#b2dfdb77" },
+                }}
+                onClick={() => setIsAdding(true)}
+              >
+                <Box display="flex" gap={1}>
+                  <AddIcon />
+                  <Typography>Ajouter un task</Typography>
+                </Box>
+              </Button>
+            ) : (
+              <form
+                onKeyDown={(e) => {
+                  if (e.keyCode === 27) setIsAdding(false);
+                }}
+                onSubmit={handleCreateTask}
+                style={{
+                  display: "flex",
+                  gap: 5,
+                  width: "100%",
+                  margin: "13px 0",
+                }}
+              >
+                <TextField
+                  sx={{ width: "100%" }}
+                  size="small"
+                  label="Nom"
+                  error={isError}
+                  autoFocus
+                  value={newName}
+                  onBlur={() => (setIsError(false), setIsAdding(false))}
+                  onChange={(e) => setNewName(e.target.value)}
+                />
+                <IconButton>
+                  <CloseRounded />
+                </IconButton>
+              </form>
+            )}
+          </Box>
+        )}
       </Box>
     </Box>
   );

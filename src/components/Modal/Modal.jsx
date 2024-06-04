@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ModalContainer from "./ModalContainer";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { red, teal } from "@mui/material/colors";
 
 export default function Modal(props) {
   const {
@@ -47,13 +47,13 @@ export default function Modal(props) {
     <>
       {btnName ? (
         <Button
-          variant={btnVar || "outlined"}
+          variant={btnVar || "contained"}
           startIcon={btnIcon}
           color={btnColor || "secondary"}
           onClick={handleOpen}
           // disabled
           {...other}
-          sx={{ "&:hover": { bgcolor: "#secondary" }, ml: 2 }}
+          sx={{ "&:hover": { bgcolor: teal[800] }, ml: 2 }}
         >
           {btnName}
         </Button>

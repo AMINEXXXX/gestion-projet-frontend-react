@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const getAllSprintBacklog = async () => {
-  const url = "/sprint_backlog";
+export const getAllSprintBacklog = async (id) => {
+  const url = `/sprint_backlog/${id}`;
   const { data } = await axios.get(url);
   return data || [];
 }

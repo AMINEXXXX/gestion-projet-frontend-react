@@ -1,27 +1,34 @@
 import { Alert } from "@mui/material";
-import Modal from "../../../../components/Modal/Modal"
+import Modal from "../../../../../components/Modal/Modal";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { CreateForm } from "./CreateForm";
 import { useState } from "react";
+import { useCreateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
+import { useSelector } from "react-redux";
 
 export default function AddSprint() {
+  const { project } = useSelector((state) => state.project);
   const [sprintData, setSprintData] = useState(null);
   const [formError, setFormError] = useState(null);
-
-  // const mutation = useCreateUser({
-  //   onError: () => setFormError("vérifiez vos informations"),
-  // });
+  const mutation = useCreateSprintBacklog();
 
   const handelAction = () => {
+    if (sprintData.start_date == null) {
+      setFormError("Date can not be null");
+      return;
+    }
     const sprint = {
       name: sprintData.name.trim(),
       duration: sprintData.duration,
       start_date: sprintData.start_date,
-      end_date: sprintData.end_date,
       goal: sprintData.goal,
+      userStories: sprintData.userStories,
+      project: {
+        id: project?.id,
+      },
     };
     console.log(sprint);
-    // mutation.mutate(sprint);
+    mutation.mutate(sprint);
 
     setFormError(null);
     return true;

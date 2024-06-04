@@ -30,7 +30,6 @@ const createData = (
 
 export default function useGetOneProject() {
   const { project } = useSelector((state) => state.project);
-  console.log(project);
   const { data } = useGetProjectById(project?.id);
 
   const projectData = createData(

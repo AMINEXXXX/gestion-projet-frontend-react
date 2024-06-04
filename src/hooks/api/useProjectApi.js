@@ -36,7 +36,6 @@ export const useGetProjectById = (id) => {
     queryFn: () => getProjectById(id),
     retry: 5,
     select: (data) => {
-      console.log(data);
       return data;
     },
   });

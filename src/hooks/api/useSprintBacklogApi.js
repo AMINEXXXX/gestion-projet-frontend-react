@@ -6,16 +6,10 @@ import {
 
 import { createSprintBacklog, deleteSprintBacklog, getAllSprintBacklog } from "../../APIs/api_sprintBacklog";
 
-export const useGetAllSprintBacklog = ({ onSuccess, onError } = {}) =>{
+export const useGetAllSprintBacklog = (id) =>{
     return  useQuery({
         queryKey: ["allSprintBacklog"],
-        queryFn: getAllSprintBacklog,
-        onSuccess: () => {
-            onSuccess && onSuccess();
-          },
-          onError: () => {
-            onError && onError();
-          },
+        queryFn: () => getAllSprintBacklog(id),
       });
 }
  

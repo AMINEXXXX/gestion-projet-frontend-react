@@ -18,7 +18,6 @@ export default function Project() {
   const [sprint, setSprint] = useState(false);
   const [open, setOpen] = useState(true);
 
-  console.log(Project);
 
   return (
     <ProjectLayout
