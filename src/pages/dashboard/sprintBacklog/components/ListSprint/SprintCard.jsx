@@ -6,7 +6,6 @@ import { grey } from "@mui/material/colors";
 
 export default function SprintCard({ title }) {
   const { sprintsData } = useAllSprint();
-  console.log(sprintsData);
 
   return (
     <Card

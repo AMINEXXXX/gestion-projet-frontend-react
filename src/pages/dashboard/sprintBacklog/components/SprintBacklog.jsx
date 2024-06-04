@@ -1,6 +1,6 @@
 import React from "react";
 import AddSprint from "./AddSprint/AddSprint";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useAllSprint from "./ListSprint/useAllSprint";
 import ListSprints from "./ListSprint/ListSprints";
 
@@ -8,21 +8,15 @@ export default function SprintBacklog() {
   useAllSprint();
   return (
     <>
-      <Container>
-        <Box display={"flex"} justifyContent={"space-between"}>
-          <Typography variant="h4">Sprint Backlogs</Typography>
-          <Box
-            height={"120px"}
-            display={"flex"}
-            flexDirection={"column"}
-            justifyContent={"space-between"}
-          >
-            <Box />
-            <AddSprint />
-          </Box>
+      <Box mx={2}>
+        <Box>
+          <Typography variant="h4" mb={10}>Sprint Backlogs</Typography>
+          <AddSprint />
         </Box>
-        <ListSprints />
-      </Container>
+        <Box mt={10} width={"120vw"}>
+          <ListSprints />
+        </Box>
+      </Box>
     </>
   );
 }
