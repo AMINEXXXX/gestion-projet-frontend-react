@@ -6,6 +6,7 @@ import {
   getAllProject,
   updateProject,
   getProjectById,
+  getTeam,
 } from "../../APIs/api_project";
 import { useEffect, useState } from "react";
 
@@ -22,7 +23,14 @@ export const useGetAllProject = ({ onSuccess, onError } = {}) => {
   });
 };
 
-export const useGetProjectById = ( id ) => {
+export const useGetTeam = (id) => {
+  return useQuery({
+    queryKey: ["Team"],
+    queryFn: () => getTeam(id),
+  });
+};
+
+export const useGetProjectById = (id) => {
   return useQuery({
     queryKey: ["Project"],
     queryFn: () => getProjectById(id),
@@ -30,7 +38,7 @@ export const useGetProjectById = ( id ) => {
     select: (data) => {
       console.log(data);
       return data;
-    }
+    },
   });
 };
 
@@ -41,7 +49,9 @@ export const useCreateProject = ({ onSuccess, onError } = {}) => {
     mutationFn: createProject,
     onSuccess: () => {
       onSuccess && onSuccess();
-      queryClient.invalidateQueries({ queryKey: [["allProject"], ["Project"]] });
+      queryClient.invalidateQueries({
+        queryKey: [["allProject"], ["Project"]],
+      });
     },
     onError: () => {
       onError && onError();
@@ -56,7 +66,9 @@ export const useUpdateProject = ({ onSuccess, onError } = {}) => {
     mutationFn: updateProject,
     onSuccess: () => {
       onSuccess && onSuccess();
-      queryClient.invalidateQueries({ queryKey: [["allProject"], ["Project"]] });
+      queryClient.invalidateQueries({
+        queryKey: [["allProject"], ["Project"]],
+      });
     },
     onError: () => {
       onError && onError();
@@ -71,7 +83,9 @@ export const useDeleteProject = ({ onSuccess, onError } = {}) => {
     mutationFn: deleteProject,
     onSuccess: () => {
       onSuccess && onSuccess();
-      queryClient.invalidateQueries({ queryKey: [["allProject"], ["Project"]] });
+      queryClient.invalidateQueries({
+        queryKey: [["allProject"], ["Project"]],
+      });
     },
     onError: () => {
       onError && onError();

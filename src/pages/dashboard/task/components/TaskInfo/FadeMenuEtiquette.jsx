@@ -101,6 +101,7 @@ export default function FadeMenuEtiquette({
       ) : (
         <Button
           p={0.5}
+          size="small"
           sx={{
             display: "flex",
             alignItems: "center",

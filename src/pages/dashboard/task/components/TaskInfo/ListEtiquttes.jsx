@@ -15,7 +15,7 @@ export default function ListEtiquttes({ task, etiquettes, isUpdate }) {
       ) : (
         <Box display={"flex"} flexWrap={"wrap"}>
           {etiquettes?.map((e, i) => (
-            <Box m={0.5}>
+            <Box mr={.5} mb={.5}>
               <FadeMenuEtiquette
                 key={i}
                 task={task}

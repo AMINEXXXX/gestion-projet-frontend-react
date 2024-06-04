@@ -130,9 +130,6 @@ export default function ProjectLayout({
             }}
           >
             <Box sx={{ display: "flex", gap: 3 }}>
-              {/* <Typography variant="h6" noWrap>
-                Today is the {format(new Date(), "do MMMM y")}
-              </Typography> */}
               <Tooltip title={open ? "Hide" : "Show"}>
                 <IconButton onClick={() => setOpen(!open)}>
                   <MenuRoundedIcon color="primary" />
