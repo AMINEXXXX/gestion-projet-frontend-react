@@ -23,7 +23,7 @@ export default function Cards() {
   const { projectData } = useGetOneProject();
 
   let todo = 0;
-  let doing = 0;
+  let inProgress = 0;
   let done = 0;
   let total = 0;
 
@@ -33,8 +33,8 @@ export default function Cards() {
       story?.tasks?.forEach(task => {
         if(task?.state === "Todo")
           todo++;
-        if(task?.state === "Doing")
-          doing++;
+        if(task?.state === "Doing" || task?.state === "Test")
+          inProgress++;
         if(task?.state === "Done")
           done++;
       })
@@ -51,7 +51,7 @@ export default function Cards() {
     {
       title: "In Progress Tasks",
       icon: <StoreRoundedIcon />,
-      numbre: total === 0 ? 0 : `${doing}/${total}`,
+      numbre: total === 0 ? 0 : `${inProgress}/${total}`,
     },
     {
       title: "Completed Tasks",

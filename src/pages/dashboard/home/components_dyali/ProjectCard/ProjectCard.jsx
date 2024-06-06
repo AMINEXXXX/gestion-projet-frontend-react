@@ -3,7 +3,9 @@ import {
   Box,
   Button,
   Card,
+  CardContent,
   CardHeader,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -40,8 +42,10 @@ export default function ProjectCard({ project }) {
   const page = useSelector((state) => state.page);
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [isMore, setIsMore] = useState(false);
   const [newName, setNewName] = useState(project.name);
+  const [newDescription, setNewDescription] = useState(project.description);
   const update = useUpdateProject();
 
   const HandleColors = () => {
@@ -94,122 +98,114 @@ export default function ProjectCard({ project }) {
     setIsEditing(false);
     const newProject = {
       id: project.id,
-      name: (newName.charAt(0).toUpperCase() + newName.slice(1)),
+      name: newName.charAt(0).toUpperCase() + newName.slice(1),
       description: project.description,
       duration: project.duration,
       price: project.price,
       projectTeam: project.projectTeam,
     };
-    console.log(newProject.name)
     update.mutate(newProject);
   };
+  const handleUpdateDesc = (e) => {
+    e.preventDefault();
+    if(!newDescription.trim()) return;
+
+    setIsEditingDescription(false)
+    const newProject = {
+      id: project.id,
+      description: newDescription,
+    };
+
+    update.mutate(newProject);
+  }
 
   return (
     <>
       <Card sx={{ pb: 2.5 }}>
         <CardHeader
           avatar={
-            <Avatar
-              variant="rounded"
-              sx={{ bgcolor: HandleColors(), fontWeight: "700" }}
+            <Link
+              onClick={() => (
+                dispatch(setProject(project)), dispatch(setFirstPage())
+              )}
+              to={`/dashboard/project`}
+              content={<Project />}
             >
-              {project.name?.charAt(0)}
-            </Avatar>
+              <Avatar
+                variant="rounded"
+                sx={{ bgcolor: grey[700], fontWeight: "700" }}
+              >
+                {project.name?.charAt(0)}
+              </Avatar>
+            </Link>
           }
-          action={
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 2,
-              }}
-            >
-              <Link
-                onClick={() => (
-                  dispatch(
-                    setProject(project)
-                  ),
-                  dispatch(setFirstPage())
-                )}
-                to={`/dashboard/project`}
-                content={<Project />}
-              >
-                <Button
-                  disableElevation
-                  variant="contained"
-                  color="inherit"
-                  size="small"
-                  sx={{ fontWeight: "700", py: 1 }}
+          action={<DeleteProject data={project} />}
+          title={
+            <Box width={"100%"} height={"40px"}>
+              {!isEditing ? (
+                <Typography
+                  variant="p"
+                  noWrap
+                  onClick={() => setIsEditing(true)}
+                  sx={{
+                    fontSize: "1.5rem",
+                    cursor: "pointer",
+                    width: "100%",
+                    pl: "5px",
+                  }}
                 >
-                  Espace de travail
-                </Button>
-              </Link>
-              <Button
-                // disabled
-                disableElevation
-                variant="contained"
-                color="inherit"
-                size="small"
-                sx={{ fontWeight: "700", py: 1 }}
-              >
-                Membres ({project.team?.length})
-              </Button>
-              <Button
-                disableElevation
-                disableRipple
-                variant="contained"
-                color="inherit"
-                size="small"
-                sx={{ fontWeight: "700", py: 1 }}
-              >
-                {project.duration} Semaines
-              </Button>
-              <Box
-                sx={{
-                  margin: -0.5,
-                  ml: -1.5,
-                  opacity: 0,
-                  "&:hover": { opacity: 1 },
-                  transition: "ease-in-out .15s",
-                }}
-              >
-                <DeleteProject data={project} />
-              </Box>
+                  {project.name?.charAt(0).toUpperCase() +
+                    project.name?.slice(1)}
+                </Typography>
+              ) : (
+                <form onSubmit={(e) => HandleSubmitOrBlur(e)}>
+                  <input
+                    autoFocus
+                    onBlur={(e) => HandleSubmitOrBlur(e)}
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    style={{
+                      fontSize: "1.5rem",
+                      width: "100%",
+                      borderRadius: 5,
+                      padding: "1.5px 0px 1.5px 4px",
+                      border: "none",
+                      outlineColor: teal[500],
+                    }}
+                  />
+                </form>
+              )}
             </Box>
           }
-          title={
-            !isEditing ? (
+          subheader={project.duration + " semaines"}
+        />
+        {project.description != null && (
+          <CardContent>
+            {!isEditingDescription ? (
               <Typography
-                noWrap
-                onClick={() => setIsEditing(true)}
-                sx={{ fontSize: 19, cursor: "pointer", width: "100%" }}
+                onClick={() => setIsEditingDescription(true)}
+                variant="body2"
+                color={"textSecondary"}
               >
-                {project.name?.charAt(0).toUpperCase() + project.name?.slice(1)}
+                {project.description}
               </Typography>
             ) : (
-              <form onSubmit={(e) => HandleSubmitOrBlur(e)}>
-                <input
-                  autoFocus
-                  onBlur={(e) => HandleSubmitOrBlur(e)}
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  style={{
-                    fontSize: 19.5,
-                    width: "100%",
-                    borderRadius: 5,
-                    cursor: "pointer",
-                    padding: "8px 5px",
-                    margin: ".5px -5px",
-                    border: "none",
-                    "&:focus": { color: blue[500], BorderColor: blue[500] },
-                  }}
-                />
-              </form>
-            )
-          }
-          subheader={project.description}
-        />
+              <>
+              <TextField
+                fullWidth
+                autoFocus
+                value={newDescription}
+                multiline
+                onChange={(e) => setNewDescription(e.target.value)}
+              />
+              <Box sx={{mt: 2}} display={"flex"} gap={2} alignItems={"center"}>
+              <Button variant="contained" onSubmit={handleUpdateDesc}>Enregistrer</Button>
+              <Button variant="contained" color="error" onClick={() => setIsEditingDescription(false)}>Annuler</Button>
+              </Box>
+              </>
+            )}
+          </CardContent>
+        )}
       </Card>
     </>
   );

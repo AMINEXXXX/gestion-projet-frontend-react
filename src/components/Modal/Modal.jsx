@@ -2,6 +2,7 @@ import { useState } from "react";
 import ModalContainer from "./ModalContainer";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import { red, teal } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 export default function Modal(props) {
   const {
@@ -43,6 +44,7 @@ export default function Modal(props) {
     setOpen(state);
     !state && modalFinalEvent && modalFinalEvent();
   };
+  const user = useSelector((state) => state.authentication.user);
 
   return (
     <>
@@ -52,7 +54,6 @@ export default function Modal(props) {
           startIcon={btnIcon}
           color={btnColor || "secondary"}
           onClick={handleOpen}
-          // disabled
           {...other}
           sx={{ "&:hover": { bgcolor: teal[800] }, ml: 2 }}
         >
@@ -69,8 +70,8 @@ export default function Modal(props) {
       ) : (
         <Typography
           variant="h5"
-          sx={{ cursor: "pointer" }}
-          onClick={handleOpen}
+          sx={user.role.includes("PROJECT_MANAGER") && { cursor: "pointer" }}
+          onClick={user.role.includes("PROJECT_MANAGER") ? handleOpen : null}
         >
           <u>{justTitle}</u>
         </Typography>

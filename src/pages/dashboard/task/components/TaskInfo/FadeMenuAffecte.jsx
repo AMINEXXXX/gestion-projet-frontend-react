@@ -6,8 +6,11 @@ import { AddOutlined, CloseOutlined } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Tooltip } from "@mui/material";
 import Affecte from "./Affecte";
 import useTeam from "./useTeam";
+import { QuestionMark } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 export default function FadeMenuAffecte({ task, story = null }) {
+  const user = useSelector((state) => state.authentication.user);
   const team = useTeam();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -27,9 +30,14 @@ export default function FadeMenuAffecte({ task, story = null }) {
             aria-controls={open ? "fade-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+            disableRipple={user.role.includes("TEAM_MEMBER")}
+            onClick={user.role.includes("PROJECT_MANAGER") && handleClick}
           >
-            <AddOutlined />
+            {user.role.includes("TEAM_MEMBER") ? (
+              <QuestionMark />
+            ) : (
+              <AddOutlined />
+            )}
           </IconButton>
         ) : (
           <Tooltip title={task?.teamMember?.fullName} placement="top">
@@ -63,7 +71,11 @@ export default function FadeMenuAffecte({ task, story = null }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
           <Box />
           <IconButton onClick={handleClose}>
             <CloseOutlined />

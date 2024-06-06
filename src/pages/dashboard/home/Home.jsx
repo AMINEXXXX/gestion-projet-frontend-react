@@ -23,6 +23,7 @@ import { useGetAllProject } from "../../../hooks/api/useProjectApi";
 import { useSelector } from "react-redux";
 
 export default function Home() {
+  const user = useSelector((state) => state.authentication.user);
   const { projectData, columns } = useAllProject();
   const [projects, setProjects] = useState(null);
   const { data } = useGetAllProject();
@@ -40,19 +41,24 @@ export default function Home() {
         <Typography variant="h4" sx={{ my: 3, fontWeight: "bold" }}>
           Votre Projets
         </Typography>
-        <Box sx={{ display: "flex" }}>
+        {user.role[0] == "PROJECT_MANAGER" && (
+          <Box display={"flex"} justifyContent={"space-between"} py={5}>
+            <Box />
+            <CreateProject />
+          </Box>
+        )}
+        <Box
+          sx={
+            ({ display: "flex" },
+            user.role[0] == "TEAM_MEMBER" && { py: 10 })
+          }
+        >
           <Container gap={2}>
             <Masonry
-              breakpointCols={1}
+              breakpointCols={projects?.length <= 3 ? projects?.length : 3}
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
-              {/* <AddProject /> */}
-              <Box display={"flex"} justifyContent={"space-between"} py={5}>
-                <Box />
-                <CreateProject />
-              </Box>
-
               {projects?.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}

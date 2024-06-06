@@ -11,12 +11,14 @@ import {
   useDeleteTaskEtiquette,
   useUpdateTaskEtiquette,
 } from "../../../../../hooks/api/useTaskApi";
+import { useSelector } from "react-redux";
 
 export default function FadeMenuEtiquette({
   task,
   etiquette,
   isUpdate = false,
 }) {
+  const user = useSelector((state) => state.authentication.user);
   const mutationCreateEtiquette = useCreateTaskEtiquette();
   const mutationUpdateEtiquette = useUpdateTaskEtiquette();
   const mutationDeleteEtiquette = useDeleteTaskEtiquette();
@@ -100,6 +102,7 @@ export default function FadeMenuEtiquette({
         </Button>
       ) : (
         <Button
+          disableRipple={user.id != task?.teamMember?.id}
           p={0.5}
           size="small"
           sx={{
@@ -110,9 +113,9 @@ export default function FadeMenuEtiquette({
             bgcolor: etiquette.color,
             "&:hover": { bgcolor: etiquette.color },
           }}
+          onClick={user.id == task?.teamMember?.id ? handleClick : null}
         >
           <Typography
-            onClick={handleClick}
             sx={{
               color:
                 etiquette?.color?.charAt(1).charCodeAt(0) <= 100
@@ -123,18 +126,20 @@ export default function FadeMenuEtiquette({
             {etiquette.description.charAt(0).toUpperCase() +
               etiquette.description.slice(1)}
           </Typography>
-          <IconButton
-            sx={{
-              color:
-                etiquette?.color?.charAt(1).charCodeAt(0) <= 100
-                  ? "#FFF"
-                  : "#000",
-            }}
-            size="small"
-            onClick={() => mutationDeleteEtiquette.mutate(etiquette.id)}
-          >
-            <CloseOutlined sx={{ fontSize: 20 }} />
-          </IconButton>
+          {user.id == task?.teamMember?.id && (
+            <IconButton
+              sx={{
+                color:
+                  etiquette?.color?.charAt(1).charCodeAt(0) <= 100
+                    ? "#FFF"
+                    : "#000",
+              }}
+              size="small"
+              onClick={() => mutationDeleteEtiquette.mutate(etiquette.id)}
+            >
+              <CloseOutlined sx={{ fontSize: 20 }} />
+            </IconButton>
+          )}
         </Button>
       )}
       <Menu

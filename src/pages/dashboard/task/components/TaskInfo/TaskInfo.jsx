@@ -34,6 +34,7 @@ export default function TaskInfo({ story, task }) {
   const mutationTask = useUpdateTask();
   const mutationComment = useCreateCommentaire();
 
+
   function handleAction(e) {
     e.preventDefault();
     if (!newName.trim()) return;
@@ -72,7 +73,10 @@ export default function TaskInfo({ story, task }) {
     <>
       <Avatar
         variant="rounded"
-        sx={{ fontWeight: "700", cursor: "pointer" }}
+        sx={
+          ({ fontWeight: "700", cursor: "pointer" },
+          user.id == task?.teamMember?.id && { bgcolor: teal[500] })
+        }
         onClick={() => setIsDrawerOpen(true)}
       >
         <Typography variant="h5" fontWeight={700}>
@@ -265,8 +269,8 @@ export default function TaskInfo({ story, task }) {
               </Box>
             </Grid>
             <Grid item xs={3}>
-              <FadeMenuEtiquette task={task} />
-              <FadeMenuAffecte task={task} />
+              {user.id == task?.teamMember?.id && <FadeMenuEtiquette task={task} />}
+              {user.role.includes("PROJECT_MANAGER") && <FadeMenuAffecte task={task} />}
             </Grid>
           </Grid>
         </Box>

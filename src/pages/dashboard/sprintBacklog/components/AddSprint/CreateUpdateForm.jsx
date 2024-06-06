@@ -9,8 +9,12 @@ export function CreateUpdateForm({ setSprintData, data, isUpdate = false }) {
 
   const [name, setName] = useState(isUpdate ? data?.name : "");
   const [duration, setDuration] = useState(isUpdate ? data?.duration : "");
-  const [userStories, setUserStories] = useState(isUpdate ? data?.userStories : []);
-  const [start_date, setStart_date] = useState(isUpdate ? data?.start_date : null);
+  const [userStories, setUserStories] = useState(
+    isUpdate ? data?.userStories : []
+  );
+  const [start_date, setStart_date] = useState(
+    isUpdate ? data?.start_date : null
+  );
   const [goal, setGoal] = useState(isUpdate ? data?.goal : "");
 
   /**********  Submit and validation ****************** */
@@ -49,7 +53,10 @@ export function CreateUpdateForm({ setSprintData, data, isUpdate = false }) {
         />
       </Box>
       <Box mt={1}>
-        <StoriesMenu setUserStories={setUserStories} />
+        <StoriesMenu
+          userStories={userStories}
+          setUserStories={setUserStories}
+        />
         {/* <FormControl fullWidth>
             <InputLabel id="goal">But</InputLabel>
             <Select
@@ -91,7 +98,6 @@ export function CreateUpdateForm({ setSprintData, data, isUpdate = false }) {
       <DatePicker
         sx={{ width: "100%", mt: 2 }}
         label="Debut"
-        required
         onChange={(newDate) => setStart_date(newDate?.$d)}
       />
       <TextField

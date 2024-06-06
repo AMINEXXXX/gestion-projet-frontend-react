@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { CreateUpdateForm } from "./CreateUpdateForm";
 import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function UpdateSprint({ title, data }) {
   const [sprintData, setSprintData] = useState(null);
@@ -16,13 +17,14 @@ export default function UpdateSprint({ title, data }) {
       return;
     }
     const sprint = {
+      id: data?.id,
       name: sprintData.name.trim(),
       duration: sprintData.duration,
       start_date: sprintData.start_date,
       goal: sprintData.goal,
       userStories: sprintData.userStories,
       project: {
-        id: project?.id,
+        id: data?.id,
       },
     };
     console.log(sprint);
@@ -40,7 +42,11 @@ export default function UpdateSprint({ title, data }) {
         modalActionName={"Modifier"}
         modalActionEvent={handelAction}
       >
-        <CreateUpdateForm setSprintData={setSprintData} data={data} isUpdate={true} />
+        <CreateUpdateForm
+          setSprintData={setSprintData}
+          data={data}
+          isUpdate={true}
+        />
       </Modal>
     </>
   );

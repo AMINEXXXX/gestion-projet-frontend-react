@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import useGetOneProject from "../../../project/components/useGetOneProject";
+import { Checkbox, ListItemText } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,15 +43,16 @@ const names = [
 //   };
 // }
 
-export default function StoriesMenu({ setUserStories }) {
+export default function StoriesMenu({ userStories, setUserStories }) {
   const { projectData } = useGetOneProject();
-  const [stories, setStories] = React.useState([]);
+  const [stories, setStories] = React.useState(userStories);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     console.log("Hi :", value);
+    
     setStories(value);
     setUserStories(value);
   };
@@ -76,11 +78,14 @@ export default function StoriesMenu({ setUserStories }) {
           MenuProps={MenuProps}
         >
           {projectData?.productBacklogs?.map((product) =>
-            product?.userStories?.map((story, index) => (
-              <MenuItem key={index} value={story}>
-                {story?.name}
-              </MenuItem>
-            ))
+            product?.userStories?.map((story, index) => {
+              return (
+                <MenuItem key={index} value={story}>
+                  <Checkbox />
+                  <ListItemText primary={story?.name} />
+                </MenuItem>
+              );
+            })
           )}
         </Select>
       </FormControl>

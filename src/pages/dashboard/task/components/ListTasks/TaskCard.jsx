@@ -57,7 +57,7 @@ export default function TaskCard({ story, isSprint = false }) {
   }
   function handleDrop(e) {
     const updatedTask = {
-      id: e.dataTransfer.getData("id"),
+      id: e.dataTransfer.getData("taskId"),
       userStory: {
         id: story.id,
       },

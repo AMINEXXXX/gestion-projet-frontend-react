@@ -125,8 +125,8 @@ function BarMenu({ projects, list, isSubList, path = null }) {
               elem?.name === "Projects"
                 ? projects?.map((project) => ({
                     name: project.name,
-                    path: `project`,
-                    component: <Project />,
+                    // path: ` `,
+                    // component: <Project />,
                   }))
                 : elem.children
             }

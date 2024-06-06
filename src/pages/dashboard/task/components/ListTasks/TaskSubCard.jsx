@@ -4,6 +4,8 @@ import {
   Box,
   Card,
   CardHeader,
+  IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -14,12 +16,17 @@ import ListEtiquttes from "../TaskInfo/ListEtiquttes";
 import { ChatBubbleOutlineOutlined } from "@mui/icons-material";
 import useAllCommentaire from "../commentaire/useAllCommentaire";
 import { useSelector } from "react-redux";
+import { Done } from "@mui/icons-material";
+import { Task } from "@mui/icons-material";
+import CloseOutlined from "@mui/icons-material/CloseOutlined";
+import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
 
-export default function TaskSubCard({ story, task, isSprint = false }) {
+export default function TaskSubCard({ sprint, story, task, isSprint = false }) {
   const user = useSelector((state) => state.authentication.user);
   const { commentaireData } = useAllCommentaire(task?.id);
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(task.name);
+  const updateSprint = useUpdateSprintBacklog();
   const mutation = useUpdateTask();
 
   function HandleSubmitOrBlur(e) {
@@ -34,12 +41,58 @@ export default function TaskSubCard({ story, task, isSprint = false }) {
 
     mutation.mutate(newTask);
   }
+  const handleValider = (e) => {
+    const updatedSprint = {
+      id: sprint?.id,
+      userStories: [
+        {
+          id: story?.id,
+          tasks: [
+            {
+              id: task?.id,
+              state: "Done",
+              valid: true,
+            },
+          ],
+        },
+      ],
+    };
+
+    console.log(updatedSprint);
+    updateSprint.mutate(updatedSprint);
+  };
+  const handleInvalider = (e) => {
+    const updatedSprint = {
+      id: sprint?.id,
+      userStories: [
+        {
+          id: story?.id,
+          tasks: [
+            {
+              id: task?.id,
+              state: "Doing",
+              valid: null,
+            },
+          ],
+        },
+      ],
+    };
+
+    console.log(updatedSprint);
+    updateSprint.mutate(updatedSprint);
+  };
 
   return (
     <Card
-      draggable={user?.role[0] === "PROJECT_MANAGER" ? false : true}
-      onDragStart={(e) => e.dataTransfer.setData("id", task.id)}
-      sx={{ mb: 1, borderRadius: 4 }}
+      draggable={
+        user?.role[0] === "TEAM_MEMBER" && task?.teamMember?.id == user?.id
+      }
+      onDragStart={(e) => (
+        e.dataTransfer.setData("sprintId", sprint?.id),
+        e.dataTransfer.setData("storyId", story?.id),
+        e.dataTransfer.setData("taskId", task?.id)
+      )}
+      sx={{ mb: 1, borderRadius: 4 , "&:hover": {bgcolor: "#eee"}, transition: ".3s ease"}}
     >
       <CardHeader
         avatar={<TaskInfo story={story} task={task} isSprint={isSprint} />}
@@ -49,11 +102,32 @@ export default function TaskSubCard({ story, task, isSprint = false }) {
               <ListEtiquttes etiquettes={task?.etiquettes} />
               <Typography
                 noWrap
-                onClick={() => !isSprint && setIsEditingName(true)}
+                onClick={() =>
+                  !isSprint ? setIsEditingName(true) : setIsEditingName(false)
+                }
                 sx={{ fontSize: 19, width: "100%" }}
               >
                 {task.name}
               </Typography>
+
+              {isSprint &&
+                task?.valid == false &&
+                user.role[0] == "PROJECT_MANAGER" && (
+                  <>
+                    <Tooltip title="Validez la tache">
+                      <IconButton size="small" onClick={handleValider}>
+                        <Done color="primary" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Invalidez la tache">
+                      <IconButton size="small" onClick={handleInvalider}>
+                        <CloseOutlined color="error" />
+                      </IconButton>
+                    </Tooltip>
+                  </>
+                )}
+
+              {isSprint && task?.valid == true && <Task sx={{position: "absolute", bottom: 0, right: 35}} color="primary" />}
 
               {commentaireData?.length != 0 && (
                 <Box
@@ -65,7 +139,7 @@ export default function TaskSubCard({ story, task, isSprint = false }) {
                 >
                   <ChatBubbleOutlineOutlined
                     color="primary"
-                    sx={{ fontSize: "1.2rem" }}
+                    sx={{ fontSize: "1.2rem", mr: .2 }}
                   />
                   <Typography>{commentaireData?.length}</Typography>
                 </Box>

@@ -13,8 +13,14 @@ export default function AddSprint() {
   const mutation = useCreateSprintBacklog();
 
   const handelAction = () => {
-    if (sprintData.start_date == null) {
-      setFormError("Date can not be null");
+    if (
+      !sprintData.name.trim() ||
+      !sprintData.duration.trim() ||
+      sprintData.start_date == null ||
+      !sprintData.goal.trim() ||
+      sprintData.userStories == null
+    ) {
+      setFormError("Vérifier vos info");
       return;
     }
     const sprint = {
@@ -27,7 +33,6 @@ export default function AddSprint() {
         id: project?.id,
       },
     };
-    console.log(sprint);
     mutation.mutate(sprint);
 
     setFormError(null);

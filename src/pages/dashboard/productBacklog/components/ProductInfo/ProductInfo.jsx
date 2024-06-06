@@ -262,8 +262,8 @@ export default function ProductInfo({ product }) {
                     </Tooltip>
                   </Box>
                   <Box>
-                    {storiesData?.map((story) => (
-                      <StoryCard story={story} />
+                    {storiesData?.map((story, index) => (
+                      <StoryCard key={index} story={story} />
                     ))}
                   </Box>
                 </>

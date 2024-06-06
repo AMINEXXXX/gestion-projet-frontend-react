@@ -33,6 +33,7 @@ export default function ProjectLayout({
   setTask,
   setSprint,
 }) {
+  const user = useSelector((state) => state.authentication.user);
   const { project } = useSelector((state) => state.project);
   const drawerWidth = 270;
   const location = useLocation();
@@ -52,6 +53,7 @@ export default function ProjectLayout({
       text: "Progress",
       icon: <SubjectOutlined color="primary" />,
       path: `/dashboard/project`,
+      permission: ["PROJECT_MANAGER", "TEAM_MEMBER"],
       HandleClick: () => {
         setProgress(true);
         setProduct(false);
@@ -64,6 +66,7 @@ export default function ProjectLayout({
       text: "Product Backlogs",
       icon: <AddCircleOutlineOutlined color="primary" />,
       path: `/dashboard/product`,
+      permission: ["PROJECT_MANAGER"],
       HandleClick: () => {
         setProgress(false);
         setProduct(true);
@@ -76,6 +79,7 @@ export default function ProjectLayout({
       text: "User Stories",
       icon: <AddCircleOutlineOutlined color="primary" />,
       path: `/dashboard/story`,
+      permission: ["PROJECT_MANAGER"],
       HandleClick: () => {
         setProgress(false);
         setProduct(false);
@@ -88,6 +92,7 @@ export default function ProjectLayout({
       text: "Tasks",
       icon: <AddCircleOutlineOutlined color="primary" />,
       path: `/dashboard/task`,
+      permission: ["PROJECT_MANAGER"],
       HandleClick: () => {
         setProgress(false);
         setProduct(false);
@@ -100,6 +105,7 @@ export default function ProjectLayout({
       text: "Sprint Backlogs",
       icon: <AddCircleOutlineOutlined color="primary" />,
       path: `/dashboard/sprint`,
+      permission: ["PROJECT_MANAGER", "TEAM_MEMBER"],
       HandleClick: () => {
         setProgress(false);
         setProduct(false);
@@ -211,30 +217,33 @@ export default function ProjectLayout({
             </Typography>
             <Divider sx={{ mt: 3, mb: 4, mx: 2 }} />
             <List sx={{ width: drawerWidth }}>
-              {menuItems.map((item, index) => (
-                <ListItem
-                  style={{
-                    width: "235px",
-                    margin: "0px auto",
-                    marginBottom: "7px",
-                    borderRadius: 10,
-                  }}
-                  key={index}
-                  button
-                  onClick={() => {
-                    item.HandleClick();
-                    navigate(item.path);
-                  }}
-                  sx={
-                    location.pathname === item.path
-                      ? { bgcolor: "#b2dfdb" }
-                      : null
-                  }
-                >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItem>
-              ))}
+              {menuItems.map(
+                (item, index) =>
+                  item.permission.includes(user.role[0]) && (
+                    <ListItem
+                      style={{
+                        width: "235px",
+                        margin: "0px auto",
+                        marginBottom: "7px",
+                        borderRadius: 10,
+                      }}
+                      key={index}
+                      button
+                      onClick={() => {
+                        item.HandleClick();
+                        navigate(item.path);
+                      }}
+                      sx={
+                        location.pathname === item.path
+                          ? { bgcolor: "#b2dfdb" }
+                          : null
+                      }
+                    >
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItem>
+                  )
+              )}
             </List>
           </Drawer>
         </Box>

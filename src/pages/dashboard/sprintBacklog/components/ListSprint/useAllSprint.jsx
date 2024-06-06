@@ -5,5 +5,7 @@ export default function useAllSprint() {
   const { projectData } = useGetOneProject();
   const sprintsData = useGetAllSprintBacklog(projectData?.id)?.data;
 
+  console.log(sprintsData);
+
   return { sprintsData };
 }

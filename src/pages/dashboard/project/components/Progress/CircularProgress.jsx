@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 import useGetOneProject from "../useGetOneProject";
 
 function CircularProgressWithLabel(props) {
-
-  
   return (
     <Box sx={{ position: "relative", display: "inline-flex" }}>
       <CircularProgress
@@ -53,24 +51,47 @@ CircularProgressWithLabel.propTypes = {
 
 export default function CircularWithValueLabel() {
   const { projectData } = useGetOneProject();
-  
+
   let done = 0;
   let total = 0;
 
-  projectData?.productBacklogs?.forEach(product => {
-    product?.userStories?.forEach(story => {
+  projectData?.productBacklogs?.forEach((product) => {
+    product?.userStories?.forEach((story) => {
       total += story?.tasks?.length;
-      story?.tasks?.forEach(task => {
-        if(task?.state === "Done")
-          done++;
-      })
-    })
-  })
+      story?.tasks?.forEach((task) => {
+        if (task?.state === "Done") done++;
+      });
+    });
+  });
 
   if (total !== 0) {
-    const progress = Math.round((done/total)*100);
+    const progress = Math.round((done / total) * 100);
     return <CircularProgressWithLabel project={projectData} value={progress} />;
   }
-  
+
   return <CircularProgressWithLabel project={projectData} value={0} />;
 }
+
+
+
+export const calculProgress = () => {
+  const { projectData } = useGetOneProject();
+
+  let done = 0;
+  let total = 0;
+
+  projectData?.productBacklogs?.forEach((product) => {
+    product?.userStories?.forEach((story) => {
+      total += story?.tasks?.length;
+      story?.tasks?.forEach((task) => {
+        if (task?.state === "Done") done++;
+      });
+    });
+  });
+
+  if (total !== 0) {
+    const progress = Math.round((done / total) * 100);
+    return progress;
+  }
+  return 0;
+};

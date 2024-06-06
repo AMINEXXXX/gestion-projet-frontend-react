@@ -23,15 +23,15 @@ export const MenuData = [
     icon: <HomeRoundedIcon />,
     path: "",
     component: <Home />,
-    permissions: [user_role.PROJECT_MANAGER],
+    permissions: [user_role.PROJECT_MANAGER, user_role.TEAM_MEMBER],
   },
 
-  {
-    name: "Projects",
-    icon: <WorkRoundedIcon />,
-    path: "",
-    permissions: [user_role.PROJECT_MANAGER],
-  },
+  // {
+  //   name: "Projects",
+  //   icon: <WorkRoundedIcon />,
+  //   path: "",
+  //   permissions: [user_role.PROJECT_MANAGER],
+  // },
 
   // {
   //   name: "Marchés",
