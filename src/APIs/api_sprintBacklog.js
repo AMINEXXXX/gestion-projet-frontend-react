@@ -11,6 +11,11 @@ export const createSprintBacklog = async (sprint_backlog) => {
   return await axios.post(url, sprint_backlog);
 }
 
+export const updateSprintBacklog = async (sprint_backlog) => {
+  const url = `/sprint_backlog/${sprint_backlog?.id}`;
+  return await axios.put(url, sprint_backlog);
+}
+
 export const deleteSprintBacklog = async (id) => {
   const url = `/sprint_backlog/${id}`;
   return await axios.delete(url);

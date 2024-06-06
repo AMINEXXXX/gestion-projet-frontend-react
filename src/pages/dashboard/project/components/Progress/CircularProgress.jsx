@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import useGetOneProject from "../useGetOneProject";
 
 function CircularProgressWithLabel(props) {
-  console.log(props.project);
 
   
   return (

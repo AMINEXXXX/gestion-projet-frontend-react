@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { createSprintBacklog, deleteSprintBacklog, getAllSprintBacklog } from "../../APIs/api_sprintBacklog";
+import { createSprintBacklog, deleteSprintBacklog, getAllSprintBacklog, updateSprintBacklog } from "../../APIs/api_sprintBacklog";
 
 export const useGetAllSprintBacklog = (id) =>{
     return  useQuery({
@@ -19,6 +19,21 @@ export const useCreateSprintBacklog = ({ onSuccess, onError } = {}) => {
 
   return useMutation({
     mutationFn: createSprintBacklog,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allSprintBacklog"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useUpdateSprintBacklog = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateSprintBacklog,
     onSuccess: () => {
       onSuccess && onSuccess();
       queryClient.invalidateQueries({ queryKey: ["allSprintBacklog"] });

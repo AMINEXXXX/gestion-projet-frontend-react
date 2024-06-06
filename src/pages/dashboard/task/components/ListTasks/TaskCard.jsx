@@ -20,7 +20,6 @@ import {
 import TaskSubCard from "./TaskSubCard";
 
 export default function TaskCard({ story, isSprint = false }) {
-  isSprint && console.log(story);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [isAdding, setIsAdding] = useState(false);
@@ -64,7 +63,6 @@ export default function TaskCard({ story, isSprint = false }) {
       },
     };
 
-    console.log(updatedTask);
 
     updateTask.mutate(updatedTask);
   }
@@ -133,7 +131,6 @@ export default function TaskCard({ story, isSprint = false }) {
           columnClassName="my-masonry-grid_column"
         > */}
         {story.tasks?.map((task, index) => {
-          console.log(task);
           return <TaskSubCard key={index} story={story} task={task} />;
         })}
         {/* </Masonry> */}

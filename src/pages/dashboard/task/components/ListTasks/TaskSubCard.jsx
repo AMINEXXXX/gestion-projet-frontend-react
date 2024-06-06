@@ -13,8 +13,10 @@ import TaskInfo from "../TaskInfo/TaskInfo";
 import ListEtiquttes from "../TaskInfo/ListEtiquttes";
 import { ChatBubbleOutlineOutlined } from "@mui/icons-material";
 import useAllCommentaire from "../commentaire/useAllCommentaire";
+import { useSelector } from "react-redux";
 
 export default function TaskSubCard({ story, task, isSprint = false }) {
+  const user = useSelector((state) => state.authentication.user);
   const { commentaireData } = useAllCommentaire(task?.id);
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(task.name);
@@ -35,7 +37,7 @@ export default function TaskSubCard({ story, task, isSprint = false }) {
 
   return (
     <Card
-      draggable={isSprint ? false : true}
+      draggable={user?.role[0] === "PROJECT_MANAGER" ? false : true}
       onDragStart={(e) => e.dataTransfer.setData("id", task.id)}
       sx={{ mb: 1, borderRadius: 4 }}
     >
@@ -54,8 +56,17 @@ export default function TaskSubCard({ story, task, isSprint = false }) {
               </Typography>
 
               {commentaireData?.length != 0 && (
-                <Box display={"flex"} alignItems={"center"} position={"absolute"} bottom={0} right={0}>
-                  <ChatBubbleOutlineOutlined color="primary" sx={{ fontSize: "1.2rem" }} />
+                <Box
+                  display={"flex"}
+                  alignItems={"center"}
+                  position={"absolute"}
+                  bottom={0}
+                  right={0}
+                >
+                  <ChatBubbleOutlineOutlined
+                    color="primary"
+                    sx={{ fontSize: "1.2rem" }}
+                  />
                   <Typography>{commentaireData?.length}</Typography>
                 </Box>
               )}

@@ -35,7 +35,6 @@ export const useGetProductBacklogById = (id) => {
       onError && onError();
     },
     select: (data) => {
-      console.log(data);
       return data;
     }
   });

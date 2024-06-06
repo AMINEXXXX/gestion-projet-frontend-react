@@ -8,7 +8,6 @@ export default function ListTasks() {
   // const { productsData } = useAllProducts();
   const { data } = useAllTasks();
 
-  console.log(data);
 
   return (
     // <Container sx={{ display: "flex", gap: 3 }}>

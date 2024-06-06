@@ -1,16 +1,14 @@
-import { Alert } from "@mui/material";
 import Modal from "../../../../../components/Modal/Modal";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import PropTypes from "prop-types";
 import { CreateUpdateForm } from "./CreateUpdateForm";
+import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
 import { useState } from "react";
-import { useCreateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
-import { useSelector } from "react-redux";
 
-export default function AddSprint() {
-  const { project } = useSelector((state) => state.project);
+export default function UpdateSprint({ title, data }) {
   const [sprintData, setSprintData] = useState(null);
   const [formError, setFormError] = useState(null);
-  const mutation = useCreateSprintBacklog();
+  const mutation = useUpdateSprintBacklog();
 
   const handelAction = () => {
     if (sprintData.start_date == null) {
@@ -37,20 +35,17 @@ export default function AddSprint() {
   return (
     <>
       <Modal
-        btnName={" Créer une sprint"}
-        btnIcon={<AddRoundedIcon />}
-        modalTitle={" Créer une sprint"}
-        modalActionName={"Créer"}
+        justTitle={title}
+        modalTitle={"Modifier Sprint"}
+        modalActionName={"Modifier"}
         modalActionEvent={handelAction}
-        modalFinalEvent={() => setFormError(null)}
       >
-        <CreateUpdateForm setSprintData={setSprintData} />
-        {formError && (
-          <Alert severity="error" sx={{ mt: 1, mb: 4 }}>
-            {formError}
-          </Alert>
-        )}
+        <CreateUpdateForm setSprintData={setSprintData} data={data} isUpdate={true} />
       </Modal>
     </>
   );
 }
+
+UpdateSprint.propTypes = {
+  data: PropTypes.object,
+};

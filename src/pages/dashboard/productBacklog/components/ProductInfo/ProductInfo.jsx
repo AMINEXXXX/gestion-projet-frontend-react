@@ -151,7 +151,7 @@ export default function ProductInfo({ product }) {
                 <IconButton
                   sx={{ float: "right" }}
                   onClick={() => (
-                    setIsDrawerOpen(false), setIsEditingName(false)
+                    setIsDrawerOpen(false)
                   )}
                 >
                   <CloseOutlinedIcon />

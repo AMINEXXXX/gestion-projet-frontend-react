@@ -28,7 +28,6 @@ export default function StoryInfo({ product, story }) {
   const mutationTasks = useDeleteAllTasks();
   const { tasksData } = useGetAll(story.id);
 
-  console.log(story);
 
   function handleAction(e) {
     e.preventDefault();
@@ -41,7 +40,6 @@ export default function StoryInfo({ product, story }) {
       name: newName.charAt(0).toUpperCase() + newName.slice(1),
     };
 
-    console.log(newName.charAt(0).toUpperCase() + newName.slice(1));
     mutationStory.mutate(newStory);
   }
 

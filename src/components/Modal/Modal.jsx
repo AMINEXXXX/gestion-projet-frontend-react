@@ -5,6 +5,7 @@ import { red, teal } from "@mui/material/colors";
 
 export default function Modal(props) {
   const {
+    justTitle = null,
     btnName,
     btnVar = null,
     btnIcon = null,
@@ -66,11 +67,17 @@ export default function Modal(props) {
           {btnIcon}
         </IconButton>
       ) : (
-        <></>
+        <Typography
+          variant="h5"
+          sx={{ cursor: "pointer" }}
+          onClick={handleOpen}
+        >
+          <u>{justTitle}</u>
+        </Typography>
       )}
 
       <ModalContainer state={open} handleClose={handleClose}>
-        <Box >
+        <Box>
           <Typography variant="h5" component="h3">
             {modalTitle || btnName || "Titre"}
           </Typography>

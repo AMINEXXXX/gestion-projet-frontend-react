@@ -13,7 +13,7 @@ export default function SprintBacklog() {
           <Typography variant="h4" mb={10}>Sprint Backlogs</Typography>
           <AddSprint />
         </Box>
-        <Box mt={10} width={"120vw"}>
+        <Box py={10} width={"120vw"}>
           <ListSprints />
         </Box>
       </Box>

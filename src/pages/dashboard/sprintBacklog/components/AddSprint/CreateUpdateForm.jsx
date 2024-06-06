@@ -4,14 +4,14 @@ import { Box, OutlinedInput, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import StoriesMenu from "./StoriesMenu";
 
-export function CreateForm({ setSprintData }) {
+export function CreateUpdateForm({ setSprintData, data, isUpdate = false }) {
   /********** state ***************** */
 
-  const [name, setName] = useState("");
-  const [duration, setDuration] = useState("");
-  const [userStories, setUserStories] = useState([]);
-  const [start_date, setStart_date] = useState(null);
-  const [goal, setGoal] = useState("");
+  const [name, setName] = useState(isUpdate ? data?.name : "");
+  const [duration, setDuration] = useState(isUpdate ? data?.duration : "");
+  const [userStories, setUserStories] = useState(isUpdate ? data?.userStories : []);
+  const [start_date, setStart_date] = useState(isUpdate ? data?.start_date : null);
+  const [goal, setGoal] = useState(isUpdate ? data?.goal : "");
 
   /**********  Submit and validation ****************** */
 
