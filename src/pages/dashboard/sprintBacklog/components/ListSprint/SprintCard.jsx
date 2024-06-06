@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Card, CardContent, CardHeader, Divider } from "@mui/material";
 import React from "react";
 import useAllSprint from "./useAllSprint";
 import TaskCard from "./TaskCard";
@@ -12,6 +12,7 @@ export default function SprintCard({ title }) {
       sx={{ width: "350px", bgcolor: grey[50], p: 1, px: 2, borderRadius: 5 }}
     >
       <CardHeader title={title} />
+      <Divider sx={{mb: 2}} />
       {sprintsData?.map((sprint) =>
         sprint?.userStories?.map((story) => {
           return <TaskCard key={story?.id} story={story} title={title} />;

@@ -23,7 +23,7 @@ import { useGetAllProject } from "../../../hooks/api/useProjectApi";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  // const { projectData, columns } = useAllProject();
+  const { projectData, columns } = useAllProject();
   const [projects, setProjects] = useState(null);
   const { data } = useGetAllProject();
 
@@ -47,15 +47,20 @@ export default function Home() {
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
-              <AddProject />
+              {/* <AddProject /> */}
+              <Box display={"flex"} justifyContent={"space-between"} py={5}>
+                <Box />
+                <CreateProject />
+              </Box>
+
               {projects?.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </Masonry>
           </Container>
         </Box>
-
-        {/* <Box
+      </Box>
+      {/* <Box
           sx={{
             my: 3,
             display: "flex",
@@ -79,7 +84,6 @@ export default function Home() {
         >
           <TableData rows={projectData} columns={columns} />
         </Box> */}
-      </Box>
 
       {/* <TableData rows={projectData} columns={columns}/> */}
     </>

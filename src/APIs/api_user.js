@@ -15,3 +15,9 @@ export const deleteUser = async (id) => {
   const url = `/users/${id}`;
   return await axios.delete(url);
 };
+
+export const getAllMembers = async () => {
+  const url = "/users/choose_team";
+  const { data } = await axios.get(url);
+  return data || [];
+};

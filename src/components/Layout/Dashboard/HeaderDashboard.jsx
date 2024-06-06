@@ -53,10 +53,10 @@ export default function HeaderDashboard({ setSideBarState }) {
         >
           <MenuRoundedIcon />
         </IconButton>
-        {user?.role[0] === "PROJECT_MANAGER" ||
+        {/* {user?.role[0] === "PROJECT_MANAGER" ||
         user?.role[0] === "SUPER_ADMIN" ? (
           <CreateProject />
-        ) : null}
+        ) : null} */}
       </Box>
       <Box>
         {/* <SwitchTheme

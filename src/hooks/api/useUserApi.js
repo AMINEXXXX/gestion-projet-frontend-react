@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { createUser, deleteUser, getAllUser } from "../../APIs/api_user";
+import { createUser, deleteUser, getAllMembers, getAllUser } from "../../APIs/api_user";
 
 export const useGetAllUser = ({ onSuccess, onError } = {}) =>{
     return  useQuery({
@@ -17,6 +17,19 @@ export const useGetAllUser = ({ onSuccess, onError } = {}) =>{
             onError && onError();
           },
       });
+}
+
+export const useGetAllMembers = ({ onSuccess, onError } = {}) =>{
+  return  useQuery({
+      queryKey: ["allMembers"],
+      queryFn: getAllMembers,
+      onSuccess: () => {
+          onSuccess && onSuccess();
+        },
+        onError: () => {
+          onError && onError();
+        },
+    });
 }
  
 

@@ -88,7 +88,6 @@ export function CreateUpdateForm({
             <Select
               labelId="user_role_label"
               id="user_role"
-              multiple
               value={userRole}
               onChange={(event) => {
                 const value = event.target.value;
