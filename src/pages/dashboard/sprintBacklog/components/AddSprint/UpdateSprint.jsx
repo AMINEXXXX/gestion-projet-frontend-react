@@ -2,14 +2,14 @@ import Modal from "../../../../../components/Modal/Modal";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import PropTypes from "prop-types";
 import { CreateUpdateForm } from "./CreateUpdateForm";
-import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
+import { useDeleteSprintBacklog, useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 export default function UpdateSprint({ title, data }) {
   const [sprintData, setSprintData] = useState(null);
   const [formError, setFormError] = useState(null);
   const mutation = useUpdateSprintBacklog();
+  const deleteSprint = useDeleteSprintBacklog();
 
   const handelAction = () => {
     if (sprintData.start_date == null) {
@@ -34,6 +34,10 @@ export default function UpdateSprint({ title, data }) {
     return true;
   };
 
+  const handleDelete = () => {
+    deleteSprint.mutate(data?.id);
+  }
+
   return (
     <>
       <Modal
@@ -41,6 +45,8 @@ export default function UpdateSprint({ title, data }) {
         modalTitle={"Modifier Sprint"}
         modalActionName={"Modifier"}
         modalActionEvent={handelAction}
+        modalDeleteEvent={handleDelete}
+        isSprint={true}
       >
         <CreateUpdateForm
           setSprintData={setSprintData}

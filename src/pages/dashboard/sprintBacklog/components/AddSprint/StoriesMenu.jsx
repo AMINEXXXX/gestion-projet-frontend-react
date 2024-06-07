@@ -43,9 +43,9 @@ const names = [
 //   };
 // }
 
-export default function StoriesMenu({ userStories, setUserStories }) {
+export default function StoriesMenu({ setUserStories }) {
   const { projectData } = useGetOneProject();
-  const [stories, setStories] = React.useState(userStories);
+  const [stories, setStories] = React.useState([]);
 
   const handleChange = (event) => {
     const {
@@ -81,8 +81,7 @@ export default function StoriesMenu({ userStories, setUserStories }) {
             product?.userStories?.map((story, index) => {
               return (
                 <MenuItem key={index} value={story}>
-                  <Checkbox />
-                  <ListItemText primary={story?.name} />
+                  {story?.name}
                 </MenuItem>
               );
             })

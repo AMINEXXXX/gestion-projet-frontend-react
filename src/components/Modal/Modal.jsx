@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 export default function Modal(props) {
   const {
     justTitle = null,
+    isSprint = false,
+    modalDeleteEvent = null,
     btnName,
     btnVar = null,
     btnIcon = null,
@@ -70,7 +72,7 @@ export default function Modal(props) {
       ) : (
         <Typography
           variant="h5"
-          sx={user.role.includes("PROJECT_MANAGER") && { cursor: "pointer" }}
+          sx={{ cursor: user.role[0] == "PROJECT_MANAGER" ? "pointer" : null }}
           onClick={user.role.includes("PROJECT_MANAGER") ? handleOpen : null}
         >
           <u>{justTitle}</u>
@@ -84,23 +86,41 @@ export default function Modal(props) {
           </Typography>
           <Divider sx={{ my: 3 }} />
           <>{children}</>
-          <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 3 }}>
-            <Button variant="text" onClick={handleCancel}>
-              {modalCancelName || "Annuler"}
-            </Button>
-            <Button
-              variant="contained"
-              color={btnActionColor || "secondary"}
-              onClick={handleAction}
-              type={actionType}
-              sx={{
-                "&:hover": {
-                  bgcolor: btnColor == "error" ? red[900] : "#00695c",
-                },
-              }}
-            >
-              {modalActionName || btnName || "Action"}
-            </Button>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: isSprint ? "space-between" : "end",
+              gap: 2,
+              mt: 3,
+            }}
+          >
+            {isSprint && (
+              <Button
+                variant="contained"
+                color="error"
+                onClick={modalDeleteEvent}
+              >
+                Supprimer
+              </Button>
+            )}
+            <Box display={"flex"} gap={2}>
+              <Button variant="text" color="error" onClick={handleCancel}>
+                {modalCancelName || "Annuler"}
+              </Button>
+              <Button
+                variant="contained"
+                color={btnActionColor || "secondary"}
+                onClick={handleAction}
+                type={actionType}
+                sx={{
+                  "&:hover": {
+                    bgcolor: btnColor == "error" ? red[900] : "#00695c",
+                  },
+                }}
+              >
+                {modalActionName || btnName || "Action"}
+              </Button>
+            </Box>
           </Box>
         </Box>
       </ModalContainer>

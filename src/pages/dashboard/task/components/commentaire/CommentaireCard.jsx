@@ -23,14 +23,18 @@ export default function CommentaireCard({
       {user != null && (
         <Box>
           <Avatar
-            sx={user?.role == "PROJECT_MANAGER" && { bgcolor: teal[500] }}
+            sx={{ bgcolor: user?.role == "PROJECT_MANAGER" ? teal[500] : null }}
           >
             {user?.fullName?.slice(0, 2)}
           </Avatar>
         </Box>
       )}
       <Box width={"100%"}>
-        <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
           <Typography
             variant="h6"
             fontWeight={700}
