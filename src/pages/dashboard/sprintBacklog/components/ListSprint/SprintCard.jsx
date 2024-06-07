@@ -8,6 +8,8 @@ export default function SprintCard({ sprint, title, isFilter = false }) {
   const updateSprint = useUpdateSprintBacklog();
 
   const handleDrop = (e) => {
+    if (e.dataTransfer.getData("taskState") === title) return;
+    
     const updatedSprint = {
       id: e.dataTransfer.getData("sprintId"),
       userStories: [
@@ -27,7 +29,6 @@ export default function SprintCard({ sprint, title, isFilter = false }) {
     console.log(updatedSprint);
     updateSprint.mutate(updatedSprint);
   };
-  
 
   return (
     <Card

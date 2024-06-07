@@ -74,8 +74,7 @@ export default function TaskInfo({ story, task }) {
       <Avatar
         variant="rounded"
         sx={
-          ({ fontWeight: "700", cursor: "pointer" },
-          user.id == task?.teamMember?.id && { bgcolor: teal[500] })
+          ({ fontWeight: "700", cursor: "pointer", bgcolor: user.id == task?.teamMember?.id ? teal[500] : null })
         }
         onClick={() => setIsDrawerOpen(true)}
       >

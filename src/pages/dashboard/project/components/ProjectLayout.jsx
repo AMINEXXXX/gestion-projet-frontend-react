@@ -219,7 +219,7 @@ export default function ProjectLayout({
             <List sx={{ width: drawerWidth }}>
               {menuItems.map(
                 (item, index) =>
-                  item.permission.includes(user.role[0]) && (
+                  item.permission.includes(user?.role[0]) && (
                     <ListItem
                       style={{
                         width: "235px",

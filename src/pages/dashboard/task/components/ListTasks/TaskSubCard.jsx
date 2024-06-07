@@ -18,10 +18,18 @@ import useAllCommentaire from "../commentaire/useAllCommentaire";
 import { useSelector } from "react-redux";
 import { Done } from "@mui/icons-material";
 import { Task } from "@mui/icons-material";
+import { WarningRounded } from "@mui/icons-material";
 import CloseOutlined from "@mui/icons-material/CloseOutlined";
 import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
+import { red } from "@mui/material/colors";
 
-export default function TaskSubCard({ sprint, story, task, isSprint = false }) {
+export default function TaskSubCard({
+  sprint,
+  story,
+  task,
+  title,
+  isSprint = false,
+}) {
   const user = useSelector((state) => state.authentication.user);
   const { commentaireData } = useAllCommentaire(task?.id);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -90,9 +98,15 @@ export default function TaskSubCard({ sprint, story, task, isSprint = false }) {
       onDragStart={(e) => (
         e.dataTransfer.setData("sprintId", sprint?.id),
         e.dataTransfer.setData("storyId", story?.id),
-        e.dataTransfer.setData("taskId", task?.id)
+        e.dataTransfer.setData("taskId", task?.id),
+        e.dataTransfer.setData("taskState", task?.state)
       )}
-      sx={{ mb: 1, borderRadius: 4 , "&:hover": {bgcolor: "#eee"}, transition: ".3s ease"}}
+      sx={{
+        mb: 1,
+        borderRadius: 4,
+        "&:hover": { bgcolor: "#eee" },
+        transition: ".3s ease",
+      }}
     >
       <CardHeader
         avatar={<TaskInfo story={story} task={task} isSprint={isSprint} />}
@@ -127,7 +141,16 @@ export default function TaskSubCard({ sprint, story, task, isSprint = false }) {
                   </>
                 )}
 
-              {isSprint && task?.valid == true && <Task sx={{position: "absolute", bottom: 0, right: 35}} color="primary" />}
+              {isSprint && task?.valid == true && (
+                <Task
+                  sx={{ position: "absolute", bottom: 0, right: 35 }}
+                  color="primary"
+                />
+              )}
+
+              {isSprint && title == "Problem" && (
+                <WarningRounded sx={{ position: "absolute", bottom: 0, right: 35 }} color="error" />
+              )}
 
               {commentaireData?.length != 0 && (
                 <Box
@@ -139,7 +162,7 @@ export default function TaskSubCard({ sprint, story, task, isSprint = false }) {
                 >
                   <ChatBubbleOutlineOutlined
                     color="primary"
-                    sx={{ fontSize: "1.2rem", mr: .2 }}
+                    sx={{ fontSize: "1.2rem", mr: 0.2 }}
                   />
                   <Typography>{commentaireData?.length}</Typography>
                 </Box>
