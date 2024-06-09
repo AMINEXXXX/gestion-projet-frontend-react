@@ -11,12 +11,12 @@ import SprintBacklog from "../pages/dashboard/sprintBacklog/components/SprintBac
 import Task from "../pages/dashboard/task/components/Task.jsx";
 import { useSelector } from "react-redux";
 import ProjectLayout from "../pages/dashboard/project/components/ProjectLayout.jsx";
+import Progress from "../pages/dashboard/project/components/Progress/Progress.jsx";
 
 export default function MainRoute() {
-  const {firstPage} = useSelector((state) => state.page);
+  const { firstPage } = useSelector((state) => state.page);
 
   const sideMenuRouter = useSideMenuRouter();
-  // console.log("sideMenuRouter", sideMenuRouter);
 
   const [showNotFound, setShowNotFound] = useState(false);
   useEffect(() => {
@@ -33,12 +33,14 @@ export default function MainRoute() {
               {[...sideMenuRouter]}
             </Route>
           ) : (
-            <Route path="/dashboard/project" element={<Project />} />
+            <Route path="/dashboard/project" element={<Project />}>
+              <Route path="/dashboard/project/progress" element={<Progress />} />
+              <Route path="/dashboard/project/product" element={<Project />} />
+              <Route path="/dashboard/project/story" element={<Project />} />
+              <Route path="/dashboard/project/task" element={<Project />} />
+              <Route path="/dashboard/project/sprint" element={<Project />} />
+            </Route>
           )}
-          <Route path="/dashboard/product" element={<Project />} />
-          <Route path="/dashboard/story" element={<Project />} />
-          <Route path="/dashboard/task" element={<Project />} />
-          <Route path="/dashboard/sprint" element={<Project />} />
           <Route path="/" element={<Authentication />} />
           <Route path="/not-found" element={showNotFound && <NotFound />} />
           <Route path="*" element={showNotFound && <NotFound />} />

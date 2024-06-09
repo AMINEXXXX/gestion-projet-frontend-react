@@ -17,20 +17,11 @@ import useAllStories from "../../userStory/components/useAllStories";
 import useAllTasks from "./ListTasks/useAllTasks";
 
 export default function AddTask() {
+  const { productsData } = useAllProducts();
   const mutation = useCreateTask();
-  const { data } = useAllTasks();
-  // const { productsData } = useAllProducts();
-  // const storyData = productsData?.map((product) => {
-  //   const { storiesData } = useAllStories(product.id);
-  //   return storiesData?.map((story) => {
-  //     return { id: story.id, name: story.name, tasks: story.tasks };
-  //   });
-  // });
-
   const [isAdding, setIsAdding] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [storyId, setStoryId] = useState(null);
-  const btnName = "Add task";
 
   const HandleCreate = (e) => {
     e.preventDefault();
@@ -50,13 +41,12 @@ export default function AddTask() {
     setStoryId(null);
   };
 
-
   return (
     <Box>
       {!isAdding ? (
         <Box
           onClick={() =>
-            data?.length == 0
+            productsData?.length == 0
               ? alert("U can't add task while there is no story !!!")
               : setIsAdding(true)
           }
@@ -71,12 +61,11 @@ export default function AddTask() {
             fontWeight: "600",
             display: "flex",
             "&:hover": { bgcolor: "#b2dfdb44" },
-            // transition: ".15s ease-in",
           }}
         >
           <Box sx={{ display: "flex" }}>
             <AddRoundedIcon sx={{ mr: 2 }} />
-            {btnName}
+            Add task
           </Box>
         </Box>
       ) : (
@@ -118,11 +107,13 @@ export default function AddTask() {
                 required
                 onChange={(e) => setStoryId(e.target.value)}
               >
-                {data?.map((story) => (
-                  <MenuItem key={story.id} value={story.id}>
-                    {story.name}
-                  </MenuItem>
-                ))}
+                {productsData?.map((product) =>
+                  product?.userStories?.map((story) => (
+                    <MenuItem key={story.id} value={story.id}>
+                      {story.name}
+                    </MenuItem>
+                  ))
+                )}
               </Select>
             </FormControl>
             <Box sx={{ display: "flex", mt: 1, gap: 1.5 }}>

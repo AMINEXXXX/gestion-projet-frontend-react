@@ -69,7 +69,7 @@ export default function Modal(props) {
         >
           {btnIcon}
         </IconButton>
-      ) : (
+      ) : justTitle ? (
         <Typography
           variant="h5"
           sx={{ cursor: user.role[0] == "PROJECT_MANAGER" ? "pointer" : null }}
@@ -77,6 +77,8 @@ export default function Modal(props) {
         >
           <u>{justTitle}</u>
         </Typography>
+      ) : (
+        <></>
       )}
 
       <ModalContainer state={open} handleClose={handleClose}>

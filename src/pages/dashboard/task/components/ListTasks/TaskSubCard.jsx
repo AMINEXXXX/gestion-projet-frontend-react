@@ -93,7 +93,7 @@ export default function TaskSubCard({
   return (
     <Card
       draggable={
-        user?.role[0] === "TEAM_MEMBER" && task?.teamMember?.id == user?.id
+        (user?.role[0] === "PROJECT_MANAGER" && isSprint == false) || task?.teamMember?.id == user?.id
       }
       onDragStart={(e) => (
         e.dataTransfer.setData("sprintId", sprint?.id),

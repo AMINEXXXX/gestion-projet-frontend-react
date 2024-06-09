@@ -14,7 +14,7 @@ export default function ListSprints() {
   return sprintsData?.map((sprint, index) => (
     <Box key={index}>
       <Box mb={7} display={"flex"} justifyContent={"space-between"}>
-        <Typography variant="h4" display={"flex"} gap={2} alignItems={"center"}>
+        <Typography variant="h5" fontSize={"2.1rem"} display={"flex"} gap={2} alignItems={"center"}>
           {`Sprint ${index + 1} : `}
           <UpdateSprint data={sprint} title={sprint?.name} />
         </Typography>

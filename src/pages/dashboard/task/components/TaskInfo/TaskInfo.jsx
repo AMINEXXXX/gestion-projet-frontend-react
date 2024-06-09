@@ -90,7 +90,7 @@ export default function TaskInfo({ story, task }) {
         <Box
           bgcolor={grey[100]}
           height={
-            "1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000%"
+            "100000%"
           }
         >
           <Box sx={{ width: "700px", p: 1, pl: 2 }}>
@@ -268,7 +268,7 @@ export default function TaskInfo({ story, task }) {
               </Box>
             </Grid>
             <Grid item xs={3}>
-              {user.id == task?.teamMember?.id && <FadeMenuEtiquette task={task} />}
+              {(user.id == task?.teamMember?.id || user.role.includes("PROJECT_MANAGER")) && <FadeMenuEtiquette task={task} />}
               {user.role.includes("PROJECT_MANAGER") && <FadeMenuAffecte task={task} />}
             </Grid>
           </Grid>

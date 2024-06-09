@@ -59,7 +59,7 @@ export default function CircularWithValueLabel() {
     product?.userStories?.forEach((story) => {
       total += story?.tasks?.length;
       story?.tasks?.forEach((task) => {
-        if (task?.state === "Done") done++;
+        if (task?.state === "Done" && task?.valid == true) done++;
       });
     });
   });

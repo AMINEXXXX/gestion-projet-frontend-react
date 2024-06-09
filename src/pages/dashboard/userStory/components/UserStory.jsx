@@ -6,7 +6,7 @@ import ListUserStories from "./ListStories/ListUserStories";
 export default function UserStory() {
   return (
     <Container>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
         <Typography variant="h4" mb={5}>
           User Stories
         </Typography>

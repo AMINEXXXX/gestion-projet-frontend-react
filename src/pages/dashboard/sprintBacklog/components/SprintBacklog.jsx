@@ -10,14 +10,14 @@ export default function SprintBacklog() {
 
   return (
     <>
-      <Box mx={2}>
+      <Box mx={0}>
         <Box>
           <Typography variant="h4" mb={10}>
             Sprint Backlogs
           </Typography>
           {user.role[0] == "PROJECT_MANAGER" && <AddSprint />}
         </Box>
-        <Box py={10} width={"120vw"}>
+        <Box py={10} width={"100%"}>
           <ListSprints />
         </Box>
       </Box>

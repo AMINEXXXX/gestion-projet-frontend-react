@@ -2,19 +2,21 @@ import React from "react";
 import useAllProducts from "../../../productBacklog/components/useAllProducts";
 import useAllStories from "../../../userStory/components/useAllStories";
 import useGetAll from "./useGetAll";
+import { useGetAllUserStoryById } from "../../../../../hooks/api/useUserStoryApi";
+import { useGetAllTask } from "../../../../../hooks/api/useTaskApi";
 
 export default function useAllTasks() {
-  let data = [];
+  let tasksData = [];
   const { productsData } = useAllProducts();
 
   productsData?.forEach((product) => {
-    const { storiesData } = useAllStories(product.id);
-    storiesData?.map((story) => {
-      const { tasksData } = useGetAll(story.id);
-      data.push({ id: story.id, name: story.name, tasks: tasksData });
+    const { data } = useGetAllUserStoryById(product.id);
+    data?.forEach((story) => {
+      const { data } = useGetAllTask(story.id);
+      tasksData.push({ id: story.id, name: story.name, tasks: data });
     });
   });
 
 
-  return { data };
+  return { tasksData };
 }

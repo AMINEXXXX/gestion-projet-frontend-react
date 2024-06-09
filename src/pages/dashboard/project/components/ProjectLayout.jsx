@@ -25,14 +25,9 @@ import { setFirstPage } from "../../../../redux/PageSlice";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { motion } from "framer-motion";
 import KeyboardReturnRoundedIcon from "@mui/icons-material/KeyboardReturnRounded";
-export default function ProjectLayout({
-  children,
-  setProgress,
-  setProduct,
-  setStory,
-  setTask,
-  setSprint,
-}) {
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import RestoreRoundedIcon from '@mui/icons-material/RestoreRounded';
+export default function ProjectLayout({ children, setPath }) {
   const user = useSelector((state) => state.authentication.user);
   const { project } = useSelector((state) => state.project);
   const drawerWidth = 270;
@@ -50,69 +45,39 @@ export default function ProjectLayout({
 
   const menuItems = [
     {
-      text: "Progress",
-      icon: <SubjectOutlined color="primary" />,
-      path: `/dashboard/project`,
+      text: "Accueil",
+      icon: <HomeRoundedIcon color="primary" />,
+      path: `/dashboard/project/progress`,
       permission: ["PROJECT_MANAGER", "TEAM_MEMBER"],
-      HandleClick: () => {
-        setProgress(true);
-        setProduct(false);
-        setStory(false);
-        setTask(false);
-        setSprint(false);
-      },
+      HandleClick: () => setPath("progress"),
     },
     {
       text: "Product Backlogs",
-      icon: <AddCircleOutlineOutlined color="primary" />,
-      path: `/dashboard/product`,
+      icon: <SubjectOutlined color="primary" />,
+      path: `/dashboard/project/product`,
       permission: ["PROJECT_MANAGER"],
-      HandleClick: () => {
-        setProgress(false);
-        setProduct(true);
-        setStory(false);
-        setTask(false);
-        setSprint(false);
-      },
+      HandleClick: () => setPath("product"),
     },
     {
       text: "User Stories",
-      icon: <AddCircleOutlineOutlined color="primary" />,
-      path: `/dashboard/story`,
+      icon: <SubjectOutlined color="primary" />,
+      path: `/dashboard/project/story`,
       permission: ["PROJECT_MANAGER"],
-      HandleClick: () => {
-        setProgress(false);
-        setProduct(false);
-        setStory(true);
-        setTask(false);
-        setSprint(false);
-      },
+      HandleClick: () => setPath("story"),
     },
     {
       text: "Tasks",
-      icon: <AddCircleOutlineOutlined color="primary" />,
-      path: `/dashboard/task`,
+      icon: <SubjectOutlined color="primary" />,
+      path: `/dashboard/project/task`,
       permission: ["PROJECT_MANAGER"],
-      HandleClick: () => {
-        setProgress(false);
-        setProduct(false);
-        setStory(false);
-        setTask(true);
-        setSprint(false);
-      },
+      HandleClick: () => setPath("task"),
     },
     {
       text: "Sprint Backlogs",
-      icon: <AddCircleOutlineOutlined color="primary" />,
-      path: `/dashboard/sprint`,
+      icon: <RestoreRoundedIcon color="primary" />,
+      path: `/dashboard/project/sprint`,
       permission: ["PROJECT_MANAGER", "TEAM_MEMBER"],
-      HandleClick: () => {
-        setProgress(false);
-        setProduct(false);
-        setStory(false);
-        setTask(false);
-        setSprint(true);
-      },
+      HandleClick: () => setPath("sprint"),
     },
   ];
 
@@ -229,10 +194,7 @@ export default function ProjectLayout({
                       }}
                       key={index}
                       button
-                      onClick={() => {
-                        item.HandleClick();
-                        navigate(item.path);
-                      }}
+                      onClick={() => (item.HandleClick(), navigate(item.path))}
                       sx={
                         location.pathname === item.path
                           ? { bgcolor: "#b2dfdb" }

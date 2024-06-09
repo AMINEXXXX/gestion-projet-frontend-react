@@ -1,17 +1,16 @@
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import Modal from "../../../../../components/Modal/Modal";
+import { IconButton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import PropTypes from "prop-types";
 import { useDeleteUserStory } from "../../../../../hooks/api/useUserStoryApi";
-import { red } from "@mui/material/colors";
 
 export default function DeleteStory({ story }) {
   const mutation = useDeleteUserStory();
 
+
   return (
     <>
       {/* <Modal
-        // btnIcon={<DeleteOutlinedIcon />}
+        btnIcon={<DeleteOutlinedIcon />}
         btnColor={"error"}
         modalTitle={"Supprimer le user story "}
         modalActionName={"Supprimer"}

@@ -43,9 +43,10 @@ export default function ProjectCard({ project }) {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [isMore, setIsMore] = useState(false);
+  const [isEditingNbrSemaines, setIsEditingNbrSemaines] = useState(false);
   const [newName, setNewName] = useState(project.name);
   const [newDescription, setNewDescription] = useState(project.description);
+  const [newDuration, setNewDuration] = useState(project.duration);
   const update = useUpdateProject();
 
   const HandleColors = () => {
@@ -95,29 +96,21 @@ export default function ProjectCard({ project }) {
 
   const HandleSubmitOrBlur = (e) => {
     e.preventDefault();
+    if (!newName.trim() || !newDescription.trim()) return;
+
     setIsEditing(false);
     const newProject = {
       id: project.id,
       name: newName.charAt(0).toUpperCase() + newName.slice(1),
-      description: project.description,
-      duration: project.duration,
-      price: project.price,
-      projectTeam: project.projectTeam,
+      description: newDescription,
+      duration: newDuration,
     };
+
+    setIsEditing(false);
+    setIsEditingDescription(false);
+    setIsEditingNbrSemaines(false);
     update.mutate(newProject);
   };
-  const handleUpdateDesc = (e) => {
-    e.preventDefault();
-    if(!newDescription.trim()) return;
-
-    setIsEditingDescription(false)
-    const newProject = {
-      id: project.id,
-      description: newDescription,
-    };
-
-    update.mutate(newProject);
-  }
 
   return (
     <>
@@ -128,7 +121,7 @@ export default function ProjectCard({ project }) {
               onClick={() => (
                 dispatch(setProject(project)), dispatch(setFirstPage())
               )}
-              to={`/dashboard/project`}
+              to={`/dashboard/project/progress`}
               content={<Project />}
             >
               <Avatar
@@ -177,20 +170,46 @@ export default function ProjectCard({ project }) {
               )}
             </Box>
           }
-          subheader={project.duration + " semaines"}
-        />
-        {project.description != null && (
-          <CardContent>
-            {!isEditingDescription ? (
+          subheader={
+            !isEditingNbrSemaines ? (
               <Typography
-                onClick={() => setIsEditingDescription(true)}
                 variant="body2"
-                color={"textSecondary"}
+                color="textSecondary"
+                sx={{ cursor: "pointer" }}
+                onClick={() => setIsEditingNbrSemaines(true)}
               >
-                {project.description}
+                {project.duration + " semaine(s)"}
               </Typography>
             ) : (
-              <>
+              <form onSubmit={HandleSubmitOrBlur}>
+                <input
+                  autoFocus
+                  value={newDuration}
+                  onBlur={HandleSubmitOrBlur}
+                  type="text"
+                  onChange={(e) => setNewDuration(e.target.value)}
+                  style={{
+                    borderRadius: 5,
+                    padding: "1.5px 0px 1.5px 4px",
+                    border: "none",
+                    outlineColor: teal[500],
+                  }}
+                />
+              </form>
+            )
+          }
+        />
+        <CardContent>
+          {!isEditingDescription ? (
+            <Typography
+              onClick={() => setIsEditingDescription(true)}
+              variant="body2"
+              color={"textSecondary"}
+            >
+              {project.description}
+            </Typography>
+          ) : (
+            <>
               <TextField
                 fullWidth
                 autoFocus
@@ -198,14 +217,26 @@ export default function ProjectCard({ project }) {
                 multiline
                 onChange={(e) => setNewDescription(e.target.value)}
               />
-              <Box sx={{mt: 2}} display={"flex"} gap={2} alignItems={"center"}>
-              <Button variant="contained" onSubmit={handleUpdateDesc}>Enregistrer</Button>
-              <Button variant="contained" color="error" onClick={() => setIsEditingDescription(false)}>Annuler</Button>
+              <Box
+                sx={{ mt: 2 }}
+                display={"flex"}
+                gap={2}
+                alignItems={"center"}
+              >
+                <Button variant="contained" onClick={HandleSubmitOrBlur}>
+                  Enregistrer
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setIsEditingDescription(false)}
+                >
+                  Annuler
+                </Button>
               </Box>
-              </>
-            )}
-          </CardContent>
-        )}
+            </>
+          )}
+        </CardContent>
       </Card>
     </>
   );

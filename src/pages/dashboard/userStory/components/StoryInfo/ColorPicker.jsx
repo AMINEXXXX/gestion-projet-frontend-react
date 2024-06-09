@@ -48,8 +48,9 @@ export default function ColorPicker({ setColor }) {
 
   return (
     <Box display={"flex"} justifyContent={"center"} gap={1} flexWrap={"wrap"}>
-      {items.map((button) => (
+      {items.map((button, index) => (
         <Button
+        key={index}
           onClick={() => (console.log(button.color.charAt(1), button.color.charAt(1).charCodeAt(0)), setColor(button.color))}
           size="small"
           sx={{

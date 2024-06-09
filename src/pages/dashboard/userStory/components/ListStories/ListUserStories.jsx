@@ -17,8 +17,8 @@ export default function ListUserStories() {
       columnClassName="my-masonry-grid_column"
     >
       {data?.map((product, index) => (
-        <Box>
-          <UserStoryCard key={index} product={product} />
+        <Box key={index}>
+          <UserStoryCard product={product} />
         </Box>
       ))}
     </Masonry>

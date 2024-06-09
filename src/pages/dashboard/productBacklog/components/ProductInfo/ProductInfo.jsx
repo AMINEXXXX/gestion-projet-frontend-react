@@ -25,6 +25,7 @@ import FadeMenuAddStory from "./FadeMenuAddStory";
 import { DeleteForever } from "@mui/icons-material";
 import FadeMenuEtiquette from "./FadeMenuEtiquette";
 import ListEtiquttes from "./ListEtiquttes";
+import { grey } from "@mui/material/colors";
 
 export default function ProductInfo({ product }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -94,7 +95,7 @@ export default function ProductInfo({ product }) {
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       >
-        <Box width={"700px"} sx={{ p: 1, pl: 2 }}>
+        <Box bgcolor={grey[100]} height={"1000%"} width={"700px"} sx={{ p: 1, pl: 2 }}>
           <Box
             sx={{
               display: "flex",

@@ -25,13 +25,13 @@ import { useSelector } from "react-redux";
 export default function Home() {
   const user = useSelector((state) => state.authentication.user);
   const { projectData, columns } = useAllProject();
-  const [projects, setProjects] = useState(null);
-  const { data } = useGetAllProject();
+  // const [projects, setProjects] = useState(null);
+  // const { data } = useGetAllProject();
 
-  useEffect(() => {
-    setProjects(data);
-    console.log("loaded");
-  }, [data]);
+  // useEffect(() => {
+  //   setProjects(data);
+  //   console.log("loaded");
+  // }, [data]);
 
   console.log(new Date().toISOString().substring(0, 10));
 
@@ -48,18 +48,20 @@ export default function Home() {
           </Box>
         )}
         <Box
-          sx={
-            ({ display: "flex" },
-            user.role[0] == "TEAM_MEMBER" && { py: 10 })
-          }
+          sx={{
+            display: "flex",
+            py: user.role[0] == "TEAM_MEMBER" ? 10 : null,
+          }}
         >
-          <Container gap={2}>
+          <Container>
             <Masonry
-              breakpointCols={projects?.length <= 3 ? projects?.length : 3}
+              breakpointCols={
+                projectData?.length <= 3 ? projectData?.length : 3
+              }
               className="my-masonry-grid"
               columnClassName="my-masonry-grid_column"
             >
-              {projects?.map((project) => (
+              {projectData?.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </Masonry>

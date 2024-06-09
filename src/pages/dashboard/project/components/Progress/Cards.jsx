@@ -5,7 +5,11 @@ import Typography from "@mui/material/Typography";
 import { Box, Grid, Icon } from "@mui/material";
 import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
+import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
+import { TaskAlt } from "@mui/icons-material";
+import { ShowChart } from "@mui/icons-material";
+import { SignalCellularAlt } from "@mui/icons-material";
 import FormatListNumberedRoundedIcon from "@mui/icons-material/FormatListNumberedRounded";
 import { useSelector } from "react-redux";
 import { useGetProjectById } from "../../../../../hooks/api/useProjectApi";
@@ -27,41 +31,47 @@ export default function Cards() {
   let done = 0;
   let total = 0;
 
-  projectData?.productBacklogs?.forEach(product => {
-    product?.userStories?.forEach(story => {
+  projectData?.productBacklogs?.forEach((product) => {
+    product?.userStories?.forEach((story) => {
       total += story?.tasks?.length;
-      story?.tasks?.forEach(task => {
-        if(task?.state === "Todo")
-          todo++;
-        if(task?.state === "Doing" || task?.state === "Test")
+      story?.tasks?.forEach((task) => {
+        if (task?.state === "Todo") todo++;
+        if (
+          task?.state === "Doing" ||
+          task?.state === "Test" ||
+          (task?.state === "Done" && task?.valid == false)
+        )
           inProgress++;
-        if(task?.state === "Done")
-          done++;
-      })
-    })
-  })
-
+        if (task?.state === "Done" && task?.valid == true) done++;
+      });
+    });
+  });
 
   const cardInfo = [
     {
-      title: "Todo Tasks",
+      title: "Tâches à faire",
       icon: <FormatListNumberedRoundedIcon />,
       numbre: total === 0 ? 0 : `${todo}/${total}`,
     },
     {
-      title: "In Progress Tasks",
-      icon: <StoreRoundedIcon />,
+      title: "Tâches en cours",
+      icon: (
+        <>
+          <ShowChart />
+          {/* <SignalCellularAlt /> */}
+        </>
+      ),
       numbre: total === 0 ? 0 : `${inProgress}/${total}`,
     },
     {
-      title: "Completed Tasks",
-      icon: <SupervisorAccountRoundedIcon />,
+      title: "Tâches terminées",
+      icon: <TaskAlt />,
       numbre: total === 0 ? 0 : `${done}/${total}`,
     },
     {
-      title: "Total payment en Dhs",
-      icon: <PaidRoundedIcon />,
-      numbre: projectData?.price,
+      title: "L'équipe",
+      icon: <GroupRoundedIcon />,
+      numbre: projectData?.team?.length,
     },
   ];
   return (

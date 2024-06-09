@@ -2,10 +2,13 @@ import React from "react";
 import ListCardsSection from "./ListCardsSection";
 import CircularWithValueLabel from "./CircularProgress";
 import { Box, Container } from "@mui/material";
+import WeeksRemaining from "./WeeksRemaining";
 
-export default function Progress() {
+export default function Progress({ project }) {
+
   return (
     <Container>
+      <WeeksRemaining project={project} />
       <ListCardsSection />
       <Box
         sx={{

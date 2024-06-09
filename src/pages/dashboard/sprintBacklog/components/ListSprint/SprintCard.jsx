@@ -34,7 +34,7 @@ export default function SprintCard({ sprint, title, isFilter = false }) {
     <Card
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
-      sx={{ width: "350px", bgcolor: grey[50], p: 1, px: 2, borderRadius: 5 }}
+      sx={{ width: "300px", bgcolor: grey[50], p: 1, px: 2, borderRadius: 5 }}
     >
       <CardHeader title={title} />
       <Divider sx={{ mb: 2 }} />
