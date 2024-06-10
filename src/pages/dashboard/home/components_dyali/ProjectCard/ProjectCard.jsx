@@ -39,6 +39,7 @@ import { setFirstPage } from "../../../../../redux/PageSlice";
 import { setProject } from "../../../../../redux/ProjectSlice";
 
 export default function ProjectCard({ project }) {
+  const user = useSelector((state) => state.authentication.user);
   const page = useSelector((state) => state.page);
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
@@ -132,17 +133,26 @@ export default function ProjectCard({ project }) {
               </Avatar>
             </Link>
           }
-          action={<DeleteProject data={project} />}
+          action={
+            user?.role[0] == "PROJECT_MANAGER" ? (
+              <DeleteProject data={project} />
+            ) : null
+          }
           title={
             <Box width={"100%"} height={"40px"}>
               {!isEditing ? (
                 <Typography
                   variant="p"
                   noWrap
-                  onClick={() => setIsEditing(true)}
+                  onClick={() =>
+                    user?.role[0] == "PROJECT_MANAGER"
+                      ? setIsEditing(true)
+                      : null
+                  }
                   sx={{
                     fontSize: "1.5rem",
-                    cursor: "pointer",
+                    cursor:
+                      user?.role[0] == "PROJECT_MANAGER" ? "pointer" : null,
                     width: "100%",
                     pl: "5px",
                   }}
@@ -175,8 +185,14 @@ export default function ProjectCard({ project }) {
               <Typography
                 variant="body2"
                 color="textSecondary"
-                sx={{ cursor: "pointer" }}
-                onClick={() => setIsEditingNbrSemaines(true)}
+                sx={{
+                  cursor: user?.role[0] == "PROJECT_MANAGER" ? "pointer" : null,
+                }}
+                onClick={() =>
+                  user?.role[0] == "PROJECT_MANAGER"
+                    ? setIsEditingNbrSemaines(true)
+                    : null
+                }
               >
                 {project.duration + " semaine(s)"}
               </Typography>
@@ -202,7 +218,11 @@ export default function ProjectCard({ project }) {
         <CardContent>
           {!isEditingDescription ? (
             <Typography
-              onClick={() => setIsEditingDescription(true)}
+              onClick={() =>
+                user?.role[0] == "PROJECT_MANAGER"
+                  ? setIsEditingDescription(true)
+                  : null
+              }
               variant="body2"
               color={"textSecondary"}
             >

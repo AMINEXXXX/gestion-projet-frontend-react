@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import loginImg from "/src/assets/auth_bg_img_1.jpg";
+import loginImg from "/src/assets/auth_bg_img_4.png";
 import { Box } from "@mui/system";
 import { motion } from "framer-motion";
 
@@ -15,7 +15,7 @@ function AuthLayout({ children }) {
         backgroundColor: "background.light",
         borderLeftStyle: "solid",
         borderLeftColor: "secondary.main",
-        borderLeftWidth: "58px ",
+        borderLeftWidth: "40px ",
         overflow: "hidden",
       }}
     >
@@ -36,10 +36,10 @@ function AuthLayout({ children }) {
       </MotionBox>
       <Box
         sx={{
-          flex: "7",
+          flex: "6.5",
           width: "100%",
           height: "100vh",
-          filter: "brightness(60%)",
+          // filter: "brightness(60%)",
         }}
       >
         <motion.img
@@ -50,7 +50,7 @@ function AuthLayout({ children }) {
           style={{
             width: "100%",
             height: "100vh",
-            objectFit: "cover",
+            // objectFit: "cover",
             objectPosition: "center",
           }}
         />

@@ -113,7 +113,7 @@ export default function TaskSubCard({
         title={
           !isEditingName ? (
             <Box position={"relative"}>
-              <ListEtiquttes etiquettes={task?.etiquettes} />
+              {(user.role[0] == "PROJECT_MANAGER" || user.id == task?.teamMember?.id) && <ListEtiquttes etiquettes={task?.etiquettes} />}
               <Typography
                 noWrap
                 onClick={() =>

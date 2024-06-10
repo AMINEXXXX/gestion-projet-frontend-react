@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import Fade from "@mui/material/Fade";
-import { Box, Divider, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Chip, Divider, IconButton, TextField, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import ColorPicker from "./ColorPicker";
 import {
@@ -12,12 +12,14 @@ import {
   useUpdateStoryEtiquette,
   useUpdateUserStory,
 } from "../../../../../hooks/api/useUserStoryApi";
+import { useSelector } from "react-redux";
 
 export default function FadeMenuEtiquette({
   story,
   etiquette,
   isUpdate = false,
 }) {
+  const user = useSelector((state) => state.authentication.user);
   const mutationCreateEtiquette = useCreateStoryEtiquette();
   const mutationUpdateEtiquette = useUpdateStoryEtiquette();
   const mutationDeleteEtiquette = useDeleteStoryEtiquette();
@@ -100,42 +102,58 @@ export default function FadeMenuEtiquette({
           Etiquettes
         </Button>
       ) : (
-        <Button
-          p={0.5}
+        // <Button
+        //   p={0.5}
+        //   sx={{
+        //     display: "flex",
+        //     alignItems: "center",
+        //     gap: 1,
+        //     borderRadius: 2,
+        //     bgcolor: etiquette.color,
+        //     "&:hover": { bgcolor: etiquette.color },
+        //   }}
+        // >
+        //   <Typography
+        //     onClick={handleClick}
+        //     sx={{
+        //       color:
+        //         etiquette?.color?.charAt(1).charCodeAt(0) <= 100
+        //           ? "#FFF"
+        //           : "#000",
+        //     }}
+        //   >
+        //     {etiquette.description.charAt(0).toUpperCase() +
+        //       etiquette.description.slice(1)}
+        //   </Typography>
+        //   <IconButton
+        //     sx={{
+        //       color:
+        //         etiquette?.color?.charAt(1).charCodeAt(0) <= 100
+        //           ? "#FFF"
+        //           : "#000",
+        //     }}
+        //     size="small"
+        //     onClick={() => mutationDeleteEtiquette.mutate(etiquette.id)}
+        //   >
+        //     <CloseOutlined sx={{ fontSize: 20 }} />
+        //   </IconButton>
+        // </Button>
+        <Chip
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            borderRadius: 2,
             bgcolor: etiquette.color,
+            color:
+              etiquette?.color?.charAt(1).charCodeAt(0) <= 100
+                ? "#FFF"
+                : "#000",
             "&:hover": { bgcolor: etiquette.color },
           }}
-        >
-          <Typography
-            onClick={handleClick}
-            sx={{
-              color:
-                etiquette?.color?.charAt(1).charCodeAt(0) <= 100
-                  ? "#FFF"
-                  : "#000",
-            }}
-          >
-            {etiquette.description.charAt(0).toUpperCase() +
-              etiquette.description.slice(1)}
-          </Typography>
-          <IconButton
-            sx={{
-              color:
-                etiquette?.color?.charAt(1).charCodeAt(0) <= 100
-                  ? "#FFF"
-                  : "#000",
-            }}
-            size="small"
-            onClick={() => mutationDeleteEtiquette.mutate(etiquette.id)}
-          >
-            <CloseOutlined sx={{ fontSize: 20 }} />
-          </IconButton>
-        </Button>
+          label={
+            etiquette.description.charAt(0).toUpperCase() +
+            etiquette.description.slice(1)
+          }
+          onClick={handleClick}
+          onDelete={() => mutationDeleteEtiquette.mutate(etiquette.id)}
+        />
       )}
       <Menu
         id="fade-menu"

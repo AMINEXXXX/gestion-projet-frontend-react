@@ -3,6 +3,7 @@ import ModalContainer from "./ModalContainer";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import { red, teal } from "@mui/material/colors";
 import { useSelector } from "react-redux";
+import { ReactTyped } from "react-typed";
 
 export default function Modal(props) {
   const {
@@ -72,10 +73,14 @@ export default function Modal(props) {
       ) : justTitle ? (
         <Typography
           variant="h5"
-          sx={{ cursor: user.role[0] == "PROJECT_MANAGER" ? "pointer" : null }}
+          sx={{ cursor: user.role[0] == "PROJECT_MANAGER" ? "pointer" : null, textDecoration: "underline" }}
           onClick={user.role.includes("PROJECT_MANAGER") ? handleOpen : null}
         >
-          <u>{justTitle}</u>
+          <ReactTyped
+              strings={[justTitle]}
+              typeSpeed={40}
+              showCursor={false}
+            />
         </Typography>
       ) : (
         <></>

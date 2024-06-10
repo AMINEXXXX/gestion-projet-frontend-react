@@ -34,7 +34,6 @@ export default function TaskInfo({ story, task }) {
   const mutationTask = useUpdateTask();
   const mutationComment = useCreateCommentaire();
 
-
   function handleAction(e) {
     e.preventDefault();
     if (!newName.trim()) return;
@@ -73,9 +72,11 @@ export default function TaskInfo({ story, task }) {
     <>
       <Avatar
         variant="rounded"
-        sx={
-          ({ fontWeight: "700", cursor: "pointer", bgcolor: user.id == task?.teamMember?.id ? teal[500] : null })
-        }
+        sx={{
+          fontWeight: "700",
+          cursor: "pointer",
+          bgcolor: user.id == task?.teamMember?.id ? teal[500] : null,
+        }}
         onClick={() => setIsDrawerOpen(true)}
       >
         <Typography variant="h5" fontWeight={700}>
@@ -87,12 +88,7 @@ export default function TaskInfo({ story, task }) {
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       >
-        <Box
-          bgcolor={grey[100]}
-          height={
-            "100000%"
-          }
-        >
+        <Box bgcolor={grey[100]} height={"100000%"}>
           <Box sx={{ width: "700px", p: 1, pl: 2 }}>
             <Box
               width="100%"
@@ -153,7 +149,17 @@ export default function TaskInfo({ story, task }) {
             </Typography>
           </Box>
           <Grid container px={1}>
-            <Grid item xs={9} pl={6.5} pr={1}>
+            <Grid
+              item
+              xs={
+                user.id == task?.teamMember?.id ||
+                user.role.includes("PROJECT_MANAGER")
+                  ? 9
+                  : 12
+              }
+              pl={6.5}
+              pr={1}
+            >
               <Grid container mt={2} gap={1}>
                 <Grid item xs={2}>
                   <Typography
@@ -170,7 +176,8 @@ export default function TaskInfo({ story, task }) {
                   xs={task?.etiquettes?.length > 3 ? 12 : 9}
                   width={task?.etiquettes?.length > 3 ? "440px" : "380px"}
                 >
-                  {task?.etiquettes?.length != 0 && (
+                  {(user.role[0] == "PROJECT_MANAGER" ||
+                    user.id == task?.teamMember?.id) && (
                     <>
                       <Typography
                         sx={{ mb: 0.5, fontSize: ".9rem", fontWeight: 700 }}
@@ -267,10 +274,18 @@ export default function TaskInfo({ story, task }) {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={3}>
-              {(user.id == task?.teamMember?.id || user.role.includes("PROJECT_MANAGER")) && <FadeMenuEtiquette task={task} />}
-              {user.role.includes("PROJECT_MANAGER") && <FadeMenuAffecte task={task} />}
-            </Grid>
+            {(user.id == task?.teamMember?.id ||
+              user.role.includes("PROJECT_MANAGER")) && (
+              <Grid item xs={3}>
+                {(user.id == task?.teamMember?.id ||
+                  user.role.includes("PROJECT_MANAGER")) && (
+                  <FadeMenuEtiquette task={task} />
+                )}
+                {user.role.includes("PROJECT_MANAGER") && (
+                  <FadeMenuAffecte task={task} />
+                )}
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Drawer>

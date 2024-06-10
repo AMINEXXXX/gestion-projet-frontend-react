@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // import { menuData } from "./menuData";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
 // import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
@@ -25,6 +25,7 @@ import { useMenuData } from "../../../../routers/useMenuData";
 import { useGetAllProject } from "../../../../hooks/api/useProjectApi";
 import Project from "../../../../pages/dashboard/project/components/Project";
 import axios from "axios";
+import { ReactTyped } from "react-typed";
 
 export default function SideBarDashboard() {
   const [projects, setProjects] = useState(null);

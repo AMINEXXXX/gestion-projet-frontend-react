@@ -1,4 +1,6 @@
+import { Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import { ReactTyped } from 'react-typed';
 
 const WeeksRemaining = ({ project }) => {
     const [weeksRemaining, setWeeksRemaining] = useState(0);
@@ -25,9 +27,13 @@ const WeeksRemaining = ({ project }) => {
   
 
     return (
-        <div>
-            <h2>Il reste {weeksRemaining} semaine(s) pour terminer ce projet.</h2>
-        </div>
+        <Typography variant='h4'>
+            <ReactTyped
+              strings={[`Il reste ${weeksRemaining} semaine(s) pour terminer ce projet.`]}
+              typeSpeed={40}
+              showCursor={false}
+            />
+        </Typography>
     );
 };
 

@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import useAllSprint from "./ListSprint/useAllSprint";
 import ListSprints from "./ListSprint/ListSprints";
 import { useSelector } from "react-redux";
+import { ReactTyped } from "react-typed";
 
 export default function SprintBacklog() {
   const user = useSelector((state) => state.authentication.user);
@@ -17,7 +18,11 @@ export default function SprintBacklog() {
           </Typography>
           {user.role[0] == "PROJECT_MANAGER" && <AddSprint />}
         </Box>
-        <Box py={10} width={"100%"}>
+        <Box
+          py={user?.role[0] == "PROJECT_MANAGER" ? 10 : 0}
+          ml={5}
+          width={"100%"}
+        >
           <ListSprints />
         </Box>
       </Box>

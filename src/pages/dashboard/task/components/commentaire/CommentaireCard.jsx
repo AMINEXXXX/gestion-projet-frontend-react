@@ -56,7 +56,7 @@ export default function CommentaireCard({
         <Card
           sx={[
             {
-              width: "410px",
+              width: "100%",
               borderRadius: 3,
               cursor: user == null ? "pointer" : "",
               p: 1,
