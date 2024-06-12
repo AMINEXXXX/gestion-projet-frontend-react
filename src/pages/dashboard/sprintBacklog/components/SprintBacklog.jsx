@@ -16,11 +16,10 @@ export default function SprintBacklog() {
           <Typography variant="h4" mb={10}>
             Sprint Backlogs
           </Typography>
-          {user.role[0] == "PROJECT_MANAGER" && <AddSprint />}
+          {user.role.includes("PROJECT_MANAGER") && <AddSprint />}
         </Box>
         <Box
-          py={user?.role[0] == "PROJECT_MANAGER" ? 10 : 0}
-          ml={5}
+          py={user.role.includes("PROJECT_MANAGER") ? 10 : 0}
           width={"100%"}
         >
           <ListSprints />

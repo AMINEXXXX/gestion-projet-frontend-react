@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardHeader,
+  Divider,
   IconButton,
   TextField,
   Typography,
@@ -18,8 +19,11 @@ import {
   useUpdateTask,
 } from "../../../../../hooks/api/useTaskApi";
 import TaskSubCard from "./TaskSubCard";
+import { useSelector } from "react-redux";
+import { grey } from "@mui/material/colors";
 
 export default function TaskCard({ story, isSprint = false }) {
+  const user = useSelector((state) => state.authentication.user);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [isAdding, setIsAdding] = useState(false);
@@ -56,13 +60,14 @@ export default function TaskCard({ story, isSprint = false }) {
     createTask.mutate(newTask);
   }
   function handleDrop(e) {
+    if (!user.role.includes("PROJECT_MANAGER")) return;
+
     const updatedTask = {
       id: e.dataTransfer.getData("taskId"),
       userStory: {
         id: story.id,
       },
     };
-
 
     updateTask.mutate(updatedTask);
   }
@@ -76,7 +81,8 @@ export default function TaskCard({ story, isSprint = false }) {
         borderRadius: "15px",
         px: 2,
         width: "370px",
-        bgcolor: "#eeeeee44",
+        bgcolor: grey[50],
+        pb: 2,
       }}
     >
       <Box
@@ -88,9 +94,12 @@ export default function TaskCard({ story, isSprint = false }) {
       >
         {!isSprint && (
           <Box
-            onClick={() => (setNewName(story.name), setIsEditing(true))}
+            onClick={() => (
+              setNewName(story.name),
+              user.role.includes("PROJECT_MANAGER") ? setIsEditing(true) : null
+            )}
             sx={{
-              cursor: "pointer",
+              cursor: user.role.includes("PROJECT_MANAGER") ? "pointer" : "",
               marginBottom: 1,
               height: "50px",
               width: "100%",
@@ -125,16 +134,14 @@ export default function TaskCard({ story, isSprint = false }) {
             )}
           </Box>
         )}
-        {/* <Masonry
-          breakpointCols={1}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        > */}
+
+        <Divider sx={{mb: 2}} />
+
         {story.tasks?.map((task, index) => {
           return <TaskSubCard key={index} story={story} task={task} />;
         })}
-        {/* </Masonry> */}
-        {!isSprint && (
+
+        {!isSprint && user.role.includes("PROJECT_MANAGER") && (
           <Box display="flex" height={"65px"}>
             {!isAdding ? (
               <Button

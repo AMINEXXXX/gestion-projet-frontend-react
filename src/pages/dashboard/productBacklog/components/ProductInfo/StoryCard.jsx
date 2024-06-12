@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useUpdateUserStory } from "../../../../../hooks/api/useUserStoryApi";
 import { MoreVertOutlined } from "@mui/icons-material";
 import FadeMenuStoryOption from "./FadeMenuStoryOption";
+import { useSelector } from "react-redux";
 
 export default function StoryCard({ story }) {
+  const user = useSelector((state) => state.authentication.user);
   const [isEditingStoryName, setIsEditingStoryName] = useState(false);
   const [newName, setNewName] = useState(story.name);
   const mutation = useUpdateUserStory();
@@ -24,15 +26,28 @@ export default function StoryCard({ story }) {
   }
 
   return (
-    <Card key={story.id} sx={{  width: "60%", my: 1, ml: 5, borderRadius: 3 }}>
-      <Box pl={2} display={"flex"} gap={.5} alignItems={"center"}>
+    <Card
+      key={story.id}
+      sx={{
+        width: "60%",
+        my: 1,
+        ml: 5,
+        borderRadius: 3,
+        height: user.role[0] == "SUPER_ADMIN" ? "40px" : "100%",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Box pl={2} display={"flex"} gap={0.5} alignItems={"center"} width={"100%"}>
         {!isEditingStoryName ? (
           <Typography
             noWrap
-            onClick={() => setIsEditingStoryName(true)}
+            onClick={() =>
+              user.role[0] != "SUPER_ADMIN" ? setIsEditingStoryName(true) : null
+            }
             sx={{
               fontSize: 19,
-              cursor: "pointer",
+              cursor: user.role[0] != "SUPER_ADMIN" ? "pointer" : "initial",
               width: "100%",
               height: "30px",
               ml: 0.24,
@@ -61,7 +76,7 @@ export default function StoryCard({ story }) {
             />
           </form>
         )}
-        <FadeMenuStoryOption story={story} />
+        {user.role[0] != "SUPER_ADMIN" && <FadeMenuStoryOption story={story} />}
       </Box>
     </Card>
   );

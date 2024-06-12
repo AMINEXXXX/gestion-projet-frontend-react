@@ -73,7 +73,7 @@ export default function Modal(props) {
       ) : justTitle ? (
         <Typography
           variant="h5"
-          sx={{ cursor: user.role[0] == "PROJECT_MANAGER" ? "pointer" : null, textDecoration: "underline" }}
+          sx={{ cursor: user.role.includes("PROJECT_MANAGER") ? "pointer" : null, textDecoration: "underline" }}
           onClick={user.role.includes("PROJECT_MANAGER") ? handleOpen : null}
         >
           <ReactTyped

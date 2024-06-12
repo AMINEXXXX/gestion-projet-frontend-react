@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-
 import { getAllSkills } from "../../APIs/api_skills";
 
 export const useGetAllSkills = ({ onSuccess, onError } = {}) => {

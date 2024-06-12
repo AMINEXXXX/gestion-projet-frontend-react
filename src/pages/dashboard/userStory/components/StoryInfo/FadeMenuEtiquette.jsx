@@ -151,8 +151,8 @@ export default function FadeMenuEtiquette({
             etiquette.description.charAt(0).toUpperCase() +
             etiquette.description.slice(1)
           }
-          onClick={handleClick}
-          onDelete={() => mutationDeleteEtiquette.mutate(etiquette.id)}
+          onClick={ user.role[0] != "SUPER_ADMIN" ? handleClick : null}
+          onDelete={() => (user.role[0] != "SUPER_ADMIN" ? mutationDeleteEtiquette.mutate(etiquette.id) : null)}
         />
       )}
       <Menu

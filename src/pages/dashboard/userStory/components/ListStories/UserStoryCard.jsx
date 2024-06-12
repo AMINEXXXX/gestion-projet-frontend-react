@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import UserStorySubCard from "./UserStorySubCard";
 import Masonry from "react-masonry-css";
 import useAllStories from "../useAllStories";
@@ -10,8 +17,11 @@ import {
   useUpdateUserStory,
 } from "../../../../../hooks/api/useUserStoryApi";
 import { CloseRounded } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { grey } from "@mui/material/colors";
 
 export default function UserStoryCard({ product }) {
+  const user = useSelector((state) => state.authentication.user);
   const { storiesData } = useAllStories(product.id);
   const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -53,6 +63,7 @@ export default function UserStoryCard({ product }) {
     mutationProduct.mutate(newProduct);
   }
   function handleDrop(e) {
+    if(!user.role.includes("PROJECT_MANAGER")) return;
     const updateStory = {
       id: e.dataTransfer.getData("id"),
       productBacklog: {
@@ -72,7 +83,7 @@ export default function UserStoryCard({ product }) {
         borderRadius: "15px",
         px: 2,
         width: "370px",
-        bgcolor: "#eeeeee44",
+        bgcolor: grey[50],
       }}
     >
       <Box
@@ -83,8 +94,15 @@ export default function UserStoryCard({ product }) {
         }}
       >
         <div
-          onClick={() => (setNewName(product.name), setIsEditing(true))}
-          style={{ cursor: "pointer", marginBottom: 30, height: "50px" }}
+          onClick={() => (
+            setNewName(product.name),
+            user.role.includes("PROJECT_MANAGER") ? setIsEditing(true) : null
+          )}
+          style={{
+            cursor: user.role.includes("PROJECT_MANAGER") ? "pointer" : "",
+            marginBottom: 10,
+            height: "50px",
+          }}
         >
           {!isEditing ? (
             <Typography
@@ -114,7 +132,7 @@ export default function UserStoryCard({ product }) {
             </form>
           )}
         </div>
-
+        <Divider sx={{ mb: 5 }} />
         <Masonry
           breakpointCols={1}
           className="my-masonry-grid"
@@ -124,52 +142,54 @@ export default function UserStoryCard({ product }) {
             <UserStorySubCard key={index} product={product} story={story} />
           ))}
         </Masonry>
-        <Box display="flex" height={"35px"}>
-          {!isAdding ? (
-            <Button
-              sx={{
-                borderRadius: 2,
-                mb: 1.5,
-                mt: -2,
-                "&:hover": { bgcolor: "#b2dfdb77" },
-              }}
-              onClick={() => setIsAdding(true)}
-            >
-              <Box display="flex" alignItems={"center"} gap={1}>
-                <AddIcon />
-                <Typography>Ajouter une user story</Typography>
-              </Box>
-            </Button>
-          ) : (
-            <form
-              onKeyDown={(e) => {
-                if (e.keyCode === 27) setIsAdding(false);
-              }}
-              onSubmit={handleCreate}
-              style={{
-                display: "flex",
-                gap: 5,
-                marginTop: -15,
-                marginBottom: 13,
-                width: "100%"
-              }}
-            >
-              <TextField
-              sx={{width: "100%"}}
-                size="small"
-                label="Nom"
-                error={isError}
-                autoFocus
-                value={newName}
-                onBlur={() => (setIsError(false), setIsAdding(false))}
-                onChange={(e) => setNewName(e.target.value)}
-              />
-              <IconButton>
-                <CloseRounded />
-              </IconButton>
-            </form>
-          )}
-        </Box>
+        {user.role.includes("PROJECT_MANAGER") && (
+          <Box display="flex" height={"35px"}>
+            {!isAdding ? (
+              <Button
+                sx={{
+                  borderRadius: 2,
+                  mb: 1.5,
+                  mt: -2,
+                  "&:hover": { bgcolor: "#b2dfdb77" },
+                }}
+                onClick={() => setIsAdding(true)}
+              >
+                <Box display="flex" alignItems={"center"} gap={1}>
+                  <AddIcon />
+                  <Typography>Ajouter une user story</Typography>
+                </Box>
+              </Button>
+            ) : (
+              <form
+                onKeyDown={(e) => {
+                  if (e.keyCode === 27) setIsAdding(false);
+                }}
+                onSubmit={handleCreate}
+                style={{
+                  display: "flex",
+                  gap: 5,
+                  marginTop: -15,
+                  marginBottom: 13,
+                  width: "100%",
+                }}
+              >
+                <TextField
+                  sx={{ width: "100%" }}
+                  size="small"
+                  label="Nom"
+                  error={isError}
+                  autoFocus
+                  value={newName}
+                  onBlur={() => (setIsError(false), setIsAdding(false))}
+                  onChange={(e) => setNewName(e.target.value)}
+                />
+                <IconButton>
+                  <CloseRounded />
+                </IconButton>
+              </form>
+            )}
+          </Box>
+        )}
       </Box>
     </Box>
   ) : null;

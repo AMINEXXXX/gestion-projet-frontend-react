@@ -26,8 +26,11 @@ import { DeleteForever } from "@mui/icons-material";
 import FadeMenuEtiquette from "./FadeMenuEtiquette";
 import ListEtiquttes from "./ListEtiquttes";
 import { grey } from "@mui/material/colors";
+import { useSelector } from "react-redux";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function ProductInfo({ product }) {
+  const user = useSelector((state) => state.authentication.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isAddingStory, setIsAddingStory] = useState(false);
   const [isEditingProductName, setIsEditingProductName] = useState(false);
@@ -88,14 +91,23 @@ export default function ProductInfo({ product }) {
   return (
     <>
       <IconButton onClick={() => setIsDrawerOpen(true)}>
-        <EditOutlinedIcon color="primary" />
+        {user.role.includes("PROJECT_MANAGER") ? (
+          <EditOutlinedIcon color="primary" />
+        ) : (
+          <VisibilityIcon color="primary" />
+        )}
       </IconButton>
       <Drawer
         anchor="right"
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       >
-        <Box bgcolor={grey[100]} height={"1000%"} width={"700px"} sx={{ p: 1, pl: 2 }}>
+        <Box
+          bgcolor={grey[100]}
+          height={"1000%"}
+          width={"700px"}
+          sx={{ p: 1, pl: 2 }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -123,7 +135,11 @@ export default function ProductInfo({ product }) {
                     pl={0.6}
                     width="100%"
                     fontSize={"2rem"}
-                    onClick={() => setIsEditingProductName(true)}
+                    onClick={() =>
+                      user.role.includes("PROJECT_MANAGER")
+                        ? setIsEditingProductName(true)
+                        : null
+                    }
                   >
                     {product.name}
                   </Typography>
@@ -151,9 +167,7 @@ export default function ProductInfo({ product }) {
               <Box>
                 <IconButton
                   sx={{ float: "right" }}
-                  onClick={() => (
-                    setIsDrawerOpen(false)
-                  )}
+                  onClick={() => setIsDrawerOpen(false)}
                 >
                   <CloseOutlinedIcon />
                 </IconButton>
@@ -161,7 +175,11 @@ export default function ProductInfo({ product }) {
             </Box>
           </Box>
           <Grid container px={1}>
-            <Grid item xs={9} pl={3}>
+            <Grid
+              item
+              xs={user.role.includes("PROJECT_MANAGER") ? 9 : 12}
+              pl={3}
+            >
               <Box mb={2} width={"450px"}>
                 {product?.etiquettes?.length != 0 && (
                   <>
@@ -182,7 +200,8 @@ export default function ProductInfo({ product }) {
                 alignItems={"center"}
                 marginBottom={2}
                 height={"40px"}
-                width={"450px"}
+                width={"100%"}
+                pr={1}
               >
                 <Box display={"flex"} alignItems={"center"} gap={1}>
                   <SubjectRoundedIcon
@@ -191,19 +210,27 @@ export default function ProductInfo({ product }) {
                   />
                   <Typography variant="h6">Description</Typography>
                 </Box>
-                {!isEditingDescription ? (
-                  <Button
-                    variant="contained"
-                    onClick={() => setIsEditingDescription(true)}
-                  >
-                    <EditOutlinedIcon sx={{ mr: 1, fontSize: "17.5px" }} />
-                    Modifier
-                  </Button>
-                ) : null}
+                {!isEditingDescription
+                  ? user.role.includes("PROJECT_MANAGER") && (
+                      <Button
+                        variant="contained"
+                        onClick={() => setIsEditingDescription(true)}
+                      >
+                        <EditOutlinedIcon sx={{ mr: 1, fontSize: "17.5px" }} />
+                        Modifier
+                      </Button>
+                    )
+                  : null}
               </Box>
               <Box px={5}>
                 {!isEditingDescription ? (
-                  <Typography onClick={() => setIsEditingDescription(true)}>
+                  <Typography
+                    onClick={() =>
+                      user.role.includes("PROJECT_MANAGER")
+                        ? setIsEditingDescription(true)
+                        : null
+                    }
+                  >
                     {product.description}
                   </Typography>
                 ) : (
@@ -227,7 +254,8 @@ export default function ProductInfo({ product }) {
                         Sauvgarder
                       </Button>
                       <Button
-                        sx={{ "&:hover": { bgcolor: "#b2dfdb55" } }}
+                        color="inherit"
+                        // sx={{ "&:hover": { bgcolor: "#b2dfdb55" } }}
                         onClick={() => setIsEditingDescription(false)}
                       >
                         Annuler
@@ -252,15 +280,21 @@ export default function ProductInfo({ product }) {
                       />
                       <Typography variant="h6">User Stories</Typography>
                     </Box>
-                    <Tooltip title="Supprimer tous les user stories">
-                      <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => mutationAllstories.mutate(storiesData)}
-                      >
-                        <DeleteForever />
-                      </Button>
-                    </Tooltip>
+                    {user.role.includes("PROJECT_MANAGER") && (
+                      <Box pr={1}>
+                        <Tooltip title="Supprimer tous les user stories" arrow>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() =>
+                              mutationAllstories.mutate(storiesData)
+                            }
+                          >
+                            <DeleteForever />
+                          </Button>
+                        </Tooltip>
+                      </Box>
+                    )}
                   </Box>
                   <Box>
                     {storiesData?.map((story, index) => (
@@ -270,10 +304,12 @@ export default function ProductInfo({ product }) {
                 </>
               )}
             </Grid>
-            <Grid item xs={3}>
-              <FadeMenuEtiquette product={product} />
-              <FadeMenuAddStory product={product} />
-            </Grid>
+            {user.role.includes("PROJECT_MANAGER") && (
+              <Grid item xs={3}>
+                <FadeMenuEtiquette product={product} />
+                <FadeMenuAddStory product={product} />
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Drawer>

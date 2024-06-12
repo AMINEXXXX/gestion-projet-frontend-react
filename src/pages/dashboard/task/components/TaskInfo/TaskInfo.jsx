@@ -47,7 +47,6 @@ export default function TaskInfo({ story, task }) {
 
     mutationTask.mutate(newTask);
   }
-
   function handleSubmitComment(e) {
     e.preventDefault();
     if (!commentaire.trim()) return;
@@ -110,7 +109,11 @@ export default function TaskInfo({ story, task }) {
                     pl={1}
                     width="100%"
                     fontSize={"2rem"}
-                    onClick={() => setIsEditingName(true)}
+                    onClick={() =>
+                      user.role.includes("PROJECT_MANAGER")
+                        ? setIsEditingName(true)
+                        : null
+                    }
                   >
                     {task.name}
                   </Typography>
@@ -176,8 +179,7 @@ export default function TaskInfo({ story, task }) {
                   xs={task?.etiquettes?.length > 3 ? 12 : 9}
                   width={task?.etiquettes?.length > 3 ? "440px" : "380px"}
                 >
-                  {(user.role[0] == "PROJECT_MANAGER" ||
-                    user.id == task?.teamMember?.id) && (
+                  {
                     <>
                       <Typography
                         sx={{ mb: 0.5, fontSize: ".9rem", fontWeight: 700 }}
@@ -190,7 +192,7 @@ export default function TaskInfo({ story, task }) {
                         isUpdate={true}
                       />
                     </>
-                  )}
+                  }
                 </Grid>
               </Grid>
               <Box>
@@ -213,13 +215,13 @@ export default function TaskInfo({ story, task }) {
                   gap={1}
                 >
                   <Avatar
-                    sx={
-                      user?.role?.includes("PROJECT_MANAGER") && {
-                        bgcolor: teal[500],
-                      }
-                    }
+                    sx={{
+                      bgcolor: user.role.includes("SUPER_ADMIN")
+                        ? grey[800]
+                        : user.role.includes("PROJECT_MANAGER") && teal[500],
+                    }}
                   >
-                    {user?.fullName?.slice(0, 2)}
+                    {user?.fullName?.slice(0, 2).toUpperCase()}
                   </Avatar>
                   {!isAddingCommentaire ? (
                     <CommentaireCard
@@ -274,8 +276,7 @@ export default function TaskInfo({ story, task }) {
                 </Box>
               </Box>
             </Grid>
-            {(user.id == task?.teamMember?.id ||
-              user.role.includes("PROJECT_MANAGER")) && (
+            {
               <Grid item xs={3}>
                 {(user.id == task?.teamMember?.id ||
                   user.role.includes("PROJECT_MANAGER")) && (
@@ -285,7 +286,7 @@ export default function TaskInfo({ story, task }) {
                   <FadeMenuAffecte task={task} />
                 )}
               </Grid>
-            )}
+            }
           </Grid>
         </Box>
       </Drawer>

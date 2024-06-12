@@ -1,7 +1,7 @@
 export const user_role = {
   SUPER_ADMIN: "SUPER ADMIN",
-  PROJECT_MANAGER: "Project Manager",
-  TEAM_MEMBER: "Team Member"
+  PROJECT_MANAGER: "Chef de Projet",
+  TEAM_MEMBER: "Membre d'équipe"
 };
 
 export const operationAttachement = {

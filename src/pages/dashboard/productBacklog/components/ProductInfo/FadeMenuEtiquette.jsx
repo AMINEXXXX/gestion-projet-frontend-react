@@ -3,7 +3,14 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import Fade from "@mui/material/Fade";
-import { Box, Chip, Divider, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Divider,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import ColorPicker from "./ColorPicker";
 import {
@@ -11,12 +18,15 @@ import {
   useDeleteProductBacklogEtiquette,
   useUpdateProductBacklogEtiquette,
 } from "../../../../../hooks/api/useProductBacklogApi";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { useSelector } from "react-redux";
 
 export default function FadeMenuEtiquette({
   product,
   etiquette,
   isUpdate = false,
 }) {
+  const user = useSelector((state) => state.authentication.user);
   const mutationCreateEtiquette = useCreateProductBacklogEtiquette();
   const mutationUpdateEtiquette = useUpdateProductBacklogEtiquette();
   const mutationDeleteEtiquette = useDeleteProductBacklogEtiquette();
@@ -88,7 +98,7 @@ export default function FadeMenuEtiquette({
           aria-controls={open ? "fade-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
-          onClick={handleClick}
+          onClick={user.role.includes("PROJECT_MANAGER") ? handleClick : null}
           color="inherit"
           variant="contained"
           sx={{ "&:hover": { bgcolor: "#BBB" }, width: "100%", mb: 1 }}
@@ -148,8 +158,12 @@ export default function FadeMenuEtiquette({
             etiquette.description.charAt(0).toUpperCase() +
             etiquette.description.slice(1)
           }
-          onClick={handleClick}
-          onDelete={() => mutationDeleteEtiquette.mutate(etiquette.id)}
+          onClick={user.role.includes("PROJECT_MANAGER") ? handleClick : null}
+          onDelete={() =>
+            !user.role.includes("PROJECT_MANAGER")
+              ? null
+              : mutationDeleteEtiquette.mutate(etiquette.id)
+          }
         />
       )}
       <Menu
@@ -239,7 +253,10 @@ export default function FadeMenuEtiquette({
                 Ajouter
               </Button>
             ) : (
-              <Button variant="contained" onClick={handleUpdateProductBacklogEtiquette}>
+              <Button
+                variant="contained"
+                onClick={handleUpdateProductBacklogEtiquette}
+              >
                 Enregistrer
               </Button>
             )}

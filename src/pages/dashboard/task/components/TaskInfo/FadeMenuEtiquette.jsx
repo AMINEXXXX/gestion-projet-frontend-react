@@ -167,7 +167,7 @@ export default function FadeMenuEtiquette({
               ? handleClick
               : null
           }
-          onDelete={() => mutationDeleteEtiquette.mutate(etiquette.id)}
+          onDelete={() => ((user.role.includes("PROJECT_MANAGER") || user.id == task?.teamMember?.id ) ? mutationDeleteEtiquette.mutate(etiquette.id) : null)}
         />
       )}
       <Menu

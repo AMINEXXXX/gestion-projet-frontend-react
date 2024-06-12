@@ -1,5 +1,5 @@
 import { Avatar, Box, Card, Typography } from "@mui/material";
-import { teal } from "@mui/material/colors";
+import { grey, teal } from "@mui/material/colors";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import React from "react";
@@ -23,9 +23,15 @@ export default function CommentaireCard({
       {user != null && (
         <Box>
           <Avatar
-            sx={{ bgcolor: user?.role == "PROJECT_MANAGER" ? teal[500] : null }}
+            sx={{
+              bgcolor: user.role.includes("SUPER_ADMIN")
+                ? grey[800]
+                : user?.role == "PROJECT_MANAGER"
+                ? teal[500]
+                : null,
+            }}
           >
-            {user?.fullName?.slice(0, 2)}
+            {user?.fullName?.slice(0, 2).toUpperCase()}
           </Avatar>
         </Box>
       )}
@@ -43,10 +49,21 @@ export default function CommentaireCard({
             alignItems={"end"}
           >
             {user?.fullName}
-            {user?.role == "PROJECT_MANAGER" && (
+            {user?.role?.includes("SUPER_ADMIN") &&
+            user.role.includes("PROJECT_MANAGER") ? (
               <Typography fontSize={12} pb={0.7}>
-                &nbsp;&nbsp;(Chef)
+                &nbsp;&nbsp;(ADMIN/Chef)
               </Typography>
+            ) : user?.role[0] == "SUPER_ADMIN" ? (
+              <Typography fontSize={12} pb={0.7}>
+                &nbsp;&nbsp;(ADMIN)
+              </Typography>
+            ) : (
+              user?.role[0] == "PROJECT_MANAGER" && (
+                <Typography fontSize={12} pb={0.7}>
+                  &nbsp;&nbsp;(Chef)
+                </Typography>
+              )
             )}
           </Typography>
           <Typography variant="p" pr={2}>

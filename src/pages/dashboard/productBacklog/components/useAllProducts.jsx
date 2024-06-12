@@ -11,6 +11,7 @@ function createData(id, name, description, userStories, etiquettes) {
 
 export default function useAllProducts() {
   const { project } = useSelector((state) => state.project);
+  const user = useSelector((state) => state.authentication.user);
   const { data } = useGetProductBacklogById(project.id);
 
   const productsData = data?.map((e) =>
@@ -21,7 +22,7 @@ export default function useAllProducts() {
     {
       field: "id",
       headerName: "ID",
-      flex: .5
+      flex: 0.5,
     },
     {
       field: "name",
@@ -40,15 +41,23 @@ export default function useAllProducts() {
       align: "center",
       renderCell: (params) => {
         return (
-          <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", gap: 2}}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 2,
+            }}
+          >
             <ProductInfo product={params.row} />
-            <DeleteProduct product={params.row} />
+            {user.role.includes("PROJECT_MANAGER") && (
+              <DeleteProduct product={params.row} />
+            )}
           </Box>
         );
       },
     },
   ];
-
 
   return { productsData, columns };
 }

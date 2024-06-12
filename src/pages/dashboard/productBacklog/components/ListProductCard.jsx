@@ -15,12 +15,6 @@ export default function ListProductCard() {
         Product Backlogs
       </Typography> */}
       <Container>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h4">Product Backlogs</Typography>
-          <Box my={5}>
-            <AddProduct />
-          </Box>
-        </Box>
         <TableData rows={productsData} columns={columns} />
       </Container>
       {/* <Container gap={2} sx={{ mt: 4 }}>

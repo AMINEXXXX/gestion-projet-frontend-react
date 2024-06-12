@@ -16,11 +16,7 @@ export default function ListEtiquttes({ story, etiquettes, isUpdate }) {
         <Box display={"flex"} flexWrap={"wrap"}>
           {etiquettes?.map((e, i) => (
             <Box m={0.5} key={i}>
-              <FadeMenuEtiquette
-                story={story}
-                etiquette={e}
-                isUpdate={true}
-              />
+              <FadeMenuEtiquette story={story} etiquette={e} isUpdate={true} />
             </Box>
           ))}
         </Box>

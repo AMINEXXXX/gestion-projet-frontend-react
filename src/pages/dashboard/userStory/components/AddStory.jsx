@@ -20,7 +20,7 @@ export default function AddProduct() {
   const [isAdding, setIsAdding] = useState(false);
   const [storyName, setStoryName] = useState("");
   const [productId, setProductId] = useState(null);
-  const btnName = "Add story";
+  const btnName = "Ajouter user story";
 
   const HandleCreate = (e) => {
     e.preventDefault();

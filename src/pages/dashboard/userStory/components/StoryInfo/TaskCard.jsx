@@ -10,8 +10,10 @@ import React, { useState } from "react";
 import { useUpdateTask } from "../../../../../hooks/api/useTaskApi";
 import FadeMenuTaskOption from "../../../task/components/FadeMenuTaskOption";
 import { blue, orange, red, teal } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 export default function TaskCard({ productId, task }) {
+  const user = useSelector((state) => state.authentication.user);
   const [isEditingTaskName, setIsEditingTaskName] = useState(false);
   const [newName, setNewName] = useState(task.name);
   const mutation = useUpdateTask();
@@ -50,10 +52,14 @@ export default function TaskCard({ productId, task }) {
           >
             <Typography
               noWrap
-              onClick={() => setIsEditingTaskName(true)}
+              onClick={() =>
+                user.role[0] != "SUPER_ADMIN"
+                  ? setIsEditingTaskName(true)
+                  : null
+              }
               sx={{
                 fontSize: 19,
-                cursor: "pointer",
+                cursor: user.role[0] != "SUPER_ADMIN" ? "pointer" : "",
                 width: "100%",
                 ml: 0.24,
               }}
@@ -63,7 +69,7 @@ export default function TaskCard({ productId, task }) {
             <Typography
               fontSize={15}
               position={"absolute"}
-              right={0}
+              right={user.role[0] == "SUPER_ADMIN" ? 15 : 0}
               border={1}
               py={0.5}
               px={1}
@@ -104,7 +110,9 @@ export default function TaskCard({ productId, task }) {
             />
           </form>
         )}
-        <FadeMenuTaskOption productId={productId} task={task} />
+        {user.role[0] != "SUPER_ADMIN" && (
+          <FadeMenuTaskOption productId={productId} task={task} />
+        )}
       </Box>
     </Card>
   );

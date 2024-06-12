@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import Etiquette from "./Etiquette";
 import FadeMenuEtiquette from "./FadeMenuEtiquette"
+import { useSelector } from "react-redux";
 
 export default function ListEtiquttes({ product, etiquettes, isUpdate }) {
   return (

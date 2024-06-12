@@ -80,7 +80,7 @@ export default function Home() {
         <Box
           sx={{
             display: "flex",
-            py: user.role[0] == "TEAM_MEMBER" ? 10 : null,
+            py: (user.role[0] == "TEAM_MEMBER" || user.role[0] == "SUPER_ADMIN") ? 10 : null,
           }}
         >
           {/* <Box> */}

@@ -3,13 +3,17 @@ import React from "react";
 import TaskCard from "./TaskCard";
 import { grey } from "@mui/material/colors";
 import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
+import { useSelector } from "react-redux";
 
 export default function SprintCard({ sprint, title, isFilter = false }) {
+  const user = useSelector((state) => state.authentication.user);
   const updateSprint = useUpdateSprintBacklog();
 
   const handleDrop = (e) => {
+    console.log(e.dataTransfer.getData("teamMemberId"), user.id);
     if (e.dataTransfer.getData("taskState") === title) return;
-    
+    if (e.dataTransfer.getData("teamMemberId") != user.id) return;
+
     const updatedSprint = {
       id: e.dataTransfer.getData("sprintId"),
       userStories: [
@@ -32,7 +36,7 @@ export default function SprintCard({ sprint, title, isFilter = false }) {
 
   return (
     <Card
-      onDrop={handleDrop}
+      onDrop={user.role[0] == "TEAM_MEMBER" ? handleDrop : null}
       onDragOver={(e) => e.preventDefault()}
       sx={{ width: "300px", bgcolor: grey[50], p: 1, px: 2, borderRadius: 5 }}
     >

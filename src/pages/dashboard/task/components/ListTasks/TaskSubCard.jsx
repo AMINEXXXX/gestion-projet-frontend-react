@@ -93,12 +93,14 @@ export default function TaskSubCard({
   return (
     <Card
       draggable={
-        (user?.role[0] === "PROJECT_MANAGER" && isSprint == false) || task?.teamMember?.id == user?.id
+        (user.role.includes("PROJECT_MANAGER") && isSprint == false) ||
+        task?.teamMember?.id == user?.id
       }
       onDragStart={(e) => (
         e.dataTransfer.setData("sprintId", sprint?.id),
         e.dataTransfer.setData("storyId", story?.id),
         e.dataTransfer.setData("taskId", task?.id),
+        e.dataTransfer.setData("teamMemberId", task?.teamMember?.id),
         e.dataTransfer.setData("taskState", task?.state)
       )}
       sx={{
@@ -113,11 +115,13 @@ export default function TaskSubCard({
         title={
           !isEditingName ? (
             <Box position={"relative"}>
-              {(user.role[0] == "PROJECT_MANAGER" || user.id == task?.teamMember?.id) && <ListEtiquttes etiquettes={task?.etiquettes} />}
+              <ListEtiquttes etiquettes={task?.etiquettes} />
               <Typography
                 noWrap
                 onClick={() =>
-                  !isSprint ? setIsEditingName(true) : setIsEditingName(false)
+                  !isSprint && user.role.includes("PROJECT_MANAGER")
+                    ? setIsEditingName(true)
+                    : setIsEditingName(false)
                 }
                 sx={{ fontSize: 19, width: "100%" }}
               >
@@ -149,7 +153,10 @@ export default function TaskSubCard({
               )}
 
               {isSprint && title == "Problem" && (
-                <WarningRounded sx={{ position: "absolute", bottom: 0, right: 35 }} color="error" />
+                <WarningRounded
+                  sx={{ position: "absolute", bottom: 0, right: 35 }}
+                  color="error"
+                />
               )}
 
               {commentaireData?.length != 0 && (
@@ -189,7 +196,10 @@ export default function TaskSubCard({
             </form>
           )
         }
-        action={!isSprint && <DeleteTask task={task} />}
+        action={
+          !isSprint &&
+          user.role.includes("PROJECT_MANAGER") && <DeleteTask task={task} />
+        }
       />
     </Card>
   );

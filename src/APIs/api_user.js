@@ -11,6 +11,11 @@ export const createUser = async (user) => {
   return await axios.post(url, user);
 };
 
+export const updateUser = async (user) => {
+  const url = `/users/${user?.id}`;
+  return await axios.put(url, user);
+};
+
 export const deleteUser = async (id) => {
   const url = `/users/${id}`;
   return await axios.delete(url);

@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import { createUser, deleteUser, getAllMembers, getAllUser } from "../../APIs/api_user";
+import { createUser, deleteUser, getAllMembers, getAllUser, updateUser } from "../../APIs/api_user";
 
 export const useGetAllUser = ({ onSuccess, onError } = {}) =>{
     return  useQuery({
@@ -38,6 +38,21 @@ export const useCreateUser = ({ onSuccess, onError } = {}) => {
 
   return useMutation({
     mutationFn: createUser,
+    onSuccess: () => {
+      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["allUser"] });
+    },
+    onError: () => {
+      onError && onError();
+    },
+  });
+};
+
+export const useUpdateUser = ({ onSuccess, onError } = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateUser,
     onSuccess: () => {
       onSuccess && onSuccess();
       queryClient.invalidateQueries({ queryKey: ["allUser"] });
