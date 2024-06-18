@@ -19,8 +19,12 @@ import {
   useUpdateTaskEtiquette,
 } from "../../../../../hooks/api/useTaskApi";
 import { useSelector } from "react-redux";
+import { useUpdateSprintBacklog } from "../../../../../hooks/api/useSprintBacklogApi";
 
 export default function FadeMenuEtiquette({
+  isSprint = false,
+  sprint = null,
+  story,
   task,
   etiquette,
   isUpdate = false,
@@ -34,7 +38,11 @@ export default function FadeMenuEtiquette({
   const [description, setDescription] = useState(
     isUpdate ? etiquette.description : ""
   );
+
+  console.log(1, isSprint);
+
   const [isError, setIsError] = useState(false);
+  const updateSprint = useUpdateSprintBacklog();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,7 +54,7 @@ export default function FadeMenuEtiquette({
     }
     setAnchorEl(null);
   };
-  const handleCreateStoryEtiquette = (event) => {
+  const handleCreateTaskEtiquette = (event) => {
     event.preventDefault();
     if (!description.trim()) {
       console.log("error");
@@ -56,37 +64,92 @@ export default function FadeMenuEtiquette({
     setColor("#eee");
     setDescription("");
 
-    const taskEtiquette = {
-      color: color,
-      description: description,
-      task: {
-        id: task.id,
-      },
-    };
+    if (!isSprint) {
+      const taskEtiquette = {
+        color: color,
+        description: description,
+        task: {
+          id: task.id,
+        },
+      };
 
-    console.log(taskEtiquette);
-    mutationCreateEtiquette.mutate(taskEtiquette);
+      console.log(taskEtiquette);
+      mutationCreateEtiquette.mutate(taskEtiquette);
+    } else {
+      const updatedSprint = {
+        id: sprint?.id,
+        userStories: [
+          {
+            id: story?.id,
+            tasks: [
+              {
+                id: task?.id,
+                etiquettes: [
+                  {
+                    id: etiquette?.id,
+                    color: color,
+                    description: description,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      updateSprint.mutate(updatedSprint);
+    }
   };
 
-  const handleUpdateStoryEtiquette = (event) => {
+  const handleUpdateTaskEtiquette = (event) => {
     event.preventDefault();
     if (!description.trim()) {
       console.log("error");
       return;
     }
 
-    const taskEtiquette = {
-      id: etiquette.id,
-      color: color,
-      description: description,
-      task: {
-        id: task.id,
-      },
-    };
+    if (!isSprint) {
+      const taskEtiquette = {
+        id: etiquette.id,
+        color: color,
+        description: description,
+        task: {
+          id: task.id,
+        },
+      };
 
-    handleClose();
-    console.log(taskEtiquette);
-    mutationUpdateEtiquette.mutate(taskEtiquette);
+      handleClose();
+      console.log(taskEtiquette);
+      mutationUpdateEtiquette.mutate(taskEtiquette);
+    } else {
+      const updatedSprint = {
+        id: sprint?.id,
+        userStories: [
+          {
+            id: story?.id,
+            tasks: [
+              {
+                id: task?.id,
+                etiquettes: [
+                  {
+                    id: etiquette?.id,
+                    color: color,
+                    description: description,
+                    task: {
+                      id: task?.id,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      handleClose();
+      console.log(updatedSprint);
+      updateSprint.mutate(updatedSprint);
+    }
   };
 
   return (
@@ -108,46 +171,6 @@ export default function FadeMenuEtiquette({
           Etiquettes
         </Button>
       ) : (
-        // <Button
-        //   disableRipple={user.id != task?.teamMember?.id}
-        //   p={0.5}
-        //   size="small"
-        //   sx={{
-        //     display: "flex",
-        //     alignItems: "center",
-        //     gap: 1,
-        //     borderRadius: 2,
-        //     bgcolor: etiquette.color,
-        //     "&:hover": { bgcolor: etiquette.color },
-        //   }}
-        //   onClick={user.id == task?.teamMember?.id ? handleClick : null}
-        // >
-        //   <Typography
-        //     sx={{
-        //       color:
-        //         etiquette?.color?.charAt(1).charCodeAt(0) <= 100
-        //           ? "#FFF"
-        //           : "#000",
-        //     }}
-        //   >
-        //     {etiquette.description.charAt(0).toUpperCase() +
-        //       etiquette.description.slice(1)}
-        //   </Typography>
-        //   {user.id == task?.teamMember?.id && (
-        //     <IconButton
-        //       sx={{
-        //         color:
-        //           etiquette?.color?.charAt(1).charCodeAt(0) <= 100
-        //             ? "#FFF"
-        //             : "#000",
-        //       }}
-        //       size="small"
-        //       onClick={() => mutationDeleteEtiquette.mutate(etiquette.id)}
-        //     >
-        //       <CloseOutlined sx={{ fontSize: 20 }} />
-        //     </IconButton>
-        //   )}
-        // </Button>
         <Chip
           sx={{
             bgcolor: etiquette.color,
@@ -167,7 +190,12 @@ export default function FadeMenuEtiquette({
               ? handleClick
               : null
           }
-          onDelete={() => ((user.role.includes("PROJECT_MANAGER") || user.id == task?.teamMember?.id ) ? mutationDeleteEtiquette.mutate(etiquette.id) : null)}
+          onDelete={() =>
+            user.role.includes("PROJECT_MANAGER") ||
+            user.id == task?.teamMember?.id
+              ? mutationDeleteEtiquette.mutate(etiquette.id)
+              : null
+          }
         />
       )}
       <Menu
@@ -220,9 +248,7 @@ export default function FadeMenuEtiquette({
           </Typography>
           <form
             onSubmit={
-              !isUpdate
-                ? handleCreateStoryEtiquette
-                : handleUpdateStoryEtiquette
+              !isUpdate ? handleCreateTaskEtiquette : handleUpdateTaskEtiquette
             }
             style={{ width: "100%" }}
           >
@@ -252,12 +278,12 @@ export default function FadeMenuEtiquette({
               <Button
                 variant="contained"
                 sx={{ width: "70px" }}
-                onClick={handleCreateStoryEtiquette}
+                onClick={handleCreateTaskEtiquette}
               >
                 Ajouter
               </Button>
             ) : (
-              <Button variant="contained" onClick={handleUpdateStoryEtiquette}>
+              <Button variant="contained" onClick={handleUpdateTaskEtiquette}>
                 Enregistrer
               </Button>
             )}

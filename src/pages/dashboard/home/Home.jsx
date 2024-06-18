@@ -27,15 +27,8 @@ import { grey } from "@mui/material/colors";
 export default function Home() {
   const user = useSelector((state) => state.authentication.user);
   const { projectData, columns } = useAllProject();
-  // const [projects, setProjects] = useState(null);
-  // const { data } = useGetAllProject();
 
-  // useEffect(() => {
-  //   setProjects(data);
-  //   console.log("loaded");
-  // }, [data]);
-
-  console.log(new Date().toISOString().substring(0, 10));
+  // console.log(new Date().toISOString().substring(0, 10));
 
   return (
     <>
@@ -80,50 +73,23 @@ export default function Home() {
         <Box
           sx={{
             display: "flex",
-            py: (user.role[0] == "TEAM_MEMBER" || user.role[0] == "SUPER_ADMIN") ? 10 : null,
+            py:
+              user.role[0] == "TEAM_MEMBER" || user.role[0] == "SUPER_ADMIN"
+                ? 10
+                : null,
           }}
         >
-          {/* <Box> */}
-            <Masonry
-              breakpointCols={
-                projectData?.length <= 3 ? projectData?.length : 3
-              }
-              className="my-masonry-grid"
-              columnClassName="my-masonry-grid_column"
-            >
-              {projectData?.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </Masonry>
-          {/* </Box> */}
+          <Masonry
+            breakpointCols={projectData?.length <= 3 ? projectData?.length : 3}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {projectData?.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </Masonry>
         </Box>
       </Box>
-      {/* <Box
-          sx={{
-            my: 3,
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 3,
-          }}
-        >
-          <Box></Box>
-          <Box
-            sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}
-          >
-            <CreateProject />
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: "100%",
-            p: 0,
-            borderRadius: 2,
-          }}
-        >
-          <TableData rows={projectData} columns={columns} />
-        </Box> */}
-
-      {/* <TableData rows={projectData} columns={columns}/> */}
     </>
   );
 }

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
   FormControl,
@@ -19,25 +21,32 @@ export default function AddProduct() {
   const { productsData } = useAllProducts();
   const [isAdding, setIsAdding] = useState(false);
   const [storyName, setStoryName] = useState("");
+  const [storyDescription, setStoryDescription] = useState("");
+  const [isErreur, setIsErreur] = useState(false);
+  const [erreur, setErreur] = useState("");
   const [productId, setProductId] = useState(null);
   const btnName = "Ajouter user story";
 
   const HandleCreate = (e) => {
     e.preventDefault();
-    if (!storyName.trim() || productId == null) {
-      alert("Please 3mr kulchi !");
+    if (!storyName.trim() || !storyDescription.trim() || productId == null) {
+      setIsErreur(true);
+      setErreur("Veuillez remplir tous les champ.");
       return;
     }
 
     const story = {
       name: storyName,
+      description: storyDescription,
       productBacklog: {
         id: productId,
       },
     };
 
     mutation.mutate(story);
+    setIsErreur(false);
     setStoryName("");
+    setStoryDescription("");
     setProductId(null);
   };
 
@@ -56,7 +65,7 @@ export default function AddProduct() {
             padding: "50px",
             mb: 8,
             cursor: "pointer",
-            width: "250px",
+            width: "300px",
             color: "#00897b",
             fontWeight: "600",
             display: "flex",
@@ -84,7 +93,8 @@ export default function AddProduct() {
               borderRadius: 4,
               padding: 2,
               mb: 1.3,
-              width: "250px",
+              width: "350px",
+              gap: 1,
               bgcolor: "white",
             }}
           >
@@ -97,7 +107,17 @@ export default function AddProduct() {
               required
               onChange={(e) => setStoryName(e.target.value)}
             />
-            <FormControl sx={{ my: 1 }} size="small">
+            <TextField
+              fullWidth
+              multiline
+              minRows={2}
+              size="small"
+              label="Description"
+              value={storyDescription}
+              required
+              onChange={(e) => setStoryDescription(e.target.value)}
+            />
+            <FormControl size="small">
               <InputLabel id="demo-select-small-label">Product</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -115,6 +135,12 @@ export default function AddProduct() {
                 ))}
               </Select>
             </FormControl>
+            {isErreur && (
+              <Alert severity="error">
+                <AlertTitle>Erreur</AlertTitle>
+                {erreur}
+              </Alert>
+            )}
             <Box sx={{ display: "flex", mt: 1, gap: 1.5 }}>
               <Button
                 variant="contained"
@@ -125,7 +151,11 @@ export default function AddProduct() {
               </Button>
               <IconButton
                 onClick={() => (
-                  setIsAdding(false), setProductId(null), setStoryName("")
+                  setIsAdding(false),
+                  setProductId(null),
+                  setStoryName(""),
+                  setStoryDescription(""),
+                  setIsErreur(false)
                 )}
               >
                 <CloseRoundedIcon />

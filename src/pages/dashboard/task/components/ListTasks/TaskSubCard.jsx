@@ -37,6 +37,7 @@ export default function TaskSubCard({
   const updateSprint = useUpdateSprintBacklog();
   const mutation = useUpdateTask();
 
+
   function HandleSubmitOrBlur(e) {
     if (!newName.trim()) return;
 
@@ -111,11 +112,16 @@ export default function TaskSubCard({
       }}
     >
       <CardHeader
-        avatar={<TaskInfo story={story} task={task} isSprint={isSprint} />}
+        avatar={<TaskInfo story={story} task={task} sprint={sprint} isSprint={isSprint} />}
         title={
           !isEditingName ? (
             <Box position={"relative"}>
-              <ListEtiquttes etiquettes={task?.etiquettes} />
+              <ListEtiquttes
+                etiquettes={task?.etiquettes}
+                isSprint={isSprint}
+                sprint={sprint}
+                story={story}
+              />
               <Typography
                 noWrap
                 onClick={() =>

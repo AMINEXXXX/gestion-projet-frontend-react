@@ -13,7 +13,7 @@ export default function useAllTasks() {
     const { data } = useGetAllUserStoryById(product.id);
     data?.forEach((story) => {
       const { data } = useGetAllTask(story.id);
-      tasksData.push({ id: story.id, name: story.name, tasks: data });
+      tasksData.push({ id: story.id, name: story.name, description: story.description, tasks: data });
     });
   });
 

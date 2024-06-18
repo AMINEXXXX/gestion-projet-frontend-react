@@ -3,7 +3,7 @@ import React from "react";
 import Etiquette from "./Etiquette";
 import FadeMenuEtiquette from "./FadeMenuEtiquette";
 
-export default function ListEtiquttes({ task, etiquettes, isUpdate }) {
+export default function ListEtiquttes({ task, etiquettes, isUpdate, isSprint, sprint, story }) {
   return (
     <Box display={"flex"} flexDirection={"row"} gap={0.5}>
       {!isUpdate ? (
@@ -20,6 +20,9 @@ export default function ListEtiquttes({ task, etiquettes, isUpdate }) {
                 task={task}
                 etiquette={e}
                 isUpdate={true}
+                isSprint={isSprint}
+                sprint={sprint}
+                story={story}
               />
             </Box>
           ))}

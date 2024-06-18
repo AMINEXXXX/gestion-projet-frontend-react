@@ -22,8 +22,14 @@ import useAllCommentaire from "../commentaire/useAllCommentaire";
 import CommentaireCard from "../commentaire/CommentaireCard";
 import { useCreateCommentaire } from "../../../../../hooks/api/useCommentaireApi";
 import FadeMenuAffecte from "./FadeMenuAffecte";
+import FadeMenuStoryDesc from "./FadeMenuStoryDesc";
 
-export default function TaskInfo({ story, task }) {
+export default function TaskInfo({
+  story,
+  task,
+  isSprint = false,
+  sprint = null,
+}) {
   const user = useSelector((state) => state.authentication.user);
   const { commentaireData } = useAllCommentaire(task?.id);
   const [isAddingCommentaire, setIsAddingCommentaire] = useState(false);
@@ -33,6 +39,7 @@ export default function TaskInfo({ story, task }) {
   const [newName, setNewName] = useState(task.name);
   const mutationTask = useUpdateTask();
   const mutationComment = useCreateCommentaire();
+
 
   function handleAction(e) {
     e.preventDefault();
@@ -147,8 +154,12 @@ export default function TaskInfo({ story, task }) {
                 <CloseOutlinedIcon />
               </IconButton>
             </Box>
-            <Typography pl={5.6}>
-              Dans la liste de <u>{story?.name}</u>
+            <Typography display={"flex"} gap={1} pl={5.6}>
+              Dans la liste de{" "}
+              <FadeMenuStoryDesc
+                title={story?.name}
+                description={story?.description}
+              />
             </Typography>
           </Box>
           <Grid container px={1}>
@@ -190,6 +201,9 @@ export default function TaskInfo({ story, task }) {
                         task={task}
                         etiquettes={task?.etiquettes}
                         isUpdate={true}
+                        isSprint={isSprint}
+                        sprint={sprint}
+                        story={story}
                       />
                     </>
                   }
